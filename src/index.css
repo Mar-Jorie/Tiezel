@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+@reference; /* CRITICAL: Required for Tailwind v4 when using @apply in custom classes */
+
+@theme {
+  --color-primary-25: #ffffff;
+  --color-primary-50: #f0f4f7;
+  --color-primary-100: #e1e9ef;
+  --color-primary-200: #c3d3df;
+  --color-primary-300: #a5bdcf;
+  --color-primary-400: #87a7bf;
+  --color-primary-500: #6991af;
+  --color-primary-600: #4b7b9f;
+  --color-primary-700: #3d6580;
+  --color-primary-800: #2f4f61;
+  --color-primary-900: #213942;
+  --color-primary-950: #154D71;
+}
+
+:root {
+  /* CSS Variables for backwards compatibility */
+  --color-primary-25: #ffffff;
+  --color-primary-50: #f0f4f7;
+  --color-primary-100: #e1e9ef;
+  --color-primary-200: #c3d3df;
+  --color-primary-300: #a5bdcf;
+  --color-primary-400: #87a7bf;
+  --color-primary-500: #6991af;
+  --color-primary-600: #4b7b9f;
+  --color-primary-700: #3d6580;
+  --color-primary-800: #2f4f61;
+  --color-primary-900: #213942;
+  --color-primary-950: #154D71;
+}
+
+/* Global Scrollbar Hiding - MANDATORY FOR ALL SYSTEMS */
+html, body, #root {
+  height: 100%;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+#root::-webkit-scrollbar {
+  display: none;             /* Chrome, Safari, Opera */
+}
+
+body {
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  overflow-y: auto; /* Allow vertical scroll for public pages */
+}
+
+/* Hide scrollbars without disabling scroll where appropriate */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Custom Component Styles - MANDATORY */
+.modern-nav-item {
+  @apply flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-600 rounded-lg transition-all duration-200 hover:bg-gray-50 hover:text-gray-900;
+}
+
+.modern-nav-item.active {
+  @apply bg-primary-50 text-primary-700 border-r-2 border-primary-600;
+}
+
+.filter-select-input {
+  @apply bg-white border-gray-200 text-gray-900;
+}
+
+.filter-select-input:focus {
+  @apply border-primary-500 ring-primary-500;
+}
+
+.btn-primary {
+  @apply bg-primary-600 text-white hover:bg-primary-700;
+}
+
+.btn-secondary {
+  @apply bg-gray-600 text-white hover:bg-gray-700;
+}
+
+.card {
+  @apply bg-white rounded-lg shadow-sm border border-gray-100;
+}
+
+.form-input {
+  @apply w-full h-10 px-3 border border-gray-300 rounded-md text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+}
+
+.form-input.error {
+  @apply border-red-300 focus:ring-red-500;
+}
