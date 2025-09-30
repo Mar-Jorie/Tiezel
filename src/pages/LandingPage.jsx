@@ -23,6 +23,8 @@ const LandingPage = () => {
   const { landingPageContent } = useApp();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [forceUpdate, setForceUpdate] = useState(0);
+  const [currentFeaturePage, setCurrentFeaturePage] = useState(0);
+  const [currentTestimonialPage, setCurrentTestimonialPage] = useState(0);
   const [siteSettings, setSiteSettings] = useState({
     siteName: 'TechStore',
     siteDescription: 'Your Trusted E-commerce Partner',
@@ -114,6 +116,25 @@ const LandingPage = () => {
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  // Pagination functions
+  const nextFeaturePage = () => {
+    const maxPage = Math.ceil((landingPageContent.sections.features.items?.length || 0) / 4) - 1;
+    setCurrentFeaturePage(prev => Math.min(prev + 1, maxPage));
+  };
+
+  const prevFeaturePage = () => {
+    setCurrentFeaturePage(prev => Math.max(prev - 1, 0));
+  };
+
+  const nextTestimonialPage = () => {
+    const maxPage = Math.ceil((landingPageContent.testimonials?.length || 0) / 3) - 1;
+    setCurrentTestimonialPage(prev => Math.min(prev + 1, maxPage));
+  };
+
+  const prevTestimonialPage = () => {
+    setCurrentTestimonialPage(prev => Math.max(prev - 1, 0));
   };
 
   // Button click handlers
@@ -267,25 +288,63 @@ const LandingPage = () => {
               {landingPageContent.sections.features.subtitle}
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-            {landingPageContent.services.map((service, index) => {
-              const IconComponent = {
-                ShieldCheckIcon,
-                PhoneIcon,
-                TruckIcon,
-                StarIcon
-              }[service.icon] || ShieldCheckIcon;
-              
-              return (
-              <div key={index} className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 group">
-                <div className="w-16 h-16 bg-gradient-to-br from-primary-100 to-primary-200 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <IconComponent className="w-8 h-8 text-primary-600" />
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">{service.title}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed text-center">{service.description}</p>
-                </div>
-              );
-            })}
+          <div className="relative">
+            {/* Navigation arrows */}
+            <button
+              onClick={prevFeaturePage}
+              disabled={currentFeaturePage === 0}
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+            >
+              <ChevronLeftIcon className="h-6 w-6 text-gray-600" />
+            </button>
+            
+            <button
+              onClick={nextFeaturePage}
+              disabled={currentFeaturePage >= Math.ceil((landingPageContent.services?.length || 0) / 4) - 1}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+            >
+              <ChevronRightIcon className="h-6 w-6 text-gray-600" />
+            </button>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+              {landingPageContent.services
+                ?.slice(currentFeaturePage * 4, (currentFeaturePage + 1) * 4)
+                .map((service, index) => {
+                  const IconComponent = {
+                    ShieldCheckIcon,
+                    PhoneIcon,
+                    TruckIcon,
+                    StarIcon
+                  }[service.icon] || ShieldCheckIcon;
+                  
+                  return (
+                  <div key={index} className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 group">
+                    <div className="w-16 h-16 bg-gradient-to-br from-primary-100 to-primary-200 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <IconComponent className="w-8 h-8 text-primary-600" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">{service.title}</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed text-center">{service.description}</p>
+                    </div>
+                  );
+                })}
+            </div>
+
+            {/* Page indicators */}
+            {landingPageContent.services?.length > 4 && (
+              <div className="flex justify-center mt-8 space-x-2">
+                {Array.from({ length: Math.ceil((landingPageContent.services?.length || 0) / 4) }).map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentFeaturePage(index)}
+                    className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                      index === currentFeaturePage 
+                        ? 'bg-primary-600' 
+                        : 'bg-gray-300 hover:bg-gray-400'
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -483,21 +542,59 @@ const LandingPage = () => {
               {landingPageContent.sections.testimonials.subtitle}
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {landingPageContent.testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
-                <div className="flex items-center mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <StarIcon key={i} className="h-5 w-5 text-yellow-400" />
-                  ))}
+          <div className="relative">
+            {/* Navigation arrows */}
+            <button
+              onClick={prevTestimonialPage}
+              disabled={currentTestimonialPage === 0}
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+            >
+              <ChevronLeftIcon className="h-6 w-6 text-gray-600" />
+            </button>
+            
+            <button
+              onClick={nextTestimonialPage}
+              disabled={currentTestimonialPage >= Math.ceil((landingPageContent.testimonials?.length || 0) / 3) - 1}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+            >
+              <ChevronRightIcon className="h-6 w-6 text-gray-600" />
+            </button>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              {landingPageContent.testimonials
+                ?.slice(currentTestimonialPage * 3, (currentTestimonialPage + 1) * 3)
+                .map((testimonial, index) => (
+                <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+                  <div className="flex items-center mb-4">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <StarIcon key={i} className="h-5 w-5 text-yellow-400" />
+                    ))}
+                  </div>
+                  <p className="text-sm text-gray-600 mb-4">"{testimonial.text}"</p>
+                    <div>
+                    <p className="text-sm font-medium text-gray-900">{testimonial.name}</p>
+                      <p className="text-xs text-gray-500">{testimonial.company}</p>
+                  </div>
                 </div>
-                <p className="text-sm text-gray-600 mb-4">"{testimonial.text}"</p>
-                  <div>
-                  <p className="text-sm font-medium text-gray-900">{testimonial.name}</p>
-                    <p className="text-xs text-gray-500">{testimonial.company}</p>
-                </div>
+              ))}
+            </div>
+
+            {/* Page indicators */}
+            {landingPageContent.testimonials?.length > 3 && (
+              <div className="flex justify-center mt-8 space-x-2">
+                {Array.from({ length: Math.ceil((landingPageContent.testimonials?.length || 0) / 3) }).map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentTestimonialPage(index)}
+                    className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                      index === currentTestimonialPage 
+                        ? 'bg-primary-600' 
+                        : 'bg-gray-300 hover:bg-gray-400'
+                    }`}
+                  />
+                ))}
               </div>
-            ))}
+            )}
           </div>
         </div>
       </section>
