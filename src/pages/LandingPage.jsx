@@ -189,7 +189,7 @@ const LandingPage = () => {
               {landingPageContent.sections.products.subtitle}
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
             {landingPageContent.products.map((product, index) => (
               <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-300">
                 <div className="aspect-w-16 aspect-h-9">
@@ -200,18 +200,15 @@ const LandingPage = () => {
                     />
                 </div>
                 <div className="p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{product.name}</h3>
-                  <p className="text-sm text-gray-600 mb-4">{product.description}</p>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-sm font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">
-                        Free Guide
-                      </span>
-                      <span className="text-sm text-gray-500">
-                        {product.value || 'Comprehensive Resource'}
-                      </span>
-                    </div>
-                    <Button variant="primary" size="sm" onClick={() => handleViewDetails(product.name)}>
+                  <div className="mb-4">
+                    <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">
+                      Free Guide
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">{product.name}</h3>
+                  <p className="text-sm text-gray-600 mb-4 leading-relaxed">{product.description}</p>
+                  <div className="text-center">
+                    <Button variant="primary" size="sm" className="w-full" onClick={() => handleViewDetails(product.name)}>
                       View Details
                     </Button>
                   </div>
@@ -364,8 +361,8 @@ const LandingPage = () => {
                   <div className="flex items-center space-x-3">
                       <PhoneIcon className="h-5 w-5 text-primary-600" />
                   <span className="text-sm text-gray-600">{landingPageContent.contact.phone}</span>
-                </div>
-                <div className="flex items-center space-x-3">
+                  </div>
+                  <div className="flex items-center space-x-3">
                   <ShieldCheckIcon className="h-5 w-5 text-primary-600" />
                   <span className="text-sm text-gray-600">{landingPageContent.contact.email}</span>
                 </div>

@@ -60,21 +60,18 @@ export const AppProvider = ({ children }) => {
     products: [
       {
         name: "Laptop Buying Guide",
-        value: "Save $500+ on your next laptop",
         image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=300&fit=crop&crop=center",
-        description: "Complete guide to choosing the right laptop for your needs"
+        description: "Choose the perfect laptop for your needs"
       },
       {
-        name: "Audio Equipment Guide",
-        value: "Find your perfect audio solution",
+        name: "Audio Equipment Guide", 
         image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop&crop=center",
-        description: "Expert advice on selecting the best audio equipment"
+        description: "Expert advice on audio equipment selection"
       },
       {
         name: "Wearable Tech Guide",
-        value: "Maximize your productivity",
         image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop&crop=center",
-        description: "Everything you need to know about wearable technology"
+        description: "Complete guide to wearable technology"
       }
     ],
     testimonials: [
