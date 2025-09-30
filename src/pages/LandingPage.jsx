@@ -18,12 +18,19 @@ import { useApp } from '../hooks/useApp';
 const LandingPage = () => {
   const { landingPageContent } = useApp();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showGetStartedModal, setShowGetStartedModal] = useState(false);
+  const [showProductModal, setShowProductModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   // Button click handlers
+  const handleGetStarted = () => {
+    setShowGetStartedModal(true);
+  };
+
   const handleLearnMore = () => {
     document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -36,9 +43,9 @@ const LandingPage = () => {
     document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handleViewDetails = (productName) => {
-    // For informational site, show more details about the guide
-    alert(`Learn more about ${productName} - This comprehensive guide will help you make informed decisions.`);
+  const handleViewDetails = (product) => {
+    setSelectedProduct(product);
+    setShowProductModal(true);
   };
 
   return (
@@ -116,7 +123,7 @@ const LandingPage = () => {
                 {landingPageContent.hero.subtitle}
               </p>
               <div className="flex flex-row sm:flex-row items-start space-x-4 sm:space-x-4 mb-6 sm:mb-8">
-                <Button variant="primary" size="lg" className="!w-auto min-w-[160px]" onClick={handleLearnMore}>
+                <Button variant="primary" size="lg" className="!w-auto min-w-[160px]" onClick={handleGetStarted}>
                   Get Started
                 </Button>
                 <Button variant="primaryOutline" size="lg" className="!w-auto min-w-[160px]" onClick={handleContactUs}>
@@ -203,7 +210,7 @@ const LandingPage = () => {
                   <h3 className="text-lg font-semibold text-gray-900 mb-3">{product.name}</h3>
                   <p className="text-sm text-gray-600 mb-4 leading-relaxed">{product.description}</p>
                   <div className="text-center">
-                    <Button variant="primary" size="sm" className="w-full" onClick={() => handleViewDetails(product.name)}>
+                    <Button variant="primary" size="sm" className="w-full" onClick={() => handleViewDetails(product)}>
                       View Details
                     </Button>
                   </div>
@@ -455,6 +462,158 @@ const LandingPage = () => {
 
       {/* Floating Elements */}
       <FloatingChatbot />
+
+      {/* Get Started Modal */}
+      {showGetStartedModal && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex items-center justify-center min-h-screen px-4">
+            <div className="fixed inset-0 bg-black/50" onClick={() => setShowGetStartedModal(false)}></div>
+            <div className="relative bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">How to Get Started</h3>
+                <button
+                  onClick={() => setShowGetStartedModal(false)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              <div className="space-y-4">
+                <p className="text-sm text-gray-600">
+                  Welcome to our informational platform! Here's how to get started:
+                </p>
+                <div className="space-y-3">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-xs font-medium text-primary-600">1</span>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-900">Explore Our Guides</p>
+                      <p className="text-xs text-gray-600">Browse our comprehensive guides below</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-xs font-medium text-primary-600">2</span>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-900">Get Expert Information</p>
+                      <p className="text-xs text-gray-600">Access detailed, expert-curated information</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-xs font-medium text-primary-600">3</span>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-900">Contact Us</p>
+                      <p className="text-xs text-gray-600">Reach out for personalized assistance</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex space-x-3 pt-4">
+                  <Button 
+                    variant="primary" 
+                    size="sm" 
+                    className="flex-1"
+                    onClick={() => {
+                      setShowGetStartedModal(false);
+                      document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                  >
+                    View Guides
+                  </Button>
+                  <Button 
+                    variant="secondaryOutline" 
+                    size="sm" 
+                    className="flex-1"
+                    onClick={() => setShowGetStartedModal(false)}
+                  >
+                    Close
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Product Details Modal */}
+      {showProductModal && selectedProduct && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex items-center justify-center min-h-screen px-4">
+            <div className="fixed inset-0 bg-black/50" onClick={() => setShowProductModal(false)}></div>
+            <div className="relative bg-white rounded-lg shadow-xl max-w-lg w-full p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">{selectedProduct.name}</h3>
+                <button
+                  onClick={() => setShowProductModal(false)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              <div className="space-y-4">
+                <img 
+                  src={selectedProduct.image} 
+                  alt={selectedProduct.name}
+                  className="w-full h-48 object-cover rounded-lg"
+                />
+                <div>
+                  <p className="text-sm text-gray-600 mb-4">{selectedProduct.description}</p>
+                  
+                  <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                    <h4 className="text-sm font-medium text-gray-900 mb-2">What You'll Learn:</h4>
+                    <ul className="text-xs text-gray-600 space-y-1">
+                      <li>• Expert recommendations and insights</li>
+                      <li>• Key factors to consider when choosing</li>
+                      <li>• Common mistakes to avoid</li>
+                      <li>• Best practices and tips</li>
+                    </ul>
+                  </div>
+
+                  <div className="bg-blue-50 rounded-lg p-4">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <svg className="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span className="text-sm font-medium text-blue-900">Free Information</span>
+                    </div>
+                    <p className="text-xs text-blue-700">
+                      This is informational content to help you make informed decisions. No purchase required.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex space-x-3 pt-4">
+                  <Button 
+                    variant="primary" 
+                    size="sm" 
+                    className="flex-1"
+                    onClick={() => {
+                      setShowProductModal(false);
+                      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                  >
+                    Contact Us
+                  </Button>
+                  <Button 
+                    variant="secondaryOutline" 
+                    size="sm" 
+                    className="flex-1"
+                    onClick={() => setShowProductModal(false)}
+                  >
+                    Close
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
