@@ -58,6 +58,7 @@ const LandingPage = () => {
       // This listener ensures the component re-renders
       // LandingPage received content update event
       // Force a re-render by updating a dummy state
+      console.log('Forcing LandingPage re-render...');
       setForceUpdate(prev => prev + 1);
     };
 

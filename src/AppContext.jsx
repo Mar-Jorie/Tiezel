@@ -285,15 +285,21 @@ export const AppProvider = ({ children }) => {
       ...landingPageContent,
       ...newContent
     };
-    setLandingPageContent(updatedContent);
+    
+    // Force a new object reference to ensure React detects the change
+    const newContentObj = {
+      ...JSON.parse(JSON.stringify(updatedContent)),
+      _lastUpdated: Date.now() // Add timestamp to force unique reference
+    };
+    setLandingPageContent(newContentObj);
     
     // Save to localStorage for persistence
-    localStorage.setItem('landingPageContent', JSON.stringify(updatedContent));
+    localStorage.setItem('landingPageContent', JSON.stringify(newContentObj));
     
     // Dispatch custom event for real-time updates
     console.log('AppContext dispatching landingPageContentUpdated event');
     window.dispatchEvent(new CustomEvent('landingPageContentUpdated', {
-      detail: updatedContent
+      detail: newContentObj
     }));
   };
 
