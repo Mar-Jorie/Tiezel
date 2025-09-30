@@ -545,7 +545,9 @@ const LandingPage = () => {
             <div className="relative bg-white rounded-lg shadow-xl max-w-md w-full overflow-hidden">
               {/* Fixed Header */}
               <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-white">
-                <h3 className="text-lg font-semibold text-gray-900">How to Get Started</h3>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  {landingPageContent.modals?.shopNow?.title || 'How to Order'}
+                </h3>
                 <button
                   onClick={() => setShowGetStartedModal(false)}
                   className="text-gray-400 hover:text-gray-600"
@@ -560,44 +562,24 @@ const LandingPage = () => {
               <div className="max-h-96 overflow-y-auto scrollbar-hide p-6">
                 <div className="space-y-4">
                   <p className="text-sm text-gray-600">
-                    Ready to start your wellness journey? Here's where you can order our premium herbal medicines:
+                    {landingPageContent.modals?.shopNow?.description || 'Ready to start your wellness journey? Here\'s where you can order our premium herbal medicines:'}
                   </p>
                   <div className="space-y-3">
-                    <div className="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:bg-gray-100 transition-colors">
-                      <div className="flex items-start space-x-3">
-                        <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
-                          <span className="text-white font-semibold text-sm">F</span>
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="text-sm font-semibold text-gray-900 mb-1">Facebook Page</h4>
-                          <p className="text-xs text-gray-600">Message us on Facebook for orders and inquiries</p>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:bg-gray-100 transition-colors">
-                      <div className="flex items-start space-x-3">
-                        <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
-                          <span className="text-white font-semibold text-sm">P</span>
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="text-sm font-semibold text-gray-900 mb-1">Phone Orders</h4>
-                          <p className="text-xs text-gray-600">Call us directly for personalized service</p>
+                    {landingPageContent.modals?.shopNow?.methods?.map((method, index) => (
+                      <div key={index} className="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:bg-gray-100 transition-colors">
+                        <div className="flex items-start space-x-3">
+                          <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span className="text-white font-semibold text-sm">
+                              {method.title?.charAt(0)?.toUpperCase() || 'M'}
+                            </span>
+                          </div>
+                          <div className="flex-1">
+                            <h4 className="text-sm font-semibold text-gray-900 mb-1">{method.title}</h4>
+                            <p className="text-xs text-gray-600">{method.description}</p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    
-                    <div className="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:bg-gray-100 transition-colors">
-                      <div className="flex items-start space-x-3">
-                        <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
-                          <span className="text-white font-semibold text-sm">E</span>
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="text-sm font-semibold text-gray-900 mb-1">Email Orders</h4>
-                          <p className="text-xs text-gray-600">Send us an email with your requirements</p>
-                        </div>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               </div>

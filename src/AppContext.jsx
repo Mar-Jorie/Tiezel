@@ -143,6 +143,26 @@ export const AppProvider = ({ children }) => {
       messagePlaceholder: 'Your Message',
       submitButton: 'Send Message'
     },
+    modals: {
+      shopNow: {
+        title: 'How to Order',
+        description: 'Ready to start your wellness journey? Here\'s where you can order our premium herbal medicines:',
+        methods: [
+          {
+            title: 'Facebook Page',
+            description: 'Message us on Facebook for orders and inquiries'
+          },
+          {
+            title: 'Phone Orders',
+            description: 'Call us directly for personalized service'
+          },
+          {
+            title: 'Email Orders',
+            description: 'Send us an email with your requirements'
+          }
+        ]
+      }
+    },
     sections: {
       features: {
         title: 'Everything You Need to Know',

@@ -1298,85 +1298,59 @@ const ContentManagement = () => {
                   />
                   
                   {/* Ordering Methods */}
-                  <div className="space-y-3">
-                    <h5 className="text-sm font-medium text-gray-700">Ordering Methods</h5>
-                    
-                    {/* Facebook Orders */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <InputFactory
-                        fieldName="facebookTitle"
-                        config={{
-                          type: 'String',
-                          label: 'Facebook Title',
-                          placeholder: 'e.g., Facebook Page',
-                          required: true
-                        }}
-                        value={formData.modals?.shopNow?.facebook?.title || 'Facebook Page'}
-                        onChange={(value) => handleChange('modals', 'shopNow', 'facebook', 'title', value)}
-                      />
-                      <InputFactory
-                        fieldName="facebookDescription"
-                        config={{
-                          type: 'String',
-                          label: 'Facebook Description',
-                          placeholder: 'e.g., Message us for orders and inquiries',
-                          required: true
-                        }}
-                        value={formData.modals?.shopNow?.facebook?.description || 'Message us for orders and inquiries'}
-                        onChange={(value) => handleChange('modals', 'shopNow', 'facebook', 'description', value)}
-                      />
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h5 className="text-sm font-medium text-gray-700">Ordering Methods</h5>
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        onClick={() => handleAddItem('modals.shopNow.methods')}
+                      >
+                        <PlusIcon className="h-4 w-4 mr-2" />
+                        Add Method
+                      </Button>
                     </div>
                     
-                    {/* Phone Orders */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <InputFactory
-                        fieldName="phoneTitle"
-                        config={{
-                          type: 'String',
-                          label: 'Phone Title',
-                          placeholder: 'e.g., Phone Orders',
-                          required: true
-                        }}
-                        value={formData.modals?.shopNow?.phone?.title || 'Phone Orders'}
-                        onChange={(value) => handleChange('modals', 'shopNow', 'phone', 'title', value)}
-                      />
-                      <InputFactory
-                        fieldName="phoneDescription"
-                        config={{
-                          type: 'String',
-                          label: 'Phone Description',
-                          placeholder: 'e.g., Call directly for personalized service',
-                          required: true
-                        }}
-                        value={formData.modals?.shopNow?.phone?.description || 'Call directly for personalized service'}
-                        onChange={(value) => handleChange('modals', 'shopNow', 'phone', 'description', value)}
-                      />
-                    </div>
-                    
-                    {/* Email Orders */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <InputFactory
-                        fieldName="emailTitle"
-                        config={{
-                          type: 'String',
-                          label: 'Email Title',
-                          placeholder: 'e.g., Email Orders',
-                          required: true
-                        }}
-                        value={formData.modals?.shopNow?.email?.title || 'Email Orders'}
-                        onChange={(value) => handleChange('modals', 'shopNow', 'email', 'title', value)}
-                      />
-                      <InputFactory
-                        fieldName="emailDescription"
-                        config={{
-                          type: 'String',
-                          label: 'Email Description',
-                          placeholder: 'e.g., Send us your requirements',
-                          required: true
-                        }}
-                        value={formData.modals?.shopNow?.email?.description || 'Send us your requirements'}
-                        onChange={(value) => handleChange('modals', 'shopNow', 'email', 'description', value)}
-                      />
+                    <div className="space-y-4">
+                      {formData.modals?.shopNow?.methods?.map((method, index) => (
+                        <div key={index} className="bg-gray-50 rounded-lg p-4">
+                          <div className="flex items-center justify-between mb-4">
+                            <h6 className="font-medium text-gray-900">Method {index + 1}</h6>
+                            <Button
+                              variant="danger"
+                              size="sm"
+                              onClick={() => handleRemoveItem('modals.shopNow.methods', index)}
+                            >
+                              <TrashIcon className="h-4 w-4" />
+                            </Button>
+                          </div>
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <InputFactory
+                              fieldName={`method-${index}-title`}
+                              config={{
+                                type: 'String',
+                                label: 'Method Title',
+                                placeholder: 'e.g., WhatsApp Orders',
+                                required: true
+                              }}
+                              value={method.title || ''}
+                              onChange={(value) => handleArrayChange('modals.shopNow.methods', index, 'title', value)}
+                            />
+                            <InputFactory
+                              fieldName={`method-${index}-description`}
+                              config={{
+                                type: 'String',
+                                label: 'Method Description',
+                                placeholder: 'e.g., Message us on WhatsApp for quick orders',
+                                required: true
+                              }}
+                              value={method.description || ''}
+                              onChange={(value) => handleArrayChange('modals.shopNow.methods', index, 'description', value)}
+                            />
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
