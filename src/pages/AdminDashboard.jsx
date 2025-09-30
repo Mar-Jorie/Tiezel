@@ -5,14 +5,9 @@ import {
   EyeIcon,
   ChartBarIcon,
   DocumentTextIcon,
-  CogIcon,
   PlusIcon,
   DocumentArrowDownIcon,
-  QuestionMarkCircleIcon,
-  HomeIcon,
-  BuildingOfficeIcon,
-  ShoppingBagIcon,
-  StarIcon
+  QuestionMarkCircleIcon
 } from '@heroicons/react/24/outline';
 import Button from '../components/Button';
 import SmartFloatingActionButton from '../components/SmartFloatingActionButton';
@@ -426,52 +421,6 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* Content Management Overview */}
-        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-gray-900">Content Management Overview</h3>
-            <div className="w-6 h-6 bg-green-50 rounded-lg flex items-center justify-center">
-              <PencilIcon className="h-6 w-6 text-green-600" />
-            </div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-            <div className="text-center p-4 bg-primary-50 rounded-lg">
-              <div className="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-                <HomeIcon className="h-5 w-5 text-primary-600" />
-              </div>
-              <h4 className="text-sm font-medium text-gray-900">Hero Section</h4>
-              <p className="text-xs text-gray-600">Main landing content</p>
-            </div>
-            <div className="text-center p-4 bg-blue-50 rounded-lg">
-              <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-                <BuildingOfficeIcon className="h-5 w-5 text-blue-600" />
-              </div>
-              <h4 className="text-sm font-medium text-gray-900">Company Info</h4>
-              <p className="text-xs text-gray-600">Business details</p>
-            </div>
-            <div className="text-center p-4 bg-green-50 rounded-lg">
-              <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-                <CogIcon className="h-5 w-5 text-green-600" />
-              </div>
-              <h4 className="text-sm font-medium text-gray-900">Services</h4>
-              <p className="text-xs text-gray-600">Service offerings</p>
-            </div>
-            <div className="text-center p-4 bg-purple-50 rounded-lg">
-              <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-                <ShoppingBagIcon className="h-5 w-5 text-purple-600" />
-              </div>
-              <h4 className="text-sm font-medium text-gray-900">Products</h4>
-              <p className="text-xs text-gray-600">Product catalog</p>
-            </div>
-            <div className="text-center p-4 bg-orange-50 rounded-lg">
-              <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-2">
-                <StarIcon className="h-5 w-5 text-orange-600" />
-              </div>
-              <h4 className="text-sm font-medium text-gray-900">Testimonials</h4>
-              <p className="text-xs text-gray-600">Customer reviews</p>
-            </div>
-          </div>
-        </div>
 
         {/* Recent Updates */}
         <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
@@ -504,7 +453,7 @@ const AdminDashboard = () => {
 
                 const getActionIcon = (action) => {
                   if (action.includes('Create') || action.includes('Add')) return '➕';
-                  if (action.includes('Update') || action.includes('Edit')) return '✏️';
+                  if (action.includes('Update') || action.includes('Edit')) return '';
                   if (action.includes('Delete') || action.includes('Remove')) return '🗑️';
                   return '';
                 };
