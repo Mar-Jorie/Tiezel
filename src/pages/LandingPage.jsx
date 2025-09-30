@@ -52,15 +52,17 @@ const LandingPage = () => {
   };
 
   // Carousel navigation functions
+  const totalSlides = Math.ceil(landingPageContent.products.length / 3);
+  
   const handlePreviousProduct = () => {
     setCurrentProductIndex((prev) => 
-      prev === 0 ? landingPageContent.products.length - 1 : prev - 1
+      prev === 0 ? totalSlides - 1 : prev - 1
     );
   };
 
   const handleNextProduct = () => {
     setCurrentProductIndex((prev) => 
-      prev === landingPageContent.products.length - 1 ? 0 : prev + 1
+      prev === totalSlides - 1 ? 0 : prev + 1
     );
   };
 
@@ -220,25 +222,31 @@ const LandingPage = () => {
                 className="flex transition-transform duration-500 ease-in-out"
                 style={{ transform: `translateX(-${currentProductIndex * 100}%)` }}
               >
-                {landingPageContent.products.map((product, index) => (
-                  <div key={index} className="w-full flex-shrink-0 px-4">
-                    <div className="max-w-md mx-auto bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-300">
-                      <div className="aspect-w-16 aspect-h-9">
-                        <img 
-                          src={product.image} 
-                          alt={product.name}
-                          className="w-full h-48 object-cover"
-                        />
-                      </div>
-                      <div className="p-6">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-3">{product.name}</h3>
-                        <p className="text-sm text-gray-600 mb-4 leading-relaxed">{product.description}</p>
-                        <div className="text-center">
-                          <Button variant="primary" size="sm" className="w-full" onClick={() => handleViewDetails(product)}>
-                            View Details
-                          </Button>
-                        </div>
-                      </div>
+                {Array.from({ length: Math.ceil(landingPageContent.products.length / 3) }).map((_, slideIndex) => (
+                  <div key={slideIndex} className="w-full flex-shrink-0 px-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {landingPageContent.products
+                        .slice(slideIndex * 3, (slideIndex + 1) * 3)
+                        .map((product, index) => (
+                          <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-300">
+                            <div className="aspect-w-16 aspect-h-9">
+                              <img 
+                                src={product.image} 
+                                alt={product.name}
+                                className="w-full h-48 object-cover"
+                              />
+                            </div>
+                            <div className="p-6">
+                              <h3 className="text-lg font-semibold text-gray-900 mb-3">{product.name}</h3>
+                              <p className="text-sm text-gray-600 mb-4 leading-relaxed">{product.description}</p>
+                              <div className="text-center">
+                                <Button variant="primary" size="sm" className="w-full" onClick={() => handleViewDetails(product)}>
+                                  View Details
+                                </Button>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
                     </div>
                   </div>
                 ))}
@@ -246,7 +254,7 @@ const LandingPage = () => {
             </div>
 
             {/* Navigation Arrows */}
-            {landingPageContent.products.length > 1 && (
+            {landingPageContent.products.length > 3 && (
               <>
                 <button
                   onClick={handlePreviousProduct}
@@ -266,9 +274,9 @@ const LandingPage = () => {
             )}
 
             {/* Dots Indicator */}
-            {landingPageContent.products.length > 1 && (
+            {landingPageContent.products.length > 3 && (
               <div className="flex justify-center mt-6 space-x-2">
-                {landingPageContent.products.map((_, index) => (
+                {Array.from({ length: totalSlides }).map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentProductIndex(index)}
@@ -277,7 +285,7 @@ const LandingPage = () => {
                         ? 'bg-primary-600 scale-125' 
                         : 'bg-gray-300 hover:bg-gray-400'
                     }`}
-                    aria-label={`Go to product ${index + 1}`}
+                    aria-label={`Go to slide ${index + 1}`}
                   />
                 ))}
               </div>
@@ -287,7 +295,7 @@ const LandingPage = () => {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 bg-gray-50">
+      <section id="about" className="py-10 sm:py-10 md:py-15 lg:py-15 px-4 sm:px-6 bg-gray-50">
         <div className="w-full">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">
@@ -547,34 +555,36 @@ const LandingPage = () => {
               </div>
               <div className="space-y-4">
                 <p className="text-sm text-gray-600">
-                  Welcome to HerbalMed! Here's how to start your wellness journey:
+                  Ready to start your wellness journey? Here's where you can order our premium herbal medicines:
                 </p>
                 <div className="space-y-3">
                   <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-xs font-medium text-primary-600">1</span>
+                    <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <svg className="h-4 w-4 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                      </svg>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-gray-900">Browse Our Products</p>
-                      <p className="text-xs text-gray-600">Explore our premium herbal medicine collection</p>
+                      <p className="text-sm font-medium text-gray-900">Facebook Page</p>
+                      <p className="text-xs text-gray-600">Message us on Facebook for orders and inquiries</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-xs font-medium text-primary-600">2</span>
+                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <PhoneIcon className="h-4 w-4 text-blue-600" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-gray-900">Add to Cart</p>
-                      <p className="text-xs text-gray-600">Select your desired herbal products</p>
+                      <p className="text-sm font-medium text-gray-900">Phone Orders</p>
+                      <p className="text-xs text-gray-600">Call us directly for personalized service</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-xs font-medium text-primary-600">3</span>
+                    <div className="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <EnvelopeIcon className="h-4 w-4 text-purple-600" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-gray-900">Secure Checkout</p>
-                      <p className="text-xs text-gray-600">Complete your purchase safely</p>
+                      <p className="text-sm font-medium text-gray-900">Email Orders</p>
+                      <p className="text-xs text-gray-600">Send us an email with your requirements</p>
                     </div>
                   </div>
                 </div>
@@ -588,7 +598,7 @@ const LandingPage = () => {
                       document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
                     }}
                   >
-                    View Products
+                    Browse Products
                   </Button>
                   <Button 
                     variant="secondaryOutline" 
