@@ -36,12 +36,67 @@ const AdminDashboard = () => {
     status: 'active'
   });
 
+  // Real data states
+  const [dashboardData, setDashboardData] = useState({
+    totalFAQs: 0,
+    activeFAQs: 0,
+    totalAuditLogs: 0,
+    recentUpdates: []
+  });
+
   // Redirect if not admin
   useEffect(() => {
     if (!isAdmin) {
       navigate('/admin/login');
     }
   }, [isAdmin, navigate]);
+
+  // Load real data from services
+  useEffect(() => {
+    const loadDashboardData = () => {
+      try {
+        // Get FAQ data
+        const allFAQs = faqService.faqData || [];
+        const activeFAQs = faqService.getActiveFAQs() || [];
+        
+        // Get audit logs
+        const auditLogs = auditService.getAllLogs() || [];
+        
+        // Get recent updates (last 5 audit logs)
+        const recentUpdates = auditLogs
+          .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+          .slice(0, 5)
+          .map(log => ({
+            action: log.action,
+            item: log.item,
+            timestamp: log.timestamp,
+            user: log.user
+          }));
+
+        setDashboardData({
+          totalFAQs: allFAQs.length,
+          activeFAQs: activeFAQs.length,
+          totalAuditLogs: auditLogs.length,
+          recentUpdates: recentUpdates
+        });
+      } catch (error) {
+        console.error('Error loading dashboard data:', error);
+      }
+    };
+
+    loadDashboardData();
+
+    // Listen for audit log updates
+    const handleAuditUpdate = () => {
+      loadDashboardData();
+    };
+
+    window.addEventListener('auditLogUpdated', handleAuditUpdate);
+    
+    return () => {
+      window.removeEventListener('auditLogUpdated', handleAuditUpdate);
+    };
+  }, []);
 
   if (!isAdmin) {
     return null;
@@ -312,12 +367,12 @@ const AdminDashboard = () => {
                 Active
               </span>
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-1">5</h3>
-            <p className="text-sm text-gray-600 mb-2">Content Sections</p>
+            <h3 className="text-2xl font-bold text-gray-900 mb-1">{dashboardData.totalAuditLogs}</h3>
+            <p className="text-sm text-gray-600 mb-2">Audit Logs</p>
             <div className="flex items-center justify-between">
-              <span className="text-xs text-gray-500">Hero, Company, Services</span>
+              <span className="text-xs text-gray-500">System activities tracked</span>
               <div className="flex items-center space-x-1">
-                <span className="text-xs font-medium text-blue-800">Updated</span>
+                <span className="text-xs font-medium text-blue-800">Live</span>
               </div>
             </div>
           </div>
@@ -331,7 +386,7 @@ const AdminDashboard = () => {
                 Active
               </span>
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-1">12</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-1">{dashboardData.activeFAQs}</h3>
             <p className="text-sm text-gray-600 mb-2">FAQ Entries</p>
             <div className="flex items-center justify-between">
               <span className="text-xs text-gray-500">Help center articles</span>
@@ -371,27 +426,41 @@ const AdminDashboard = () => {
               </div>
             </div>
             <div className="space-y-4">
-              <div className="flex items-center space-x-3">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <div>
-                  <p className="text-sm font-medium text-gray-900">Landing page content updated</p>
-                  <p className="text-xs text-gray-500">2 hours ago</p>
+              {dashboardData.recentUpdates.length > 0 ? (
+                dashboardData.recentUpdates.map((update, index) => {
+                  const getColor = (action) => {
+                    if (action.includes('Create') || action.includes('Add')) return 'bg-green-500';
+                    if (action.includes('Update') || action.includes('Edit')) return 'bg-blue-500';
+                    if (action.includes('Delete') || action.includes('Remove')) return 'bg-red-500';
+                    return 'bg-orange-500';
+                  };
+
+                  const formatTimeAgo = (timestamp) => {
+                    const now = new Date();
+                    const logTime = new Date(timestamp);
+                    const diffInHours = Math.floor((now - logTime) / (1000 * 60 * 60));
+                    
+                    if (diffInHours < 1) return 'Just now';
+                    if (diffInHours < 24) return `${diffInHours} hour${diffInHours > 1 ? 's' : ''} ago`;
+                    const diffInDays = Math.floor(diffInHours / 24);
+                    return `${diffInDays} day${diffInDays > 1 ? 's' : ''} ago`;
+                  };
+
+                  return (
+                    <div key={index} className="flex items-center space-x-3">
+                      <div className={`w-2 h-2 ${getColor(update.action)} rounded-full`}></div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">{update.action} - {update.item}</p>
+                        <p className="text-xs text-gray-500">{formatTimeAgo(update.timestamp)}</p>
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="text-center py-4">
+                  <p className="text-sm text-gray-500">No recent activity</p>
                 </div>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                <div>
-                  <p className="text-sm font-medium text-gray-900">FAQ entry added</p>
-                  <p className="text-xs text-gray-500">1 day ago</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                <div>
-                  <p className="text-sm font-medium text-gray-900">Settings configuration changed</p>
-                  <p className="text-xs text-gray-500">3 days ago</p>
-                </div>
-              </div>
+              )}
             </div>
           </div>
 
@@ -404,16 +473,16 @@ const AdminDashboard = () => {
             </div>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Landing Page Views</span>
-                <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">1,234</span>
+                <span className="text-sm text-gray-600">Total FAQs</span>
+                <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">{dashboardData.totalFAQs}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Contact Form Submissions</span>
-                <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">23</span>
+                <span className="text-sm text-gray-600">Active FAQs</span>
+                <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">{dashboardData.activeFAQs}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">FAQ Interactions</span>
-                <span className="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full">156</span>
+                <span className="text-sm text-gray-600">System Activities</span>
+                <span className="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full">{dashboardData.totalAuditLogs}</span>
               </div>
             </div>
           </div>
