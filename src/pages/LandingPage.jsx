@@ -11,7 +11,8 @@ import {
   CursorArrowRaysIcon,
   LightBulbIcon,
   ChevronLeftIcon,
-  ChevronRightIcon
+  ChevronRightIcon,
+  EnvelopeIcon
 } from '@heroicons/react/24/outline';
 import Button from '../components/Button';
 import FloatingChatbot from '../components/FloatingChatbot';
