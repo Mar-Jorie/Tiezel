@@ -13,7 +13,8 @@ import {
   ChevronRightIcon,
   EnvelopeIcon
 } from '@heroicons/react/24/outline';
-import { StarIcon } from '@heroicons/react/24/solid';
+import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
+import { StarIcon as StarIconOutline } from '@heroicons/react/24/outline';
 import Button from '../components/Button';
 import FloatingChatbot from '../components/FloatingChatbot';
 import settingsService from '../services/settingsService';
@@ -587,8 +588,13 @@ const LandingPage = () => {
                   return (
               <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
                 <div className="flex items-center mb-4">
-                        {[...Array(testimonial.rating || 0)].map((_, i) => (
-                    <StarIcon key={i} className="h-5 w-5 text-yellow-400" />
+                  {/* Filled stars for the rating */}
+                  {[...Array(testimonial.rating || 0)].map((_, i) => (
+                    <StarIconSolid key={`filled-${i}`} className="h-5 w-5 text-yellow-400" />
+                  ))}
+                  {/* Gray outlined stars for the remaining */}
+                  {[...Array(5 - (testimonial.rating || 0))].map((_, i) => (
+                    <StarIconOutline key={`outline-${i}`} className="h-5 w-5 text-gray-300" />
                   ))}
                 </div>
                 <p className="text-sm text-gray-600 mb-4">"{testimonial.text}"</p>
