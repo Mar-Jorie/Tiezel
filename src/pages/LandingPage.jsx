@@ -134,7 +134,7 @@ const LandingPage = () => {
 
   // Pagination functions
   const nextFeaturePage = () => {
-    const maxPage = Math.ceil((landingPageContent.sections.features.items?.length || 0) / 4) - 1;
+    const maxPage = Math.ceil((landingPageContent.services?.length || 0) / 4) - 1;
     setCurrentFeaturePage(prev => Math.min(prev + 1, maxPage));
   };
 
@@ -360,7 +360,14 @@ const LandingPage = () => {
             {/* Page indicators */}
             {landingPageContent.services?.length > 4 && (
               <div className="flex justify-center mt-8 space-x-2">
-                {Array.from({ length: Math.ceil((landingPageContent.services?.length || 0) / 4) }).map((_, index) => (
+                {Array.from({ length: Math.ceil((landingPageContent.services?.length || 0) / 4) }).map((_, index) => {
+                  console.log('Pagination debug:', {
+                    totalServices: landingPageContent.services?.length,
+                    currentPage: currentFeaturePage,
+                    index,
+                    totalPages: Math.ceil((landingPageContent.services?.length || 0) / 4)
+                  });
+                  return (
                   <button
                     key={index}
                     onClick={() => setCurrentFeaturePage(index)}
@@ -370,7 +377,8 @@ const LandingPage = () => {
                         : 'bg-gray-300 hover:bg-gray-400'
                     }`}
                   />
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
