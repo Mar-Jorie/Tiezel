@@ -200,11 +200,6 @@ const LandingPage = () => {
                     />
                 </div>
                 <div className="p-6">
-                  <div className="mb-4">
-                    <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">
-                      Free Guide
-                    </span>
-                  </div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-3">{product.name}</h3>
                   <p className="text-sm text-gray-600 mb-4 leading-relaxed">{product.description}</p>
                   <div className="text-center">
