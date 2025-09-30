@@ -7,6 +7,7 @@ import AdminAccess from './pages/AdminAccess';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import ContentManagement from './pages/ContentManagement';
+import FAQManagement from './pages/FAQManagement';
 import Settings from './pages/Settings';
 import AuditTrail from './pages/AuditTrail';
 import './index.css';
@@ -27,6 +28,7 @@ function App() {
               <Routes>
                 <Route path="dashboard" element={<AdminDashboard />} />
                 <Route path="content" element={<ContentManagement />} />
+                <Route path="faq" element={<FAQManagement />} />
                 <Route path="settings" element={<Settings />} />
                 <Route path="audit-trail" element={<AuditTrail />} />
               </Routes>

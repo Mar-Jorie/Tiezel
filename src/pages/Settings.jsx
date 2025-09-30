@@ -2,55 +2,28 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   CogIcon,
-  UserIcon,
-  ShieldCheckIcon,
   BellIcon,
-  GlobeAltIcon,
-  KeyIcon,
   CheckIcon,
   ArrowPathIcon
 } from '@heroicons/react/24/outline';
 import Button from '../components/Button';
 import InputFactory from '../components/InputFactory';
 import SelectInput from '../components/SelectInput';
+import ImageUpload from '../components/ImageUpload';
+import ColorPicker from '../components/ColorPicker';
 import { useApp } from '../hooks/useApp';
+import auditService from '../services/auditService';
 import { toast } from 'react-hot-toast';
+import settingsService from '../services/settingsService';
 
 const Settings = () => {
   const { isAdmin } = useApp();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('general');
   const [loading, setLoading] = useState(false);
-  const [settings, setSettings] = useState({
-    general: {
-      siteName: 'TechStore',
-      siteDescription: 'Your Trusted E-commerce Partner',
-      siteUrl: 'https://techstore.com',
-      adminEmail: 'admin@techstore.com',
-      timezone: 'UTC',
-      language: 'en'
-    },
-    security: {
-      sessionTimeout: 30,
-      requireTwoFactor: false,
-      passwordMinLength: 8,
-      loginAttempts: 5,
-      lockoutDuration: 15
-    },
-    notifications: {
-      emailNotifications: true,
-      contentUpdates: true,
-      securityAlerts: true,
-      systemMaintenance: false,
-      weeklyReports: true
-    },
-    appearance: {
-      theme: 'light',
-      primaryColor: '#154D71',
-      logoUrl: '/vite.svg',
-      faviconUrl: '/favicon.ico'
-    }
-  });
+  const [settings, setSettings] = useState(settingsService.getAllSettings());
+
+  const [validationErrors, setValidationErrors] = useState({});
 
   // Redirect if not admin
   useEffect(() => {
@@ -63,6 +36,25 @@ const Settings = () => {
     return null;
   }
 
+  const validateSettings = () => {
+    const errors = {};
+    
+    // General validation
+    if (!settings.general.siteName.trim()) {
+      errors.siteName = 'Site name is required';
+    }
+    if (!settings.general.siteUrl.trim() || !settings.general.siteUrl.startsWith('http')) {
+      errors.siteUrl = 'Valid site URL is required';
+    }
+    if (!settings.general.adminEmail.trim() || !settings.general.adminEmail.includes('@')) {
+      errors.adminEmail = 'Valid admin email is required';
+    }
+    
+    
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleChange = (section, field, value) => {
     setSettings(prev => ({
       ...prev,
@@ -71,14 +63,64 @@ const Settings = () => {
         [field]: value
       }
     }));
+    
+    // Clear validation error for this field
+    if (validationErrors[field]) {
+      setValidationErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
   };
 
   const handleSave = async () => {
+    if (!validateSettings()) {
+      toast.error('Please fix validation errors before saving');
+      return;
+    }
+    
     setLoading(true);
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      toast.success('Settings saved successfully!');
+      
+      // Get old values before saving
+      const oldSettings = settingsService.getAllSettings();
+      const oldGeneral = oldSettings.general || {};
+      
+      // Save settings using the service
+      const success = settingsService.saveSettings(settings);
+      
+      if (success) {
+        // Log settings update with old and new values
+        auditService.logSettingsUpdate('General Settings', '', oldGeneral, settings.general);
+        
+        // Reload settings to ensure they're updated
+        settingsService.reloadSettings();
+        
+        // Apply dynamic primary color immediately
+        const primaryColor = settings.general?.primaryColor || settingsService.getPrimaryColor();
+        document.documentElement.style.setProperty('--dynamic-primary-color', primaryColor);
+        document.documentElement.style.setProperty('--dynamic-primary-color-dark', primaryColor);
+        document.body.classList.add('dynamic-primary');
+        
+        
+        // Manually trigger storage event for same-tab updates
+        window.dispatchEvent(new StorageEvent('storage', {
+          key: 'app-settings',
+          newValue: JSON.stringify(settings),
+          oldValue: localStorage.getItem('app-settings')
+        }));
+        
+        // Also trigger a custom event for immediate updates
+        window.dispatchEvent(new CustomEvent('settingsUpdated', {
+          detail: { settings }
+        }));
+        
+        toast.success('Settings saved successfully! Changes will be applied immediately.');
+        setValidationErrors({});
+      } else {
+        toast.error('Failed to save settings');
+      }
     } catch {
       toast.error('Failed to save settings. Please try again.');
     } finally {
@@ -87,44 +129,37 @@ const Settings = () => {
   };
 
   const handleReset = () => {
-    setSettings({
-      general: {
-        siteName: 'TechStore',
-        siteDescription: 'Your Trusted E-commerce Partner',
-        siteUrl: 'https://techstore.com',
-        adminEmail: 'admin@techstore.com',
-        timezone: 'UTC',
-        language: 'en'
-      },
-      security: {
-        sessionTimeout: 30,
-        requireTwoFactor: false,
-        passwordMinLength: 8,
-        loginAttempts: 5,
-        lockoutDuration: 15
-      },
-      notifications: {
-        emailNotifications: true,
-        contentUpdates: true,
-        securityAlerts: true,
-        systemMaintenance: false,
-        weeklyReports: true
-      },
-      appearance: {
-        theme: 'light',
-        primaryColor: '#154D71',
-        logoUrl: '/vite.svg',
-        faviconUrl: '/favicon.ico'
-      }
-    });
+    // Log settings reset
+    auditService.logSettingsReset();
+    
+    settingsService.resetToDefaults();
+    setSettings(settingsService.getAllSettings());
+    setValidationErrors({});
+    
+    // Apply default primary color
+    const defaultColor = settingsService.getPrimaryColor();
+    document.documentElement.style.setProperty('--dynamic-primary-color', defaultColor);
+    document.documentElement.style.setProperty('--dynamic-primary-color-dark', defaultColor);
+    document.body.classList.add('dynamic-primary');
+    
+    // Manually trigger storage event for same-tab updates
+    window.dispatchEvent(new StorageEvent('storage', {
+      key: 'app-settings',
+      newValue: JSON.stringify(settingsService.getAllSettings()),
+      oldValue: localStorage.getItem('app-settings')
+    }));
+    
+    // Also trigger a custom event for immediate updates
+    window.dispatchEvent(new CustomEvent('settingsUpdated', {
+      detail: { settings: settingsService.getAllSettings() }
+    }));
+    
     toast.success('Settings reset to defaults');
   };
 
   const tabs = [
     { id: 'general', name: 'General', icon: CogIcon },
-    { id: 'security', name: 'Security', icon: ShieldCheckIcon },
-    { id: 'notifications', name: 'Notifications', icon: BellIcon },
-    { id: 'appearance', name: 'Appearance', icon: GlobeAltIcon }
+    { id: 'notifications', name: 'Notifications', icon: BellIcon }
   ];
 
   const renderTabContent = () => {
@@ -144,6 +179,7 @@ const Settings = () => {
                 }}
                 value={settings.general.siteName}
                 onChange={(value) => handleChange('general', 'siteName', value)}
+                error={validationErrors.siteName}
               />
               <InputFactory
                 fieldName="siteUrl"
@@ -155,6 +191,7 @@ const Settings = () => {
                 }}
                 value={settings.general.siteUrl}
                 onChange={(value) => handleChange('general', 'siteUrl', value)}
+                error={validationErrors.siteUrl}
               />
               <div className="md:col-span-2">
                 <InputFactory
@@ -180,6 +217,18 @@ const Settings = () => {
                 }}
                 value={settings.general.adminEmail}
                 onChange={(value) => handleChange('general', 'adminEmail', value)}
+                error={validationErrors.adminEmail}
+              />
+              <InputFactory
+                fieldName="contactPhone"
+                config={{
+                  type: 'String',
+                  label: 'Contact Phone',
+                  placeholder: '+1 (555) 123-4567',
+                  required: false
+                }}
+                value={settings.general.contactPhone}
+                onChange={(value) => handleChange('general', 'contactPhone', value)}
               />
               <SelectInput
                 label="Timezone"
@@ -187,7 +236,9 @@ const Settings = () => {
                   { value: 'UTC', label: 'UTC' },
                   { value: 'EST', label: 'Eastern Time' },
                   { value: 'PST', label: 'Pacific Time' },
-                  { value: 'GMT', label: 'Greenwich Mean Time' }
+                  { value: 'GMT', label: 'Greenwich Mean Time' },
+                  { value: 'CET', label: 'Central European Time' },
+                  { value: 'JST', label: 'Japan Standard Time' }
                 ]}
                 value={settings.general.timezone}
                 onChange={(value) => handleChange('general', 'timezone', value)}
@@ -198,81 +249,52 @@ const Settings = () => {
                   { value: 'en', label: 'English' },
                   { value: 'es', label: 'Spanish' },
                   { value: 'fr', label: 'French' },
-                  { value: 'de', label: 'German' }
+                  { value: 'de', label: 'German' },
+                  { value: 'it', label: 'Italian' },
+                  { value: 'pt', label: 'Portuguese' }
                 ]}
                 value={settings.general.language}
                 onChange={(value) => handleChange('general', 'language', value)}
               />
-            </div>
-          </div>
-        );
-
-      case 'security':
-        return (
-          <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-gray-900">Security Settings</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <InputFactory
-                fieldName="sessionTimeout"
-                config={{
-                  type: 'Number',
-                  label: 'Session Timeout (minutes)',
-                  placeholder: '30',
-                  required: true
-                }}
-                value={settings.security.sessionTimeout}
-                onChange={(value) => handleChange('security', 'sessionTimeout', value)}
-              />
-              <InputFactory
-                fieldName="passwordMinLength"
-                config={{
-                  type: 'Number',
-                  label: 'Minimum Password Length',
-                  placeholder: '8',
-                  required: true
-                }}
-                value={settings.security.passwordMinLength}
-                onChange={(value) => handleChange('security', 'passwordMinLength', value)}
-              />
-              <InputFactory
-                fieldName="loginAttempts"
-                config={{
-                  type: 'Number',
-                  label: 'Max Login Attempts',
-                  placeholder: '5',
-                  required: true
-                }}
-                value={settings.security.loginAttempts}
-                onChange={(value) => handleChange('security', 'loginAttempts', value)}
-              />
-              <InputFactory
-                fieldName="lockoutDuration"
-                config={{
-                  type: 'Number',
-                  label: 'Lockout Duration (minutes)',
-                  placeholder: '15',
-                  required: true
-                }}
-                value={settings.security.lockoutDuration}
-                onChange={(value) => handleChange('security', 'lockoutDuration', value)}
-              />
               <div className="md:col-span-2">
-                <div className="flex items-center">
-                  <input
-                    id="requireTwoFactor"
-                    type="checkbox"
-                    checked={settings.security.requireTwoFactor}
-                    onChange={(e) => handleChange('security', 'requireTwoFactor', e.target.checked)}
-                    className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
-                  />
-                  <label htmlFor="requireTwoFactor" className="ml-2 block text-sm text-gray-700">
-                    Require Two-Factor Authentication
-                  </label>
-                </div>
+              <InputFactory
+                  fieldName="contactAddress"
+                config={{
+                    type: 'String',
+                    label: 'Contact Address',
+                    placeholder: '123 Business St, City, State 12345',
+                    required: false
+                  }}
+                  value={settings.general.contactAddress}
+                  onChange={(value) => handleChange('general', 'contactAddress', value)}
+                />
+              </div>
+              
+              {/* Visual Branding Section */}
+              <div className="md:col-span-2">
+                <h4 className="text-lg font-semibold text-gray-900 mb-4">Visual Branding</h4>
+              </div>
+              
+              <ColorPicker
+                label="Primary Brand Color"
+                value={settings.general.primaryColor}
+                onChange={(value) => handleChange('general', 'primaryColor', value)}
+                required={true}
+              />
+              
+              <div className="md:col-span-2">
+                <ImageUpload
+                  label="Logo"
+                  value={settings.general.logoUrl}
+                  onChange={(value) => handleChange('general', 'logoUrl', value)}
+                  accept="image/*"
+                  placeholder="Upload your logo"
+                />
               </div>
             </div>
           </div>
         );
+
 
       case 'notifications':
         return (
@@ -339,58 +361,31 @@ const Settings = () => {
                   className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                 />
               </div>
+              <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div>
+                  <h4 className="font-medium text-gray-900">Notification Sound</h4>
+                  <p className="text-sm text-gray-600">Play sound for browser notifications</p>
             </div>
+                <input
+                  type="checkbox"
+                  checked={settings.notifications.notificationSound}
+                  onChange={(e) => handleChange('notifications', 'notificationSound', e.target.checked)}
+                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                />
           </div>
-        );
-
-      case 'appearance':
-        return (
-          <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-gray-900">Appearance Settings</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <SelectInput
-                label="Theme"
+                  label="Email Frequency"
                 options={[
-                  { value: 'light', label: 'Light' },
-                  { value: 'dark', label: 'Dark' },
-                  { value: 'auto', label: 'Auto' }
-                ]}
-                value={settings.appearance.theme}
-                onChange={(value) => handleChange('appearance', 'theme', value)}
-              />
-              <InputFactory
-                fieldName="primaryColor"
-                config={{
-                  type: 'String',
-                  label: 'Primary Color',
-                  placeholder: '#154D71',
-                  required: true
-                }}
-                value={settings.appearance.primaryColor}
-                onChange={(value) => handleChange('appearance', 'primaryColor', value)}
-              />
-              <InputFactory
-                fieldName="logoUrl"
-                config={{
-                  type: 'String',
-                  label: 'Logo URL',
-                  placeholder: '/logo.png',
-                  required: true
-                }}
-                value={settings.appearance.logoUrl}
-                onChange={(value) => handleChange('appearance', 'logoUrl', value)}
-              />
-              <InputFactory
-                fieldName="faviconUrl"
-                config={{
-                  type: 'String',
-                  label: 'Favicon URL',
-                  placeholder: '/favicon.ico',
-                  required: true
-                }}
-                value={settings.appearance.faviconUrl}
-                onChange={(value) => handleChange('appearance', 'faviconUrl', value)}
-              />
+                    { value: 'immediate', label: 'Immediate' },
+                    { value: 'hourly', label: 'Hourly' },
+                    { value: 'daily', label: 'Daily' },
+                    { value: 'weekly', label: 'Weekly' }
+                  ]}
+                  value={settings.notifications.emailFrequency}
+                  onChange={(value) => handleChange('notifications', 'emailFrequency', value)}
+                />
+              </div>
             </div>
           </div>
         );
@@ -438,7 +433,10 @@ const Settings = () => {
         </div>
 
         {/* Action Buttons */}
-        <div className="border-t border-gray-200 p-6 flex justify-end space-x-4">
+        <div className="border-t border-gray-200 p-6">
+          <div className="flex flex-col sm:flex-row justify-end items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
+            {/* Main actions */}
+            <div className="flex flex-wrap gap-3">
           <Button
             variant="secondaryOutline"
             size="md"
@@ -464,6 +462,20 @@ const Settings = () => {
               </div>
             )}
           </Button>
+            </div>
+          </div>
+
+          {/* Validation Errors Display */}
+          {Object.keys(validationErrors).length > 0 && (
+            <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+              <h4 className="text-sm font-medium text-red-800 mb-2">Validation Errors:</h4>
+              <ul className="text-sm text-red-700 space-y-1">
+                {Object.entries(validationErrors).map(([field, error]) => (
+                  <li key={field}>• {field}: {error}</li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
     </>

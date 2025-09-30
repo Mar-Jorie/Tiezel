@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   HomeIcon, 
@@ -6,22 +6,74 @@ import {
   DocumentTextIcon, 
   CogIcon, 
   ClockIcon,
+  QuestionMarkCircleIcon,
   ArrowRightOnRectangleIcon 
 } from '@heroicons/react/24/outline';
 import { useApp } from '../../hooks/useApp';
 import Button from '../Button';
 import ConfirmationModal from '../ConfirmationModal';
+import settingsService from '../../services/settingsService';
+import auditService from '../../services/auditService';
 
 const NavSidebar = ({ isMobile, setShow }) => {
   const { adminUser, logoutAdmin } = useApp();
   const location = useLocation();
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const [siteSettings, setSiteSettings] = useState({
+    siteName: 'TechStore',
+    logoUrl: '/vite.svg'
+  });
+
+  // Load settings on component mount
+  useEffect(() => {
+    const loadSettings = () => {
+      const settings = {
+        siteName: settingsService.getSiteName(),
+        logoUrl: settingsService.getLogoUrl()
+      };
+      
+      setSiteSettings(settings);
+      
+      // Apply dynamic primary color to document
+      const primaryColor = settingsService.getPrimaryColor();
+      document.documentElement.style.setProperty('--dynamic-primary-color', primaryColor);
+      document.documentElement.style.setProperty('--dynamic-primary-color-dark', primaryColor);
+      document.body.classList.add('dynamic-primary');
+    };
+
+    loadSettings();
+
+    // Listen for storage changes
+    const handleStorageChange = (e) => {
+      if (e.key === 'app-settings') {
+        // Reload settings from localStorage
+        settingsService.reloadSettings();
+        loadSettings();
+      }
+    };
+
+    // Listen for custom settings update event
+    const handleSettingsUpdate = (e) => {
+      // Reload settings from localStorage
+      settingsService.reloadSettings();
+      loadSettings();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('settingsUpdated', handleSettingsUpdate);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('settingsUpdated', handleSettingsUpdate);
+    };
+  }, []);
 
   const handleLogoutClick = () => {
     setShowLogoutConfirm(true);
   };
 
   const handleLogout = () => {
+    // Log logout action
+    auditService.logLogout();
     logoutAdmin();
     setShowLogoutConfirm(false);
   };
@@ -59,16 +111,22 @@ const NavSidebar = ({ isMobile, setShow }) => {
       current: location.pathname === '/admin/content'
     },
     {
-      name: 'Settings',
-      href: '/admin/settings',
-      icon: CogIcon,
-      current: location.pathname === '/admin/settings'
+      name: 'FAQ Management',
+      href: '/admin/faq',
+      icon: QuestionMarkCircleIcon,
+      current: location.pathname === '/admin/faq'
     },
     {
       name: 'Audit Trail',
       href: '/admin/audit-trail',
       icon: ClockIcon,
       current: location.pathname === '/admin/audit-trail'
+    },
+    {
+      name: 'Settings',
+      href: '/admin/settings',
+      icon: CogIcon,
+      current: location.pathname === '/admin/settings'
     }
   ];
 
@@ -98,11 +156,11 @@ const NavSidebar = ({ isMobile, setShow }) => {
           <div className="hidden lg:block">
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 flex items-center justify-center">
-                <img src="/vite.svg" alt="Logo" className="w-6 h-6 object-contain" />
+                <img src={siteSettings.logoUrl} alt="Logo" className="w-6 h-6 object-contain" />
               </div>
               <div>
                 <h1 className="text-sm font-medium text-gray-900">
-                  Landing Page System
+                  {siteSettings.siteName}
                 </h1>
                 <p className="text-xs text-gray-500">
                   Content Management

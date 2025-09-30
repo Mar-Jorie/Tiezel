@@ -32,7 +32,7 @@ const FormModal = ({
 
   // Check for changes
   useEffect(() => {
-    if (isUpdate) {
+    if (isUpdate && formData && initialData) {
       const hasFormChanges = fields.some(field => {
         const fieldValue = formData[field.name];
         const initialValue = initialData[field.name];
@@ -72,8 +72,7 @@ const FormModal = ({
   // Render field based on type
   const renderField = (field) => {
     const commonProps = {
-      key: field.name,
-      value: formData[field.name] || '',
+      value: formData ? (formData[field.name] || '') : '',
       onChange: (value) => handleFieldChange(field.name, value),
       className: field.className || ''
     };
@@ -82,6 +81,7 @@ const FormModal = ({
       case 'String':
         return (
           <InputFactory
+            key={field.name}
             fieldName={field.name}
             config={{
               type: 'String',
@@ -98,6 +98,7 @@ const FormModal = ({
       case 'Number':
         return (
           <InputFactory
+            key={field.name}
             fieldName={field.name}
             config={{
               type: 'Number',
@@ -112,6 +113,7 @@ const FormModal = ({
       case 'Boolean':
         return (
           <InputFactory
+            key={field.name}
             fieldName={field.name}
             config={{
               type: 'Boolean',
@@ -125,8 +127,9 @@ const FormModal = ({
       case 'Date':
         return (
           <Calendar
+            key={field.name}
             mode="single"
-            value={formData[field.name] ? new Date(formData[field.name]) : null}
+            value={formData && formData[field.name] ? new Date(formData[field.name]) : null}
             onChange={(date) => handleFieldChange(field.name, date)}
             placeholder={field.placeholder || 'Select date'}
             disabled={loading}
@@ -137,7 +140,8 @@ const FormModal = ({
       case 'Currency':
         return (
           <CurrencyInput
-            value={formData[field.name] || { amount: '', currency: 'USD' }}
+            key={field.name}
+            value={formData ? (formData[field.name] || { amount: '', currency: 'USD' }) : { amount: '', currency: 'USD' }}
             onChange={(value) => handleFieldChange(field.name, value)}
             label={field.label}
             placeholder={field.placeholder}
@@ -151,9 +155,10 @@ const FormModal = ({
       case 'Select':
         return (
           <SelectInput
+            key={field.name}
             label={field.label}
             options={field.options || []}
-            value={formData[field.name] || ''}
+            value={formData ? (formData[field.name] || '') : ''}
             onChange={(value) => handleFieldChange(field.name, value)}
             placeholder={field.placeholder}
             searchable={field.searchable}
@@ -166,6 +171,7 @@ const FormModal = ({
       default:
         return (
           <InputFactory
+            key={field.name}
             fieldName={field.name}
             config={{
               type: 'String',
@@ -182,6 +188,7 @@ const FormModal = ({
   // Check if form is valid
   const isFormValid = fields.every(field => {
     if (!field.required) return true;
+    if (!formData) return false; // If formData is null/undefined, form is not valid
     const value = formData[field.name];
     if (field.type === 'Boolean') return true; // Boolean fields are always valid
     return value !== undefined && value !== null && value !== '';
@@ -199,9 +206,9 @@ const FormModal = ({
         <div className="fixed inset-0 z-40 transition-opacity bg-black/50" onClick={onClose}></div>
         
         {/* Modal Content */}
-        <div className="relative z-50 w-full max-w-lg sm:max-w-xl p-6 overflow-hidden text-left transition-all transform bg-white shadow-xl rounded-xl">
-          {/* Header */}
-          <div className="flex items-center justify-between pb-4 border-b border-gray-200">
+        <div className="relative z-50 w-full max-w-lg sm:max-w-xl overflow-hidden text-left transition-all transform bg-white shadow-xl rounded-xl flex flex-col max-h-[90vh]">
+          {/* Fixed Header */}
+          <div className="flex items-center justify-between p-6 pb-4 border-b border-gray-200 flex-shrink-0">
             <h3 className="text-lg font-semibold text-gray-900">
               {title}
             </h3>
@@ -213,14 +220,14 @@ const FormModal = ({
             </button>
           </div>
 
-          {/* Form Content */}
-          <form onSubmit={handleSubmit} className="mt-6">
-            <div className="max-h-96 overflow-y-auto space-y-4">
+          {/* Scrollable Content Area */}
+          <form onSubmit={handleSubmit} className="flex flex-col flex-1 min-h-0">
+            <div className="flex-1 overflow-y-auto scrollbar-hide px-6 py-4 space-y-4">
               {fields.map(renderField)}
             </div>
 
-            {/* Footer */}
-            <div className="mt-6 pt-4 border-t border-gray-200 flex justify-end space-x-3">
+            {/* Fixed Footer */}
+            <div className="p-6 pt-4 border-t border-gray-200 flex justify-end space-x-3 flex-shrink-0">
               <Button
                 type="button"
                 variant="secondaryOutline"

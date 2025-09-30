@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Bars3Icon, 
@@ -16,11 +16,92 @@ import {
 } from '@heroicons/react/24/outline';
 import Button from '../components/Button';
 import FloatingChatbot from '../components/FloatingChatbot';
+import settingsService from '../services/settingsService';
 import { useApp } from '../hooks/useApp';
 
 const LandingPage = () => {
   const { landingPageContent } = useApp();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [siteSettings, setSiteSettings] = useState({
+    siteName: 'TechStore',
+    siteDescription: 'Your Trusted E-commerce Partner',
+    logoUrl: '/vite.svg',
+    primaryColor: '#154D71'
+  });
+
+  // Force re-render when landing page content changes
+  useEffect(() => {
+    // This will trigger a re-render whenever landingPageContent changes
+  }, [landingPageContent]);
+
+  // Apply dynamic primary color when landingPageContent changes
+  useEffect(() => {
+    const primaryColor = landingPageContent.branding?.primaryColor || siteSettings.primaryColor;
+    if (primaryColor) {
+      // Only apply to the landing page container, not globally
+      const landingPageContainer = document.querySelector('.landing-page-container');
+      if (landingPageContainer) {
+        landingPageContainer.style.setProperty('--dynamic-primary-color', primaryColor);
+        landingPageContainer.style.setProperty('--dynamic-primary-color-dark', primaryColor);
+        landingPageContainer.classList.add('dynamic-primary');
+      }
+    }
+  }, [landingPageContent.branding?.primaryColor, siteSettings.primaryColor]);
+
+  // Listen for content updates from admin panel
+  useEffect(() => {
+    const handleContentUpdate = (event) => {
+      // Force re-render when content is updated from admin panel
+      // The landingPageContent from useApp() will automatically update
+      // This listener ensures the component re-renders
+      console.log('LandingPage received content update event:', event.detail);
+    };
+
+    window.addEventListener('landingPageContentUpdated', handleContentUpdate);
+    
+    return () => {
+      window.removeEventListener('landingPageContentUpdated', handleContentUpdate);
+    };
+  }, [landingPageContent]);
+
+  // Load settings on component mount and listen for changes
+  useEffect(() => {
+    const loadSettings = () => {
+      const settings = {
+        siteName: settingsService.getSiteName(),
+        siteDescription: settingsService.getSiteDescription(),
+        logoUrl: settingsService.getLogoUrl(),
+        primaryColor: settingsService.getPrimaryColor()
+      };
+      
+      setSiteSettings(settings);
+    };
+
+    loadSettings();
+
+    // Listen for storage changes (when settings are updated in another tab)
+    const handleStorageChange = (e) => {
+      if (e.key === 'app-settings') {
+        // Reload settings from localStorage
+        settingsService.reloadSettings();
+        loadSettings();
+      }
+    };
+
+    // Listen for custom settings update event
+    const handleSettingsUpdate = (e) => {
+      // Reload settings from localStorage
+      settingsService.reloadSettings();
+      loadSettings();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('settingsUpdated', handleSettingsUpdate);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('settingsUpdated', handleSettingsUpdate);
+    };
+  }, []);
   const [showGetStartedModal, setShowGetStartedModal] = useState(false);
   const [showProductModal, setShowProductModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -68,7 +149,7 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white overflow-y-auto">
+    <div className="landing-page-container min-h-screen bg-white overflow-y-auto">
       {/* Navigation */}
       <nav className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-40">
         <div className="w-full px-4 sm:px-6 lg:px-6">
@@ -76,10 +157,10 @@ const LandingPage = () => {
             {/* Logo */}
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center">
-                  <img src="/vite.svg" alt="Logo" className="w-6 h-6 sm:w-8 sm:h-8 object-contain" />
+                  <img src={landingPageContent.branding?.logo || siteSettings.logoUrl} alt="Logo" className="w-6 h-6 sm:w-8 sm:h-8 object-contain" />
               </div>
               <span className="text-lg sm:text-xl font-bold text-gray-900 tracking-tight">
-                {landingPageContent.branding.brandName}
+                {landingPageContent.company?.name || landingPageContent.branding?.brandName || siteSettings.siteName}
               </span>
             </div>
             
@@ -319,7 +400,7 @@ const LandingPage = () => {
                   {landingPageContent.company?.storyPart2 || 'Our first breakthrough came when we helped a local business streamline its operations with a custom software solution. The success of that project fueled our ambition, and soon, word of mouth spread. We expanded our team, bringing in diverse talents who shared our commitment to innovation and customer satisfaction.'}
                 </p>
                 <p>
-                  {landingPageContent.company?.storyPart3 || 'Today, TechStore stands as a testament to that initial dream. We are a trusted technology partner, serving thousands of customers worldwide with quality products and exceptional service. Our journey is ongoing, driven by the same passion that started it all, and a vision to continuously bridge the gap between technology and practical solutions for a seamless future.'}
+                  {landingPageContent.company?.storyPart3 || `Today, ${landingPageContent.company?.name || landingPageContent.branding?.brandName || 'Our Company'} stands as a testament to that initial dream. We are a trusted technology partner, serving thousands of customers worldwide with quality products and exceptional service. Our journey is ongoing, driven by the same passion that started it all, and a vision to continuously bridge the gap between technology and practical solutions for a seamless future.`}
                 </p>
               </div>
             </div>
@@ -516,7 +597,7 @@ const LandingPage = () => {
       <footer className="bg-gray-900 text-center text-gray-400 py-6 px-4 sm:px-6">
         <div className="flex flex-col sm:flex-row items-center justify-between max-w-4xl mx-auto">
           <p className="text-xs sm:text-sm mb-2 sm:mb-0">
-            © 2024 {landingPageContent.branding.brandName || 'HerbalMed'}. All rights reserved.
+            © 2024 {landingPageContent.company?.name || landingPageContent.branding?.brandName || 'HerbalMed'}. All rights reserved.
           </p>
           <div className="flex items-center space-x-4 text-xs">
             <Link to="/admin" className="text-gray-500 hover:text-gray-300 transition-colors duration-200">

@@ -4,6 +4,7 @@ import { ArrowLeftIcon, ArrowPathIcon, EyeIcon, EyeSlashIcon } from '@heroicons/
 import Button from '../components/Button';
 import InputFactory from '../components/InputFactory';
 import { useApp } from '../hooks/useApp';
+import auditService from '../services/auditService';
 import { toast } from 'react-hot-toast';
 
 const AdminLogin = () => {
@@ -28,6 +29,8 @@ const AdminLogin = () => {
 
     try {
       await loginAdmin(formData);
+      // Log successful login
+      auditService.logLogin();
       toast.success('Login successful!');
       navigate('/admin/dashboard');
     } catch (error) {

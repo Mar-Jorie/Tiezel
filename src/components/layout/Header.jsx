@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 import { 
   Bars3Icon, 
   BellIcon, 
@@ -15,6 +16,7 @@ import InputFactory from '../InputFactory';
 import { MainLayoutContext } from './MainLayout';
 import { useApp } from '../../hooks/useApp';
 import ConfirmationModal from '../ConfirmationModal';
+import auditService from '../../services/auditService';
 
 const Header = ({ onToggleSidebar }) => {
   const { show, setShow, isMobile } = useContext(MainLayoutContext);
@@ -26,6 +28,7 @@ const Header = ({ onToggleSidebar }) => {
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [showHelpModal, setShowHelpModal] = useState(false);
   const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [showProfileSaveConfirm, setShowProfileSaveConfirm] = useState(false);
   const [editFormData, setEditFormData] = useState({
     firstName: '',
     lastName: '',
@@ -85,11 +88,40 @@ const Header = ({ onToggleSidebar }) => {
   };
 
   const handleSaveProfile = () => {
+    // Show confirmation modal instead of saving directly
+    setShowProfileSaveConfirm(true);
+  };
+
+  const confirmProfileSave = () => {
+    // Log profile update
+    auditService.logProfileUpdate(
+      'Profile Updated',
+      `Updated profile information: ${editFormData.firstName} ${editFormData.lastName}`,
+      {
+        firstName: adminUser?.firstName || '',
+        lastName: adminUser?.lastName || '',
+        email: adminUser?.email || ''
+      },
+      editFormData
+    );
+    
     // Here you would typically save to backend
-    console.log('Saving profile:', editFormData);
-    // For now, just close edit mode
+    
+    // Update the adminUser state to reflect changes in the modal
+    // This ensures the modal shows updated information immediately
+    if (adminUser) {
+      adminUser.firstName = editFormData.firstName;
+      adminUser.lastName = editFormData.lastName;
+      adminUser.email = editFormData.email;
+      adminUser.name = `${editFormData.firstName} ${editFormData.lastName}`;
+    }
+    
+    // Close edit mode and confirmation modal
     setIsEditingProfile(false);
-    // You could show a success toast here
+    setShowProfileSaveConfirm(false);
+    
+    // Show success toast
+    toast.success('Profile updated successfully!');
   };
 
   const handleCancelEdit = () => {
@@ -160,7 +192,7 @@ const Header = ({ onToggleSidebar }) => {
                   <div className="px-4 py-3 border-b border-gray-100">
                     <h3 className="text-sm font-semibold text-gray-900">Notifications</h3>
                   </div>
-                  <div className="max-h-64 overflow-y-auto">
+                  <div className="max-h-64 overflow-y-auto scrollbar-hide">
                     <div className="px-4 py-3 hover:bg-gray-50 border-b border-gray-100">
                       <div className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
@@ -191,11 +223,6 @@ const Header = ({ onToggleSidebar }) => {
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="px-4 py-2 border-t border-gray-100">
-                    <button className="text-sm text-primary-600 hover:text-primary-700 font-medium">
-                      View all notifications
-                    </button>
                   </div>
                 </div>
               )}
@@ -472,7 +499,26 @@ const Header = ({ onToggleSidebar }) => {
                   
                   <form className="space-y-4" onSubmit={(e) => {
                     e.preventDefault();
-                    console.log('Support form submitted:', helpForm);
+                    // Log help request and email sending as one action
+                    auditService.logEmailSent(
+                      'Help Request Email',
+                      'Support',
+                      `Help request email sent successfully: ${helpForm.supportSubject}`,
+                      { 
+                        type: 'email', 
+                        action: 'help_request_sent',
+                        recipient: 'support@company.com',
+                        subject: helpForm.supportSubject,
+                        sender: helpForm.supportEmail,
+                        message: helpForm.supportMessage
+                      }
+                    );
+                    
+                    
+                    // Show success toast
+                    toast.success('Help request sent successfully!');
+                    
+                    setShowHelpModal(false);
                   }}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <InputFactory
@@ -594,6 +640,18 @@ const Header = ({ onToggleSidebar }) => {
         confirmLabel="Sign out"
         cancelLabel="Cancel"
         variant="danger"
+      />
+
+      {/* Profile Save Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showProfileSaveConfirm}
+        onClose={() => setShowProfileSaveConfirm(false)}
+        onConfirm={confirmProfileSave}
+        title="Save Profile Changes"
+        message="Are you sure you want to save these profile changes?"
+        confirmLabel="Save Changes"
+        cancelLabel="Cancel"
+        variant="info"
       />
     </>
   );

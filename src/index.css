@@ -33,6 +33,12 @@
   --color-primary-950: #154D71;
 }
 
+/* Dynamic primary color override for settings */
+.dynamic-primary {
+  --color-primary-600: var(--dynamic-primary-color, #4b7b9f);
+  --color-primary-700: var(--dynamic-primary-color-dark, #3d6580);
+}
+
 /* Global Scrollbar Hiding - MANDATORY FOR ALL SYSTEMS */
 html, body, #root {
   height: 100%;

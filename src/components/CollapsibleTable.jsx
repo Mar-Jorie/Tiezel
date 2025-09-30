@@ -13,6 +13,7 @@ import {
   CalendarDaysIcon,
   UserPlusIcon,
   CheckCircleIcon,
+  XCircleIcon,
   PlayIcon,
   DocumentArrowUpIcon
 } from '@heroicons/react/24/outline';
@@ -29,6 +30,7 @@ const getIconComponent = (iconName) => {
     CalendarDaysIcon,
     UserPlusIcon,
     CheckCircleIcon,
+    XCircleIcon,
     PlayIcon,
     DocumentArrowUpIcon,
     PencilIcon,
@@ -60,6 +62,7 @@ const CollapsibleTable = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+  const [showActionsModal, setShowActionsModal] = useState(new Set());
 
   // Filter and search data
   const filteredData = data.filter(item => {
@@ -88,11 +91,11 @@ const CollapsibleTable = ({
   const endIndex = startIndex + itemsPerPage;
   const paginatedData = sortedData.slice(startIndex, endIndex);
 
-  // Selection logic
-  const isAllSelected = paginatedData.length > 0 && paginatedData.every((item, index) => 
+  // Selection logic - check against full sorted/filtered dataset, not just current page
+  const isAllSelected = sortedData.length > 0 && sortedData.every((item, index) => 
     selectedRows.has(item.id || index)
   );
-  const isIndeterminate = selectedRows.size > 0 && selectedRows.size < paginatedData.length;
+  const isIndeterminate = selectedRows.size > 0 && selectedRows.size < sortedData.length;
 
   const handleSort = (key) => {
     setSortConfig(prev => ({
@@ -115,17 +118,19 @@ const CollapsibleTable = ({
 
   const handleSelectAll = () => {
     if (isAllSelected) {
-      // Deselect all
+      // Deselect all items across all pages
       const newSelected = new Set(selectedRows);
-      paginatedData.forEach((item, index) => {
-        newSelected.delete(item.id || index);
+      sortedData.forEach((item, index) => {
+        const key = item.id || index;
+        newSelected.delete(key);
       });
       onSelectionChange?.(newSelected);
     } else {
-      // Select all
+      // Select all items across all pages
       const newSelected = new Set(selectedRows);
-      paginatedData.forEach((item, index) => {
-        newSelected.add(item.id || index);
+      sortedData.forEach((item, index) => {
+        const key = item.id || index;
+        newSelected.add(key);
       });
       onSelectionChange?.(newSelected);
     }
@@ -315,47 +320,158 @@ const CollapsibleTable = ({
                           {/* Action Buttons */}
                           {(onEdit || onDelete || additionalActions.length > 0) && (
                             <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                              {/* Primary Actions */}
-                              {onEdit && (
-                                <Button
-                                  variant="secondaryOutline"
-                                  size="sm"
-                                  onClick={(e) => handleEdit(e, item)}
-                                  className="!w-auto"
-                                >
-                                  <PencilIcon className="h-4 w-4 mr-2" />
-                                  Edit
-                                </Button>
-                              )}
-                              
-                              {onDelete && (
-                                <Button
-                                  variant="danger"
-                                  size="sm"
-                                  onClick={(e) => handleDelete(e, item)}
-                                  className="!w-auto"
-                                >
-                                  <TrashIcon className="h-4 w-4 mr-2" />
-                                  Delete
-                                </Button>
-                              )}
+                              {/* Calculate total actions and show first 2 directly */}
+                              {(() => {
+                                const totalDirectButtons = (onEdit ? 1 : 0) + (onDelete ? 1 : 0) + additionalActions.length;
+                                const maxDirectButtons = 2;
+                                const showDirectly = totalDirectButtons <= maxDirectButtons;
+                                
+                                if (showDirectly) {
+                                  // Show all actions directly
+                                  return (
+                                    <>
+                                      {/* Primary Actions */}
+                                      {onEdit && (
+                                        <Button
+                                          variant="secondaryOutline"
+                                          size="sm"
+                                          onClick={(e) => handleEdit(e, item)}
+                                          className="!w-auto"
+                                        >
+                                          <PencilIcon className="h-4 w-4 mr-2" />
+                                          Edit
+                                        </Button>
+                                      )}
+                                      
+                                      {onDelete && (
+                                        <Button
+                                          variant="danger"
+                                          size="sm"
+                                          onClick={(e) => handleDelete(e, item)}
+                                          className="!w-auto"
+                                        >
+                                          <TrashIcon className="h-4 w-4 mr-2" />
+                                          Delete
+                                        </Button>
+                                      )}
 
-                              {/* Additional Actions */}
-                              {additionalActions.map((action, idx) => (
-                                <Button
-                                  key={idx}
-                                  variant={action.variant || "secondaryOutline"}
-                                  size="sm"
-                                  onClick={(e) => handleAdditionalAction(e, action, item)}
-                                  className="!w-auto"
-                                >
-                                  {action.icon && (() => {
-                                    const IconComponent = getIconComponent(action.icon);
-                                    return IconComponent ? <IconComponent className="h-4 w-4 mr-2" /> : null;
-                                  })()}
-                                  {action.label}
-                                </Button>
-                              ))}
+                                      {/* Additional Actions */}
+                                      {(typeof additionalActions === 'function' ? additionalActions(item) : additionalActions).map((action, idx) => (
+                                        <Button
+                                          key={idx}
+                                          variant={action.variant || "secondaryOutline"}
+                                          size="sm"
+                                          onClick={(e) => handleAdditionalAction(e, action, item)}
+                                          className="!w-auto"
+                                        >
+                                          {action.icon && (() => {
+                                            const IconComponent = getIconComponent(action.icon);
+                                            return IconComponent ? <IconComponent className="h-4 w-4 mr-2" /> : null;
+                                          })()}
+                                          {action.label}
+                                        </Button>
+                                      ))}
+                                    </>
+                                  );
+                                } else {
+                                  // Show first 2 actions + 3-dots dropdown for rest
+                                  const directActions = [];
+                                  const dropdownActions = [];
+                                  
+                                  // Collect direct actions (first 2) - ALWAYS include Edit and Delete directly
+                                  if (onEdit) directActions.push({ type: 'edit', action: onEdit, label: 'Edit', icon: 'PencilIcon', variant: 'secondaryOutline' });
+                                  if (onDelete) directActions.push({ type: 'delete', action: onDelete, label: 'Delete', icon: 'TrashIcon', variant: 'danger' });
+                                  
+                                  // Collect dropdown actions (remaining) - Only additional actions go to dropdown
+                                  const actionsToProcess = typeof additionalActions === 'function' ? additionalActions(item) : additionalActions;
+                                  actionsToProcess.forEach((action, idx) => {
+                                    if (directActions.length < 2) {
+                                      directActions.push({ ...action, type: 'additional', index: idx });
+                                    } else {
+                                      dropdownActions.push({ ...action, type: 'additional', index: idx });
+                                    }
+                                  });
+                                  
+                                  return (
+                                    <>
+                                      {/* Show first 2 actions directly */}
+                                      {directActions.map((action, idx) => (
+                                        <Button
+                                          key={idx}
+                                          variant={action.variant || "secondaryOutline"}
+                                          size="sm"
+                                          onClick={(e) => {
+                                            if (action.type === 'edit') handleEdit(e, item);
+                                            else if (action.type === 'delete') handleDelete(e, item);
+                                            else handleAdditionalAction(e, action, item);
+                                          }}
+                                          className="!w-auto"
+                                        >
+                                          {action.icon && (() => {
+                                            const IconComponent = getIconComponent(action.icon);
+                                            return IconComponent ? <IconComponent className="h-4 w-4 mr-2" /> : null;
+                                          })()}
+                                          {action.label}
+                                        </Button>
+                                      ))}
+                                      
+                                      {/* 3-dots dropdown for remaining actions */}
+                                      {dropdownActions.length > 0 && (
+                                        <div className="relative">
+                                          <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={(e) => {
+                                              e.stopPropagation();
+                                              const itemId = item.id || actualIndex;
+                                              const newModalState = new Set(showActionsModal);
+                                              if (newModalState.has(itemId)) {
+                                                newModalState.delete(itemId);
+                                              } else {
+                                                newModalState.add(itemId);
+                                              }
+                                              setShowActionsModal(newModalState);
+                                            }}
+                                            className="!w-auto !p-2"
+                                          >
+                                            <EllipsisVerticalIcon className="h-4 w-4" />
+                                          </Button>
+                                          
+                                          {/* Actions Dropdown */}
+                                          {showActionsModal.has(item.id || actualIndex) && (
+                                            <div className="absolute right-0 z-50 bg-white rounded-lg shadow-lg border border-gray-200 py-2 min-w-[200px]">
+                                              <div className="px-3 py-2 text-xs text-gray-500 border-b border-gray-200">
+                                                Additional Actions
+                                              </div>
+                                              {dropdownActions.map((action, idx) => (
+                                                <button
+                                                  key={idx}
+                                                  onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    if (action.type === 'edit') handleEdit(e, item);
+                                                    else if (action.type === 'delete') handleDelete(e, item);
+                                                    else handleAdditionalAction(e, action, item);
+                                                    const newModalState = new Set(showActionsModal);
+                                                    newModalState.delete(item.id || actualIndex);
+                                                    setShowActionsModal(newModalState);
+                                                  }}
+                                                  className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
+                                                >
+                                                  {action.icon && (() => {
+                                                    const IconComponent = getIconComponent(action.icon);
+                                                    return IconComponent ? <IconComponent className="h-4 w-4" /> : null;
+                                                  })()}
+                                                  <span>{action.label}</span>
+                                                </button>
+                                              ))}
+                                            </div>
+                                          )}
+                                        </div>
+                                      )}
+                                    </>
+                                  );
+                                }
+                              })()}
                             </div>
                           )}
                         </div>

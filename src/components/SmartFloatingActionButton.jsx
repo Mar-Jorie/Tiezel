@@ -12,7 +12,8 @@ import {
   EyeIcon,
   PencilIcon,
   DocumentArrowDownIcon,
-  DocumentArrowUpIcon
+  DocumentArrowUpIcon,
+  XCircleIcon
 } from '@heroicons/react/24/outline';
 
 const SmartFloatingActionButton = ({ 
@@ -42,21 +43,28 @@ const SmartFloatingActionButton = ({
       PreviewIcon: EyeIcon, // Map PreviewIcon to EyeIcon
       PencilIcon,
       DocumentArrowDownIcon,
-      DocumentArrowUpIcon
+      DocumentArrowUpIcon,
+      XCircleIcon
     };
     return iconMap[iconName] || EllipsisVerticalIcon;
   };
 
-  const IconComponent = getIconComponent(icon);
-
-  // Determine current variant and actions
-  const currentVariant = selectedCount > 0 ? 'dots' : variant;
-  const currentActions = selectedCount > 0 ? bulkActions : quickActions;
-  const currentLabel = selectedCount > 0 ? 'Bulk Actions' : label;
+  // Determine current variant and actions based on available actions
+  const currentActions = quickActions.length > 0 ? quickActions : bulkActions;
+  const hasActions = currentActions.length > 0;
+  
+  // Use the single action's icon if only one action, otherwise use the passed icon
+  const buttonIcon = hasActions && currentActions.length === 1 ? currentActions[0].icon : icon;
+  const IconComponent = getIconComponent(buttonIcon);
+  
+  // Auto-determine variant: single if 1 action, dots if multiple actions
+  const currentVariant = hasActions && currentActions.length === 1 ? 'single' : 'dots';
+  const currentLabel = hasActions && currentActions.length === 1 ? currentActions[0].name : label;
 
   const handleMainButtonClick = () => {
     if (currentVariant === 'single') {
-      action?.();
+      // Use the single action's action function
+      currentActions[0]?.action?.();
     } else {
       setIsExpanded(!isExpanded);
     }
@@ -71,7 +79,7 @@ const SmartFloatingActionButton = ({
     <>
       {/* Expanded Floating Buttons */}
       {currentVariant === 'dots' && isExpanded && (
-        <div className="fixed bottom-24 right-6 z-[80] flex flex-col items-end space-y-3">
+        <div className="fixed bottom-24 right-6 z-40 flex flex-col items-end space-y-3">
           {currentActions.map((actionItem, index) => (
             <div 
               key={actionItem.name}
@@ -107,7 +115,7 @@ const SmartFloatingActionButton = ({
       {/* Main FAB Button */}
       <button
         onClick={handleMainButtonClick}
-        className={`fixed bottom-6 right-6 z-[80] w-14 h-14 bg-primary-600 hover:bg-primary-700 text-white rounded-full shadow-card flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-card-hover ${
+        className={`fixed bottom-6 right-6 z-40 w-14 h-14 bg-primary-600 hover:bg-primary-700 text-white rounded-full shadow-card flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-card-hover ${
           currentVariant === 'dots' && isExpanded ? 'rotate-90' : ''
         }`}
         aria-label={currentLabel}
@@ -116,7 +124,7 @@ const SmartFloatingActionButton = ({
       </button>
 
       {/* CSS for animations */}
-      <style jsx>{`
+      <style>{`
         @keyframes slideInFromBottom {
           from {
             opacity: 0;

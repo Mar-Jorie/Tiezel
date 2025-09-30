@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   ChatBubbleLeftRightIcon, 
   XMarkIcon, 
@@ -7,6 +7,7 @@ import {
   QuestionMarkCircleIcon,
   ClockIcon
 } from '@heroicons/react/24/outline';
+import faqService from '../services/faqService';
 
 // FloatingChatbot Component - MANDATORY PATTERN
 const FloatingChatbot = () => {
@@ -22,19 +23,21 @@ const FloatingChatbot = () => {
     }
   ]);
 
-  const quickQuestions = [
-    'What products do you offer?',
-    'How can I place an order?',
-    'What is your return policy?'
-  ];
+  const [quickQuestions, setQuickQuestions] = useState([]);
+
+  // Load quick questions from FAQ service
+  useEffect(() => {
+    setQuickQuestions(faqService.getQuickQuestions());
+  }, []);
 
   const handleSendMessage = (e) => {
     e.preventDefault();
     if (!message.trim()) return;
 
+    const userMessage = message.trim();
     const newMessage = {
       id: messages.length + 1,
-      text: message,
+      text: userMessage,
       isBot: false,
       timestamp: new Date(),
       sender: 'You'
@@ -43,15 +46,30 @@ const FloatingChatbot = () => {
     setMessages(prev => [...prev, newMessage]);
     setMessage('');
 
-    // Simulate bot response
+    // Find best matching FAQ
     setTimeout(() => {
-      const botResponse = {
-        id: messages.length + 2,
-        text: 'Thank you for your message! Our team will get back to you shortly. In the meantime, feel free to browse our products or contact us directly.',
-        isBot: true,
-        timestamp: new Date(),
-        sender: 'TechStore assistant'
-      };
+      const bestMatch = faqService.findBestMatch(userMessage);
+      
+      let botResponse;
+      if (bestMatch) {
+        botResponse = {
+          id: messages.length + 2,
+          text: bestMatch.answer,
+          isBot: true,
+          timestamp: new Date(),
+          sender: 'TechStore assistant'
+        };
+      } else {
+        const fallback = faqService.getFallbackResponse();
+        botResponse = {
+          id: messages.length + 2,
+          text: fallback.text,
+          isBot: true,
+          timestamp: new Date(),
+          sender: 'TechStore assistant'
+        };
+      }
+      
       setMessages(prev => [...prev, botResponse]);
     }, 1000);
   };
