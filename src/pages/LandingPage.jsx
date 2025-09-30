@@ -42,6 +42,7 @@ const LandingPage = () => {
     localStorage.setItem('dailyVisits', JSON.stringify(dailyVisits));
     
     // Dispatch event for dashboard to listen
+    console.log('Landing page visit tracked:', { totalVisits: newVisits, dailyVisits: dailyVisits[today] });
     window.dispatchEvent(new CustomEvent('landingPageVisited', { 
       detail: { totalVisits: newVisits, dailyVisits: dailyVisits[today] }
     }));

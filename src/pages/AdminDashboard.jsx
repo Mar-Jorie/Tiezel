@@ -42,6 +42,9 @@ const AdminDashboard = () => {
     pageViews: 0,
     recentUpdates: []
   });
+  
+  // Real-time update indicator
+  const [isUpdating, setIsUpdating] = useState(false);
 
   // Redirect if not admin
   useEffect(() => {
@@ -101,8 +104,12 @@ const AdminDashboard = () => {
     };
 
     // Listen for landing page visits
-    const handleLandingPageVisit = () => {
+    const handleLandingPageVisit = (event) => {
+      console.log('Landing page visited! Updating dashboard...', event.detail);
+      setIsUpdating(true);
       loadDashboardData();
+      // Reset updating indicator after a short delay
+      setTimeout(() => setIsUpdating(false), 1000);
     };
 
     window.addEventListener('auditLogUpdated', handleAuditUpdate);
@@ -344,12 +351,22 @@ const AdminDashboard = () => {
     <>
       {/* Page Header */}
       <div className="mb-8">
-        <h1 className="text-2xl lg:text-3xl font-semibold text-gray-900 mb-2">
-          Welcome back, Admin!
-        </h1>
-        <p className="text-gray-600">
-          Here's what's happening with your HerbalMed landing page management system today.
-        </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl lg:text-3xl font-semibold text-gray-900 mb-2">
+              Welcome back, Admin!
+            </h1>
+            <p className="text-gray-600">
+              Here's what's happening with your HerbalMed landing page management system today.
+            </p>
+          </div>
+          {isUpdating && (
+            <div className="flex items-center space-x-2 text-sm text-primary-600">
+              <div className="w-4 h-4 border-2 border-primary-600 border-t-transparent rounded-full animate-spin"></div>
+              <span>Updating...</span>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="space-y-6">
@@ -364,7 +381,9 @@ const AdminDashboard = () => {
                 +12%
               </span>
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-1">{dashboardData.pageViews.toLocaleString()}</h3>
+            <h3 className={`text-2xl font-bold text-gray-900 mb-1 transition-all duration-300 ${isUpdating ? 'scale-105 text-primary-600' : ''}`}>
+              {dashboardData.pageViews.toLocaleString()}
+            </h3>
             <p className="text-sm text-gray-600 mb-2">Page Views</p>
             <div className="flex items-center justify-between">
               <span className="text-xs text-gray-500">From last month</span>
