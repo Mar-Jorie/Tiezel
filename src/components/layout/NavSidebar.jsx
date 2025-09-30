@@ -136,38 +136,42 @@ const NavSidebar = ({ isMobile, setShow }) => {
         {/* Header Section - Responsive */}
         <div className="flex flex-col p-6 border-b border-gray-200">
           {/* Mobile: User Profile */}
-          <div className="lg:hidden">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center text-white text-lg font-medium">
-                {getInitials(getUserDisplayName(adminUser))}
-              </div>
-              <div>
-                <h1 className="text-sm font-medium text-gray-900">
-                  {getUserDisplayName(adminUser)}
-                </h1>
-                <p className="text-xs text-gray-500">
-                  {getUserRoleName(adminUser)}
-                </p>
+          {isMobile && (
+            <div>
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center text-white text-lg font-medium">
+                  {getInitials(getUserDisplayName(adminUser))}
+                </div>
+                <div>
+                  <h1 className="text-sm font-medium text-gray-900">
+                    {getUserDisplayName(adminUser)}
+                  </h1>
+                  <p className="text-xs text-gray-500">
+                    {getUserRoleName(adminUser)}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           {/* Desktop: System Logo and Name */}
-          <div className="hidden lg:block">
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 flex items-center justify-center">
-                <img src={siteSettings.logoUrl} alt="Logo" className="w-6 h-6 object-contain" />
-              </div>
-              <div>
-                <h1 className="text-sm font-medium text-gray-900">
-                  {siteSettings.siteName}
-                </h1>
-                <p className="text-xs text-gray-500">
-                  Content Management
-                </p>
+          {!isMobile && (
+            <div>
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 flex items-center justify-center">
+                  <img src={siteSettings.logoUrl} alt="Logo" className="w-6 h-6 object-contain" />
+                </div>
+                <div>
+                  <h1 className="text-sm font-medium text-gray-900">
+                    {siteSettings.siteName}
+                  </h1>
+                  <p className="text-xs text-gray-500">
+                    Content Management
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
         
         {/* Navigation */}

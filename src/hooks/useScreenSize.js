@@ -10,8 +10,8 @@ function useScreenSize() {
   useEffect(() => {
     const checkScreenSize = () => {
       const width = window.innerWidth;
-      setIsMobile(width < 768);
-      setIsTablet(width >= 768 && width < 1024);
+      setIsMobile(width < 800);
+      setIsTablet(width >= 800 && width < 1024);
       setIsDesktop(width >= 1024 && width < 1920);
       setIsLargeDesktop(width >= 1920);
     };
