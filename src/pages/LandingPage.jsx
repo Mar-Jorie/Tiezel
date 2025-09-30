@@ -5,7 +5,6 @@ import {
   ShieldCheckIcon, 
   PhoneIcon, 
   TruckIcon, 
-  StarIcon,
   ArrowRightIcon,
   CheckIcon,
   CursorArrowRaysIcon,
@@ -14,6 +13,7 @@ import {
   ChevronRightIcon,
   EnvelopeIcon
 } from '@heroicons/react/24/outline';
+import { StarIcon } from '@heroicons/react/24/solid';
 import Button from '../components/Button';
 import FloatingChatbot from '../components/FloatingChatbot';
 import settingsService from '../services/settingsService';
