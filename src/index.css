@@ -35,8 +35,18 @@
 
 /* Dynamic primary color override for settings */
 .dynamic-primary {
+  /* Generate all shades from the dynamic primary color */
+  --color-primary-50: color-mix(in srgb, var(--dynamic-primary-color, #4b7b9f) 10%, white);
+  --color-primary-100: color-mix(in srgb, var(--dynamic-primary-color, #4b7b9f) 20%, white);
+  --color-primary-200: color-mix(in srgb, var(--dynamic-primary-color, #4b7b9f) 30%, white);
+  --color-primary-300: color-mix(in srgb, var(--dynamic-primary-color, #4b7b9f) 40%, white);
+  --color-primary-400: color-mix(in srgb, var(--dynamic-primary-color, #4b7b9f) 50%, white);
+  --color-primary-500: color-mix(in srgb, var(--dynamic-primary-color, #4b7b9f) 60%, white);
   --color-primary-600: var(--dynamic-primary-color, #4b7b9f);
-  --color-primary-700: var(--dynamic-primary-color-dark, #3d6580);
+  --color-primary-700: color-mix(in srgb, var(--dynamic-primary-color, #4b7b9f) 80%, black);
+  --color-primary-800: color-mix(in srgb, var(--dynamic-primary-color, #4b7b9f) 70%, black);
+  --color-primary-900: color-mix(in srgb, var(--dynamic-primary-color, #4b7b9f) 60%, black);
+  --color-primary-950: color-mix(in srgb, var(--dynamic-primary-color, #4b7b9f) 50%, black);
 }
 
 /* Global Scrollbar Hiding - MANDATORY FOR ALL SYSTEMS */

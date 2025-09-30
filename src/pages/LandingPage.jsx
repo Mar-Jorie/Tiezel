@@ -43,7 +43,6 @@ const LandingPage = () => {
       const landingPageContainer = document.querySelector('.landing-page-container');
       if (landingPageContainer) {
         landingPageContainer.style.setProperty('--dynamic-primary-color', primaryColor);
-        landingPageContainer.style.setProperty('--dynamic-primary-color-dark', primaryColor);
         landingPageContainer.classList.add('dynamic-primary');
       }
     }
