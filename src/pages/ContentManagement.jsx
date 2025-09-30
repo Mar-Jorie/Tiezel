@@ -1075,51 +1075,6 @@ const ContentManagement = () => {
                 </div>
               ))}
             </div>
-            
-            {/* Why Choose Us Features Section */}
-            <div className="mt-8 pt-6 border-t border-gray-200">
-              <h4 className="text-sm font-medium text-gray-700 mb-4">Why Choose Us Features</h4>
-              <div className="space-y-4">
-                {formData.about?.whyChooseFeatures?.map((feature, index) => (
-                  <div key={index} className="bg-gray-50 rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-4">
-                      <h5 className="font-medium text-gray-900">Feature {index + 1}</h5>
-                      <Button
-                        variant="danger"
-                        size="sm"
-                        onClick={() => handleRemoveItem('about.whyChooseFeatures', index)}
-                      >
-                        <TrashIcon className="h-4 w-4" />
-                      </Button>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <InputFactory
-                        fieldName={`whyChooseFeature-${index}-title`}
-                        config={{
-                          type: 'String',
-                          label: 'Feature Title',
-                          placeholder: 'e.g., Quality Products',
-                          required: true
-                        }}
-                        value={feature.title}
-                        onChange={(value) => handleArrayChange('about.whyChooseFeatures', index, 'title', value)}
-                      />
-                      <InputFactory
-                        fieldName={`whyChooseFeature-${index}-description`}
-                        config={{
-                          type: 'String',
-                          label: 'Feature Description',
-                          placeholder: 'e.g., Carefully selected items from trusted brands',
-                          required: true
-                        }}
-                        value={feature.description}
-                        onChange={(value) => handleArrayChange('about.whyChooseFeatures', index, 'description', value)}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
 
           </div>
         );
