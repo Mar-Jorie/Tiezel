@@ -58,9 +58,6 @@ const LandingPage = () => {
             
             {/* Desktop CTA Buttons - Hidden on Mobile */}
             <div className="hidden lg:flex items-center space-x-4">
-              <Link to="/admin">
-                <Button variant="ghost" size="md" className="!w-auto">Admin</Button>
-              </Link>
               <Button variant="primaryOutline" size="md">Learn More</Button>
             </div>
           </div>
@@ -79,9 +76,6 @@ const LandingPage = () => {
                 
                 {/* Mobile CTA Buttons */}
                 <div className="flex flex-col space-y-3 pt-4 border-t border-gray-100">
-                  <Link to="/admin" onClick={() => setIsMobileMenuOpen(false)}>
-                    <Button variant="ghost" size="md" className="w-full">Admin</Button>
-                  </Link>
                   <Button variant="primaryOutline" size="md" className="w-full">Learn More</Button>
                 </div>
               </div>
@@ -374,9 +368,24 @@ const LandingPage = () => {
 
       {/* Footer */}
       <footer className="bg-gray-900 text-center text-gray-400 py-6 px-4 sm:px-6">
-        <p className="text-xs sm:text-sm">
-          {landingPageContent.sections.footer.copyright.replace('{brandName}', landingPageContent.branding.brandName)}
-        </p>
+        <div className="flex flex-col sm:flex-row items-center justify-between max-w-4xl mx-auto">
+          <p className="text-xs sm:text-sm mb-2 sm:mb-0">
+            {landingPageContent.sections.footer.copyright.replace('{brandName}', landingPageContent.branding.brandName)}
+          </p>
+          <div className="flex items-center space-x-4 text-xs">
+            <Link to="/admin" className="text-gray-500 hover:text-gray-300 transition-colors duration-200">
+              Admin
+            </Link>
+            <span className="text-gray-600">•</span>
+            <a href="#privacy" className="text-gray-500 hover:text-gray-300 transition-colors duration-200">
+              Privacy
+            </a>
+            <span className="text-gray-600">•</span>
+            <a href="#terms" className="text-gray-500 hover:text-gray-300 transition-colors duration-200">
+              Terms
+            </a>
+          </div>
+        </div>
       </footer>
 
       {/* Floating Elements */}
