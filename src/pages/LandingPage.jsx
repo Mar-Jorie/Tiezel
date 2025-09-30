@@ -43,8 +43,17 @@ const LandingPage = () => {
     
     // Dispatch event for dashboard to listen
     console.log('Landing page visit tracked:', { totalVisits: newVisits, dailyVisits: dailyVisits[today] });
+    
+    // Dispatch event immediately
     window.dispatchEvent(new CustomEvent('landingPageVisited', { 
       detail: { totalVisits: newVisits, dailyVisits: dailyVisits[today] }
+    }));
+    
+    // Also dispatch a storage event for cross-tab updates
+    window.dispatchEvent(new StorageEvent('storage', {
+      key: 'landingPageVisits',
+      newValue: newVisits.toString(),
+      oldValue: currentVisits.toString()
     }));
   }, []);
 

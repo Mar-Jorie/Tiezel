@@ -115,9 +115,29 @@ const AdminDashboard = () => {
     window.addEventListener('auditLogUpdated', handleAuditUpdate);
     window.addEventListener('landingPageVisited', handleLandingPageVisit);
     
+    // Set up periodic refresh to ensure data stays current (every 30 seconds)
+    const refreshInterval = setInterval(() => {
+      console.log('Periodic dashboard refresh...');
+      loadDashboardData();
+    }, 30000);
+    
+    // Listen for localStorage changes (for cross-tab updates)
+    const handleStorageChange = (e) => {
+      if (e.key === 'landingPageVisits' || e.key === 'dailyVisits') {
+        console.log('localStorage changed, updating dashboard...', e.key);
+        setIsUpdating(true);
+        loadDashboardData();
+        setTimeout(() => setIsUpdating(false), 1000);
+      }
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    
     return () => {
       window.removeEventListener('auditLogUpdated', handleAuditUpdate);
       window.removeEventListener('landingPageVisited', handleLandingPageVisit);
+      window.removeEventListener('storage', handleStorageChange);
+      clearInterval(refreshInterval);
     };
   }, []);
 
