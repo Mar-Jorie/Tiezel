@@ -325,10 +325,15 @@ const LandingPage = () => {
             )}
 
           <div className={`grid gap-6 sm:gap-8 ${
-            landingPageContent.services?.length === 1 ? 'grid-cols-1' :
-            landingPageContent.services?.length === 2 ? 'grid-cols-1 sm:grid-cols-2' :
-            landingPageContent.services?.length === 3 ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' :
-            'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'
+            (() => {
+              const currentPageServices = landingPageContent.services?.slice(currentFeaturePage * 4, (currentFeaturePage + 1) * 4) || [];
+              const currentPageCount = currentPageServices.length;
+              
+              if (currentPageCount === 1) return 'grid-cols-1';
+              if (currentPageCount === 2) return 'grid-cols-1 sm:grid-cols-2';
+              if (currentPageCount === 3) return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
+              return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4';
+            })()
           }`}>
               {landingPageContent.services
                 ?.slice(currentFeaturePage * 4, (currentFeaturePage + 1) * 4)
