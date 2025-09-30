@@ -930,7 +930,17 @@ const ContentManagement = () => {
                       <Button
                         variant="primary"
                         size="sm"
-                        onClick={() => handleAddItem(`products.${index}.benefits`)}
+                        onClick={() => {
+                          const updatedProducts = [...formData.products];
+                          if (!updatedProducts[index].benefits) {
+                            updatedProducts[index].benefits = [];
+                          }
+                          updatedProducts[index].benefits.push('');
+                          setFormData(prev => ({
+                            ...prev,
+                            products: updatedProducts
+                          }));
+                        }}
                       >
                         <PlusIcon className="h-4 w-4 mr-2" />
                         Add Benefit
@@ -940,29 +950,54 @@ const ContentManagement = () => {
                     {product.benefits && product.benefits.length > 0 ? (
                       <div className="space-y-3">
                         {product.benefits.map((benefit, benefitIndex) => (
-                          <div key={benefitIndex} className="flex items-center space-x-3 bg-gray-50 rounded-lg p-3">
-                            <div className="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
-                              <span className="text-primary-600 font-semibold text-xs">•</span>
+                          <div key={benefitIndex} className="bg-gray-50 rounded-lg p-4">
+                            <div className="flex items-center space-x-3">
+                              <div className="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span className="text-primary-600 font-semibold text-xs">•</span>
+                              </div>
+                              <div className="flex-1">
+                                <InputFactory
+                                  fieldName={`product-${index}-benefit-${benefitIndex}`}
+                                  config={{
+                                    type: 'String',
+                                    label: '',
+                                    placeholder: 'e.g., Boosts immune system naturally',
+                                    required: true
+                                  }}
+                                  value={benefit || ''}
+                                  onChange={(value) => {
+                                    const updatedProducts = [...formData.products];
+                                    if (!updatedProducts[index].benefits) {
+                                      updatedProducts[index].benefits = [];
+                                    }
+                                    updatedProducts[index].benefits[benefitIndex] = value;
+                                    setFormData(prev => ({
+                                      ...prev,
+                                      products: updatedProducts
+                                    }));
+                                  }}
+                                />
+                              </div>
+                              <div className="flex items-center justify-center">
+                                <Button
+                                  variant="danger"
+                                  size="sm"
+                                  onClick={() => {
+                                    const updatedProducts = [...formData.products];
+                                    if (updatedProducts[index].benefits) {
+                                      updatedProducts[index].benefits.splice(benefitIndex, 1);
+                                      setFormData(prev => ({
+                                        ...prev,
+                                        products: updatedProducts
+                                      }));
+                                    }
+                                  }}
+                                  className="!w-auto flex-shrink-0"
+                                >
+                                  <TrashIcon className="h-4 w-4" />
+                                </Button>
+                              </div>
                             </div>
-                            <InputFactory
-                              fieldName={`product-${index}-benefit-${benefitIndex}`}
-                              config={{
-                                type: 'String',
-                                label: '',
-                                placeholder: 'e.g., Boosts immune system naturally',
-                                required: true
-                              }}
-                              value={benefit || ''}
-                              onChange={(value) => handleArrayChange(`products.${index}.benefits`, benefitIndex, '', value)}
-                            />
-                            <Button
-                              variant="danger"
-                              size="sm"
-                              onClick={() => handleRemoveItem(`products.${index}.benefits`, benefitIndex)}
-                              className="!w-auto flex-shrink-0"
-                            >
-                              <TrashIcon className="h-4 w-4" />
-                            </Button>
                           </div>
                         ))}
                       </div>
