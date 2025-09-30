@@ -187,7 +187,6 @@ const ContentManagement = () => {
   };
 
   const handleArrayChange = (section, index, field, value) => {
-    console.log('handleArrayChange called:', { section, index, field, value });
     const updatedData = {
       ...formData,
       [section]: formData[section].map((item, i) => 
@@ -195,7 +194,6 @@ const ContentManagement = () => {
       )
     };
     
-    console.log('Updated data for', section, ':', updatedData[section]);
     // Update local state only
     setFormData(updatedData);
   };

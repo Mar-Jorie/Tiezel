@@ -26,21 +26,10 @@ const LandingPage = () => {
   const [currentFeaturePage, setCurrentFeaturePage] = useState(0);
   const [currentTestimonialPage, setCurrentTestimonialPage] = useState(0);
 
-  // Debug: Log testimonials data when it changes
-  useEffect(() => {
-    console.log('LandingPage testimonials updated:', landingPageContent.testimonials);
-    if (landingPageContent.testimonials) {
-      landingPageContent.testimonials.forEach((testimonial, index) => {
-        console.log(`Testimonial ${index}:`, testimonial);
-        console.log(`Rating: ${testimonial.rating}, Type: ${typeof testimonial.rating}`);
-      });
-    }
-  }, [landingPageContent.testimonials]);
 
   // Listen for content updates from admin panel
   useEffect(() => {
-    const handleContentUpdate = (event) => {
-      console.log('LandingPage received landingPageContentUpdated event:', event.detail);
+    const handleContentUpdate = () => {
       // Force re-render by updating forceUpdate state
       setForceUpdate(prev => prev + 1);
     };
@@ -595,10 +584,6 @@ const LandingPage = () => {
               {landingPageContent.testimonials
                 ?.slice(currentTestimonialPage * 3, (currentTestimonialPage + 1) * 3)
                 .map((testimonial, index) => {
-                  // Debug: Log testimonial data to see what's being received
-                  console.log('Testimonial data:', testimonial);
-                  console.log('Rating value:', testimonial.rating, 'Type:', typeof testimonial.rating);
-                  
                   return (
               <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
                 <div className="flex items-center mb-4">
