@@ -398,7 +398,16 @@ const LandingPage = () => {
               >
                 {Array.from({ length: Math.ceil(landingPageContent.products.length / 3) }).map((_, slideIndex) => (
                   <div key={slideIndex} className="w-full flex-shrink-0 px-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className={`grid gap-6 ${
+                      (() => {
+                        const currentPageProducts = landingPageContent.products.slice(slideIndex * 3, (slideIndex + 1) * 3);
+                        const currentPageCount = currentPageProducts.length;
+                        
+                        if (currentPageCount === 1) return 'grid-cols-1 justify-center max-w-sm mx-auto';
+                        if (currentPageCount === 2) return 'grid-cols-1 md:grid-cols-2';
+                        return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3';
+                      })()
+                    }`}>
                       {landingPageContent.products
                         .slice(slideIndex * 3, (slideIndex + 1) * 3)
                         .map((product, index) => (
@@ -592,7 +601,16 @@ const LandingPage = () => {
               </>
             )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className={`grid gap-6 sm:gap-8 ${
+            (() => {
+              const currentPageTestimonials = landingPageContent.testimonials?.slice(currentTestimonialPage * 3, (currentTestimonialPage + 1) * 3) || [];
+              const currentPageCount = currentPageTestimonials.length;
+              
+              if (currentPageCount === 1) return 'grid-cols-1 justify-center max-w-sm mx-auto';
+              if (currentPageCount === 2) return 'grid-cols-1 sm:grid-cols-2';
+              return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
+            })()
+          }`}>
               {landingPageContent.testimonials
                 ?.slice(currentTestimonialPage * 3, (currentTestimonialPage + 1) * 3)
                 .map((testimonial, index) => {
