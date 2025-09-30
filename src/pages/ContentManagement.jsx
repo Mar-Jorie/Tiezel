@@ -1298,60 +1298,82 @@ const ContentManagement = () => {
                   />
                   
                   {/* Ordering Methods */}
-                  <div className="space-y-4">
+                  <div className="space-y-6">
                     <div className="flex items-center justify-between">
-                      <h5 className="text-sm font-medium text-gray-700">Ordering Methods</h5>
-                      <Button
-                        variant="primary"
-                        size="sm"
-                        onClick={() => handleAddItem('modals.shopNow.methods')}
-                      >
-                        <PlusIcon className="h-4 w-4 mr-2" />
-                        Add Method
-                      </Button>
+                      <div>
+                        <h5 className="text-base font-semibold text-gray-900">Ordering Methods</h5>
+                        <p className="text-sm text-gray-600 mt-1">Configure how customers can place orders</p>
+                      </div>
                     </div>
                     
-                    <div className="space-y-4">
-                      {formData.modals?.shopNow?.methods?.map((method, index) => (
-                        <div key={index} className="bg-gray-50 rounded-lg p-4">
-                          <div className="flex items-center justify-between mb-4">
-                            <h6 className="font-medium text-gray-900">Method {index + 1}</h6>
-                            <Button
-                              variant="danger"
-                              size="sm"
-                              onClick={() => handleRemoveItem('modals.shopNow.methods', index)}
-                            >
-                              <TrashIcon className="h-4 w-4" />
-                            </Button>
+                    {formData.modals?.shopNow?.methods?.length > 0 ? (
+                      <div className="space-y-4">
+                        {formData.modals?.shopNow?.methods?.map((method, index) => (
+                          <div key={index} className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                            <div className="flex items-center justify-between mb-6">
+                              <div className="flex items-center space-x-3">
+                                <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                                  <span className="text-primary-600 font-semibold text-sm">
+                                    {method.title?.charAt(0)?.toUpperCase() || 'M'}
+                                  </span>
+                                </div>
+                                <div>
+                                  <h6 className="font-semibold text-gray-900">Method {index + 1}</h6>
+                                  <p className="text-sm text-gray-500">Ordering method configuration</p>
+                                </div>
+                              </div>
+                              <Button
+                                variant="danger"
+                                size="sm"
+                                onClick={() => handleRemoveItem('modals.shopNow.methods', index)}
+                                className="!w-auto"
+                              >
+                                <TrashIcon className="h-4 w-4 mr-2" />
+                                Remove
+                              </Button>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                              <div>
+                                <InputFactory
+                                  fieldName={`method-${index}-title`}
+                                  config={{
+                                    type: 'String',
+                                    label: 'Method Title',
+                                    placeholder: 'e.g., WhatsApp Orders',
+                                    required: true
+                                  }}
+                                  value={method.title || ''}
+                                  onChange={(value) => handleArrayChange('modals.shopNow.methods', index, 'title', value)}
+                                />
+                              </div>
+                              <div>
+                                <InputFactory
+                                  fieldName={`method-${index}-description`}
+                                  config={{
+                                    type: 'String',
+                                    label: 'Method Description',
+                                    placeholder: 'e.g., Message us on WhatsApp for quick orders',
+                                    required: true
+                                  }}
+                                  value={method.description || ''}
+                                  onChange={(value) => handleArrayChange('modals.shopNow.methods', index, 'description', value)}
+                                />
+                              </div>
+                            </div>
                           </div>
-                          
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <InputFactory
-                              fieldName={`method-${index}-title`}
-                              config={{
-                                type: 'String',
-                                label: 'Method Title',
-                                placeholder: 'e.g., WhatsApp Orders',
-                                required: true
-                              }}
-                              value={method.title || ''}
-                              onChange={(value) => handleArrayChange('modals.shopNow.methods', index, 'title', value)}
-                            />
-                            <InputFactory
-                              fieldName={`method-${index}-description`}
-                              config={{
-                                type: 'String',
-                                label: 'Method Description',
-                                placeholder: 'e.g., Message us on WhatsApp for quick orders',
-                                required: true
-                              }}
-                              value={method.description || ''}
-                              onChange={(value) => handleArrayChange('modals.shopNow.methods', index, 'description', value)}
-                            />
-                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                        <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <PlusIcon className="h-6 w-6 text-gray-400" />
                         </div>
-                      ))}
-                    </div>
+                        <h3 className="text-lg font-medium text-gray-900 mb-2">No ordering methods configured</h3>
+                        <p className="text-gray-600 mb-4">Add your first ordering method to get started</p>
+                        <p className="text-sm text-gray-500">Use the floating action button (3 dots) to add methods</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -1477,6 +1499,15 @@ const ContentManagement = () => {
                 company: '',
                 content: '',
                 rating: 5
+              }), 
+              color: 'bg-primary-600' 
+            }] : []),
+            ...(activeTab === 'orderMethods' ? [{ 
+              name: 'Add Method', 
+              icon: 'PlusIcon', 
+              action: () => handleAddItem('modals.shopNow.methods', {
+                title: '',
+                description: ''
               }), 
               color: 'bg-primary-600' 
             }] : [])
