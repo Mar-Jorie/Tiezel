@@ -291,7 +291,7 @@ export const AppProvider = ({ children }) => {
     localStorage.setItem('landingPageContent', JSON.stringify(updatedContent));
     
     // Dispatch custom event for real-time updates
-    // AppContext dispatching landingPageContentUpdated event
+    console.log('AppContext dispatching landingPageContentUpdated event');
     window.dispatchEvent(new CustomEvent('landingPageContentUpdated', {
       detail: updatedContent
     }));

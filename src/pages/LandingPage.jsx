@@ -51,6 +51,7 @@ const LandingPage = () => {
   // Listen for content updates from admin panel
   useEffect(() => {
     const handleContentUpdate = (event) => {
+      console.log('LandingPage received content update event:', event.detail);
       // Force re-render when content is updated from admin panel
       // The landingPageContent from useApp() will automatically update
       // This listener ensures the component re-renders
@@ -515,10 +516,10 @@ const LandingPage = () => {
             <div className="order-2 lg:order-1">
               <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
                 <div className="mb-6">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">
                     {landingPageContent.contact.formTitle || 'Send us a message'}
                   </h3>
-                  <p className="text-gray-600">
+                  <p className="text-sm text-gray-600">
                     We'd love to hear from you. Send us a message and we'll respond as soon as possible.
                   </p>
                 </div>
@@ -580,10 +581,10 @@ const LandingPage = () => {
             <div className="order-1 lg:order-2">
               <div className="space-y-8">
                 <div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                    Get in Touch
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">
+                    Contact Infromation
                   </h3>
-                  <p className="text-gray-600 mb-8">
+                  <p className="text-sm text-gray-600 mb-8">
                     We're here to help and answer any question you might have. We look forward to hearing from you.
                   </p>
                 </div>
@@ -595,8 +596,8 @@ const LandingPage = () => {
                       <PhoneIcon className="h-6 w-6 text-primary-600" />
                     </div>
                     <div>
-                      <h4 className="text-lg font-semibold text-gray-900 mb-1">Phone</h4>
-                      <p className="text-gray-600 mb-2">{landingPageContent.company?.phone || '+1 (555) 123-4567'}</p>
+                      <h4 className="text-md font-semibold text-gray-900 mb-1">Phone</h4>
+                      <p className="text-sm text-gray-600 mb-2">{landingPageContent.company?.phone || '+1 (555) 123-4567'}</p>
                       <p className="text-sm text-gray-500">Mon to Fri 9am to 6pm</p>
                     </div>
                   </div>
@@ -607,8 +608,8 @@ const LandingPage = () => {
                       <ShieldCheckIcon className="h-6 w-6 text-primary-600" />
                 </div>
                 <div>
-                      <h4 className="text-lg font-semibold text-gray-900 mb-1">Email</h4>
-                      <p className="text-gray-600 mb-2">{landingPageContent.company?.email || 'info@herbalmed.com'}</p>
+                      <h4 className="text-md font-semibold text-gray-900 mb-1">Email</h4>
+                      <p className="text-sm text-gray-600 mb-2">{landingPageContent.company?.email || 'info@herbalmed.com'}</p>
                       <p className="text-sm text-gray-500">Send us your query anytime!</p>
                     </div>
                   </div>
@@ -619,8 +620,8 @@ const LandingPage = () => {
                       <TruckIcon className="h-6 w-6 text-primary-600" />
                 </div>
                 <div>
-                      <h4 className="text-lg font-semibold text-gray-900 mb-1">Address</h4>
-                      <p className="text-gray-600 mb-2">{landingPageContent.company?.address || '123 Wellness Street, Health City, HC 12345'}</p>
+                      <h4 className="text-md font-semibold text-gray-900 mb-1">Address</h4>
+                      <p className="text-sm text-gray-600 mb-2">{landingPageContent.company?.address || '123 Wellness Street, Health City, HC 12345'}</p>
                       <p className="text-sm text-gray-500">Visit our office</p>
                     </div>
                   </div>
