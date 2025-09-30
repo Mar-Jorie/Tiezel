@@ -300,10 +300,10 @@ const LandingPage = () => {
         <div className="w-full">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">
-              {landingPageContent.sections?.about?.title || `About ${landingPageContent.company?.name || 'Our Company'}`}
+              {landingPageContent.about?.title || `About ${landingPageContent.company?.name || 'Our Company'}`}
             </h2>
             <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto font-medium">
-              {landingPageContent.sections?.about?.subtitle || 'Learn more about our company and mission.'}
+              {landingPageContent.about?.subtitle || 'Learn more about our company and mission.'}
             </p>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
@@ -421,10 +421,10 @@ const LandingPage = () => {
         <div className="w-full">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">
-              {landingPageContent.sections?.contact?.title || 'Get in Touch'}
+              {landingPageContent.contact?.title || 'Get in Touch'}
             </h2>
             <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto font-medium">
-              {landingPageContent.sections?.contact?.subtitle || 'Have questions? We\'d love to hear from you.'}
+              {landingPageContent.contact?.subtitle || 'Have questions? We\'d love to hear from you.'}
             </p>
           </div>
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
