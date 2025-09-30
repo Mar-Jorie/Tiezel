@@ -28,6 +28,25 @@ const LandingPage = () => {
   const [currentTestimonialPage, setCurrentTestimonialPage] = useState(0);
 
 
+  // Track landing page visits
+  useEffect(() => {
+    // Increment visit count when landing page loads
+    const currentVisits = parseInt(localStorage.getItem('landingPageVisits') || '0');
+    const newVisits = currentVisits + 1;
+    localStorage.setItem('landingPageVisits', newVisits.toString());
+    
+    // Also track daily visits
+    const today = new Date().toDateString();
+    const dailyVisits = JSON.parse(localStorage.getItem('dailyVisits') || '{}');
+    dailyVisits[today] = (dailyVisits[today] || 0) + 1;
+    localStorage.setItem('dailyVisits', JSON.stringify(dailyVisits));
+    
+    // Dispatch event for dashboard to listen
+    window.dispatchEvent(new CustomEvent('landingPageVisited', { 
+      detail: { totalVisits: newVisits, dailyVisits: dailyVisits[today] }
+    }));
+  }, []);
+
   // Listen for content updates from admin panel
   useEffect(() => {
     const handleContentUpdate = () => {

@@ -72,8 +72,14 @@ const AdminDashboard = () => {
             user: log.user
           }));
 
-        // Calculate page views from audit logs (content updates indicate activity)
-        const pageViews = Math.max(1234, auditLogs.length * 15 + Math.floor(Math.random() * 100));
+        // Get real landing page visits from localStorage
+        let pageViews = parseInt(localStorage.getItem('landingPageVisits') || '0');
+        
+        // Initialize with some sample data if no visits exist yet
+        if (pageViews === 0) {
+          pageViews = 1234; // Starting baseline
+          localStorage.setItem('landingPageVisits', pageViews.toString());
+        }
 
         setDashboardData({
           totalFAQs: allFAQs.length,
@@ -94,10 +100,17 @@ const AdminDashboard = () => {
       loadDashboardData();
     };
 
+    // Listen for landing page visits
+    const handleLandingPageVisit = () => {
+      loadDashboardData();
+    };
+
     window.addEventListener('auditLogUpdated', handleAuditUpdate);
+    window.addEventListener('landingPageVisited', handleLandingPageVisit);
     
     return () => {
       window.removeEventListener('auditLogUpdated', handleAuditUpdate);
+      window.removeEventListener('landingPageVisited', handleLandingPageVisit);
     };
   }, []);
 
