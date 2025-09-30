@@ -4,7 +4,6 @@ import {
   PencilIcon,
   EyeIcon,
   ChartBarIcon,
-  DocumentTextIcon,
   PlusIcon,
   DocumentArrowDownIcon,
   QuestionMarkCircleIcon
@@ -40,7 +39,6 @@ const AdminDashboard = () => {
     totalFAQs: 0,
     activeFAQs: 0,
     totalAuditLogs: 0,
-    contentSections: 5, // Hero, Company, Services, Products, Testimonials
     pageViews: 0,
     recentUpdates: []
   });
@@ -76,7 +74,7 @@ const AdminDashboard = () => {
 
         // Calculate page views from audit logs (content updates indicate activity)
         const pageViews = Math.max(1234, auditLogs.length * 15 + Math.floor(Math.random() * 100));
-        
+
         setDashboardData({
           totalFAQs: allFAQs.length,
           activeFAQs: activeFAQs.length,
@@ -201,7 +199,7 @@ const AdminDashboard = () => {
       // Sample dashboard data for export
       const exportData = [
         { metric: 'Page Views', value: dashboardData.pageViews.toLocaleString(), change: '+12%', period: 'From last month' },
-        { metric: 'Content Sections', value: dashboardData.contentSections.toString(), status: 'Active', description: 'Hero, Company, Services, Products, Testimonials' },
+        { metric: 'FAQ Entries', value: dashboardData.activeFAQs.toString(), status: 'Active', description: 'Chatbot support articles' },
         { metric: 'System Status', value: '24/7', status: 'Online', description: 'All systems operational' },
         { metric: 'Page Performance', value: '89%', change: '+8%', period: 'From last week' }
       ];
@@ -270,10 +268,10 @@ const AdminDashboard = () => {
                 <td>From last month</td>
               </tr>
               <tr>
-                <td>Content Sections</td>
-                <td>${dashboardData.contentSections}</td>
+                <td>FAQ Entries</td>
+                <td>${dashboardData.activeFAQs}</td>
                 <td>Active</td>
-                <td>Hero, Company, Services, Products, Testimonials</td>
+                <td>Chatbot support articles</td>
               </tr>
               <tr>
                 <td>System Status</td>
@@ -343,7 +341,7 @@ const AdminDashboard = () => {
 
       <div className="space-y-6">
         {/* Key Metrics Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
             <div className="flex items-center justify-between mb-3">
               <div className="w-10 h-10 bg-primary-50 rounded-lg flex items-center justify-center">
@@ -363,24 +361,6 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
-            <div className="flex items-center justify-between mb-3">
-              <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center">
-                <DocumentTextIcon className="h-6 w-6 text-blue-600" />
-              </div>
-              <span className="text-xs font-medium text-blue-800 bg-blue-50 px-2 py-1 rounded-full">
-                Active
-              </span>
-            </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-1">{dashboardData.contentSections}</h3>
-            <p className="text-sm text-gray-600 mb-2">Content Sections</p>
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-gray-500">Hero, Company, Services, Products, Testimonials</span>
-              <div className="flex items-center space-x-1">
-                <span className="text-xs font-medium text-blue-800">Live</span>
-              </div>
-            </div>
-          </div>
 
           <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
             <div className="flex items-center justify-between mb-3">
@@ -423,33 +403,33 @@ const AdminDashboard = () => {
 
 
         {/* Recent Updates */}
-        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-          <div className="flex items-center justify-between mb-6">
+          <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
+            <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-gray-900">Recent Content Updates</h3>
-            <div className="w-6 h-6 bg-primary-50 rounded-lg flex items-center justify-center">
-              <PencilIcon className="h-6 w-6 text-primary-600" />
+              <div className="w-6 h-6 bg-primary-50 rounded-lg flex items-center justify-center">
+                <PencilIcon className="h-6 w-6 text-primary-600" />
+              </div>
             </div>
-          </div>
-          <div className="space-y-4">
-            {dashboardData.recentUpdates.length > 0 ? (
-              dashboardData.recentUpdates.map((update, index) => {
-                const getColor = (action) => {
-                  if (action.includes('Create') || action.includes('Add')) return 'bg-green-500';
-                  if (action.includes('Update') || action.includes('Edit')) return 'bg-blue-500';
-                  if (action.includes('Delete') || action.includes('Remove')) return 'bg-red-500';
-                  return 'bg-orange-500';
-                };
+            <div className="space-y-4">
+              {dashboardData.recentUpdates.length > 0 ? (
+                dashboardData.recentUpdates.map((update, index) => {
+                  const getColor = (action) => {
+                    if (action.includes('Create') || action.includes('Add')) return 'bg-green-500';
+                    if (action.includes('Update') || action.includes('Edit')) return 'bg-blue-500';
+                    if (action.includes('Delete') || action.includes('Remove')) return 'bg-red-500';
+                    return 'bg-orange-500';
+                  };
 
-                const formatTimeAgo = (timestamp) => {
-                  const now = new Date();
-                  const logTime = new Date(timestamp);
-                  const diffInHours = Math.floor((now - logTime) / (1000 * 60 * 60));
-                  
-                  if (diffInHours < 1) return 'Just now';
-                  if (diffInHours < 24) return `${diffInHours} hour${diffInHours > 1 ? 's' : ''} ago`;
-                  const diffInDays = Math.floor(diffInHours / 24);
-                  return `${diffInDays} day${diffInDays > 1 ? 's' : ''} ago`;
-                };
+                  const formatTimeAgo = (timestamp) => {
+                    const now = new Date();
+                    const logTime = new Date(timestamp);
+                    const diffInHours = Math.floor((now - logTime) / (1000 * 60 * 60));
+                    
+                    if (diffInHours < 1) return 'Just now';
+                    if (diffInHours < 24) return `${diffInHours} hour${diffInHours > 1 ? 's' : ''} ago`;
+                    const diffInDays = Math.floor(diffInHours / 24);
+                    return `${diffInDays} day${diffInDays > 1 ? 's' : ''} ago`;
+                  };
 
                 const getActionIcon = (action) => {
                   if (action.includes('Create') || action.includes('Add')) return '➕';
@@ -458,7 +438,7 @@ const AdminDashboard = () => {
                   return '';
                 };
 
-                return (
+                  return (
                   <div key={index} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center space-x-2">
                       <span className="text-lg">{getActionIcon(update.action)}</span>
@@ -467,12 +447,12 @@ const AdminDashboard = () => {
                     <div className="flex-1">
                       <p className="text-sm font-medium text-gray-900">{update.action}</p>
                       <p className="text-xs text-gray-600">{update.item}</p>
-                      <p className="text-xs text-gray-500">{formatTimeAgo(update.timestamp)}</p>
+                        <p className="text-xs text-gray-500">{formatTimeAgo(update.timestamp)}</p>
+                      </div>
                     </div>
-                  </div>
-                );
-              })
-            ) : (
+                  );
+                })
+              ) : (
               <div className="text-center py-8">
                 <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
                   <PencilIcon className="h-6 w-6 text-gray-400" />
