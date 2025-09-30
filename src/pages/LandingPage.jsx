@@ -36,6 +36,18 @@ const LandingPage = () => {
       });
     }
   }, [landingPageContent.testimonials]);
+
+  // Listen for content updates from admin panel
+  useEffect(() => {
+    const handleContentUpdate = (event) => {
+      console.log('LandingPage received landingPageContentUpdated event:', event.detail);
+      // Force re-render by updating forceUpdate state
+      setForceUpdate(prev => prev + 1);
+    };
+
+    window.addEventListener('landingPageContentUpdated', handleContentUpdate);
+    return () => window.removeEventListener('landingPageContentUpdated', handleContentUpdate);
+  }, []);
   const [siteSettings, setSiteSettings] = useState({
     siteName: 'TechStore',
     siteDescription: 'Your Trusted E-commerce Partner',
