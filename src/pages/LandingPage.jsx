@@ -25,6 +25,17 @@ const LandingPage = () => {
   const [forceUpdate, setForceUpdate] = useState(0);
   const [currentFeaturePage, setCurrentFeaturePage] = useState(0);
   const [currentTestimonialPage, setCurrentTestimonialPage] = useState(0);
+
+  // Debug: Log testimonials data when it changes
+  useEffect(() => {
+    console.log('LandingPage testimonials updated:', landingPageContent.testimonials);
+    if (landingPageContent.testimonials) {
+      landingPageContent.testimonials.forEach((testimonial, index) => {
+        console.log(`Testimonial ${index}:`, testimonial);
+        console.log(`Rating: ${testimonial.rating}, Type: ${typeof testimonial.rating}`);
+      });
+    }
+  }, [landingPageContent.testimonials]);
   const [siteSettings, setSiteSettings] = useState({
     siteName: 'TechStore',
     siteDescription: 'Your Trusted E-commerce Partner',
@@ -568,7 +579,7 @@ const LandingPage = () => {
               </>
             )}
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {landingPageContent.testimonials
                 ?.slice(currentTestimonialPage * 3, (currentTestimonialPage + 1) * 3)
                 .map((testimonial, index) => {
@@ -577,18 +588,18 @@ const LandingPage = () => {
                   console.log('Rating value:', testimonial.rating, 'Type:', typeof testimonial.rating);
                   
                   return (
-                    <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
-                      <div className="flex items-center mb-4">
+              <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+                <div className="flex items-center mb-4">
                         {[...Array(testimonial.rating || 0)].map((_, i) => (
-                          <StarIcon key={i} className="h-5 w-5 text-yellow-400" />
-                        ))}
-                      </div>
-                      <p className="text-sm text-gray-600 mb-4">"{testimonial.text}"</p>
-                        <div>
-                        <p className="text-sm font-medium text-gray-900">{testimonial.name}</p>
-                          <p className="text-xs text-gray-500">{testimonial.company}</p>
-                      </div>
-                    </div>
+                    <StarIcon key={i} className="h-5 w-5 text-yellow-400" />
+                  ))}
+                </div>
+                <p className="text-sm text-gray-600 mb-4">"{testimonial.text}"</p>
+                  <div>
+                  <p className="text-sm font-medium text-gray-900">{testimonial.name}</p>
+                    <p className="text-xs text-gray-500">{testimonial.company}</p>
+                </div>
+              </div>
                   );
                 })}
             </div>

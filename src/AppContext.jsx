@@ -281,10 +281,15 @@ export const AppProvider = ({ children }) => {
 
   // Update landing page content
   const updateLandingPageContent = (newContent) => {
+    console.log('AppContext updateLandingPageContent called with:', newContent);
+    console.log('Testimonials in newContent:', newContent.testimonials);
+    
     const updatedContent = {
       ...landingPageContent,
       ...newContent
     };
+    
+    console.log('Updated testimonials:', updatedContent.testimonials);
     
     // Force a new object reference to ensure React detects the change
     const newContentObj = {
