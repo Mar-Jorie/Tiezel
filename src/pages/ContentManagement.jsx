@@ -1315,21 +1315,6 @@ const ContentManagement = () => {
               </div>
             </div>
 
-            {/* Footer */}
-            <div className="space-y-4">
-              <h4 className="text-sm font-medium text-gray-700">Footer</h4>
-              <InputFactory
-                fieldName="footerCopyright"
-                config={{
-                  type: 'String',
-                  label: 'Footer Copyright Text',
-                  placeholder: 'e.g., © 2024 {brandName}. All rights reserved.',
-                  required: true
-                }}
-                value={formData.sections?.footer?.copyright || '© 2024 {brandName}. All rights reserved.'}
-                onChange={(value) => handleChange('sections', 'footer', 'copyright', value)}
-              />
-            </div>
           </div>
         );
 

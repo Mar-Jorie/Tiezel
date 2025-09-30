@@ -516,7 +516,7 @@ const LandingPage = () => {
       <footer className="bg-gray-900 text-center text-gray-400 py-6 px-4 sm:px-6">
         <div className="flex flex-col sm:flex-row items-center justify-between max-w-4xl mx-auto">
           <p className="text-xs sm:text-sm mb-2 sm:mb-0">
-            {landingPageContent.sections.footer.copyright.replace('{brandName}', landingPageContent.branding.brandName)}
+            © 2024 {landingPageContent.branding.brandName || 'HerbalMed'}. All rights reserved.
           </p>
           <div className="flex items-center space-x-4 text-xs">
             <Link to="/admin" className="text-gray-500 hover:text-gray-300 transition-colors duration-200">
