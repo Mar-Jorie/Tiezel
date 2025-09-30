@@ -698,30 +698,6 @@ const LandingPage = () => {
         </div>
       )}
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-4 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
-            <p className="text-gray-300 text-sm">
-              © 2024 {landingPageContent.company?.name || 'HerbalMed'}. All rights reserved.
-            </p>
-            <div className="flex items-center space-x-4 text-sm">
-              <Link to="/admin" className="text-gray-300 hover:text-white transition-colors">
-                Admin
-              </Link>
-              <span className="text-gray-500">•</span>
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">
-                Privacy
-              </a>
-              <span className="text-gray-500">•</span>
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">
-                Terms
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
-
       {/* Floating Elements */}
       <FloatingChatbot />
     </div>
