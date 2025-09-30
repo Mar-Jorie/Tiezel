@@ -203,9 +203,14 @@ const LandingPage = () => {
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">{product.name}</h3>
                   <p className="text-sm text-gray-600 mb-4">{product.description}</p>
                   <div className="flex items-center justify-between">
-                    <span className="text-xl font-bold text-primary-600">
-                      {product.price.currency} {product.price.amount}
-                    </span>
+                    <div className="flex items-center space-x-2">
+                      <span className="text-sm font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">
+                        Free Guide
+                      </span>
+                      <span className="text-sm text-gray-500">
+                        {product.value || 'Comprehensive Resource'}
+                      </span>
+                    </div>
                     <Button variant="primary" size="sm" onClick={() => handleViewDetails(product.name)}>
                       View Details
                     </Button>
