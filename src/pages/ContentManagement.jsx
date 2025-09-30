@@ -448,7 +448,7 @@ const ContentManagement = () => {
     { id: 'products', name: 'Products', icon: ShoppingBagIcon },
     { id: 'testimonials', name: 'Testimonials', icon: StarIcon },
     { id: 'sections', name: 'Section Headers', icon: DocumentTextIcon },
-    { id: 'modals', name: 'Modal Content', icon: MegaphoneIcon }
+    { id: 'orderMethods', name: 'Order Methods', icon: MegaphoneIcon }
   ];
 
   const renderTabContent = () => {
@@ -1207,10 +1207,10 @@ const ContentManagement = () => {
           </div>
         );
 
-      case 'modals':
+      case 'orderMethods':
         return (
           <div className="space-y-6">
-            <h3 className="text-base font-semibold text-gray-900">Modal Content Management</h3>
+            <h3 className="text-base font-semibold text-gray-900">Order Methods Management</h3>
             
             {/* Shop Now Modal Content */}
             <div className="space-y-4">
@@ -1526,7 +1526,7 @@ const ContentManagement = () => {
       </div>
 
       {/* Smart Floating Action Button */}
-      {(activeTab === 'services' || activeTab === 'products' || activeTab === 'testimonials' || activeTab === 'modals') ? (
+      {(activeTab === 'services' || activeTab === 'products' || activeTab === 'testimonials' || activeTab === 'orderMethods') ? (
         <SmartFloatingActionButton 
           variant="dots"
           icon="EllipsisVerticalIcon"
