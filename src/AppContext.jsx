@@ -15,21 +15,21 @@ export const AppProvider = ({ children }) => {
     branding: {
       logo: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=200&h=200&fit=crop&crop=center",
       brandName: "TechStore",
-      tagline: "Your Trusted E-commerce Partner",
+      tagline: "Your Trusted Technology Partner",
       primaryColor: "#6589a4"
     },
     hero: {
       title: "Welcome to TechStore - Your Trusted Technology Partner",
-      subtitle: "Discover quality products and exceptional service that exceeds your expectations",
+      subtitle: "Discover comprehensive information and expert guidance that helps you make informed decisions",
       ctaPrimary: "Learn More",
       ctaSecondary: "Contact Us",
       visualTitle: "TechStore",
-      visualSubtitle: "Quality products, exceptional service",
+      visualSubtitle: "Expert information, trusted guidance",
       heroIcon: "ShieldCheckIcon"
     },
     company: {
       name: "TechStore",
-      description: "Your premier destination for quality technology products and exceptional customer service.",
+      description: "Your trusted source for comprehensive technology information and expert guidance.",
       address: "123 Business Street, City, State 12345",
       phone: "(555) 123-4567",
       email: "info@techstore.com",
@@ -37,44 +37,44 @@ export const AppProvider = ({ children }) => {
     },
     services: [
       {
-        title: "Product Information",
-        description: "Comprehensive product details and specifications",
+        title: "Expert Information",
+        description: "Comprehensive guides and detailed specifications",
         icon: "ShieldCheckIcon"
       },
       {
-        title: "Customer Support",
-        description: "24/7 customer service support",
+        title: "Technical Support",
+        description: "Expert guidance and technical assistance",
         icon: "PhoneIcon"
       },
       {
-        title: "Fast Shipping",
-        description: "Quick and reliable delivery",
+        title: "Quick Access",
+        description: "Fast and reliable information delivery",
         icon: "TruckIcon"
       },
       {
-        title: "Quality Guarantee",
-        description: "100% satisfaction guarantee",
+        title: "Quality Content",
+        description: "Rigorous fact-checking and verification",
         icon: "StarIcon"
       }
     ],
     products: [
       {
-        name: "Premium Laptop",
-        price: { amount: "999", currency: "PHP" },
+        name: "Laptop Buying Guide",
+        price: { amount: "Free", currency: "" },
         image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=300&fit=crop&crop=center",
-        description: "High-performance laptop for professionals"
+        description: "Complete guide to choosing the right laptop for your needs"
       },
       {
-        name: "Wireless Headphones",
-        price: { amount: "199", currency: "PHP" },
+        name: "Audio Equipment Guide",
+        price: { amount: "Free", currency: "" },
         image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop&crop=center",
-        description: "Noise-cancelling wireless headphones"
+        description: "Expert advice on selecting the best audio equipment"
       },
       {
-        name: "Smart Watch",
-        price: { amount: "299", currency: "PHP" },
+        name: "Wearable Tech Guide",
+        price: { amount: "Free", currency: "" },
         image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop&crop=center",
-        description: "Advanced fitness tracking smartwatch"
+        description: "Everything you need to know about wearable technology"
       }
     ],
     testimonials: [

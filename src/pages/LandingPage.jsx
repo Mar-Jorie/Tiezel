@@ -97,7 +97,7 @@ const LandingPage = () => {
               </p>
               <div className="flex flex-row sm:flex-row items-start space-x-4 sm:space-x-4 mb-6 sm:mb-8">
                 <Button variant="primary" size="lg" className="!w-auto min-w-[160px]">
-                  Shop Now
+                  Get Started
                 </Button>
                 <Button variant="primaryOutline" size="lg" className="!w-auto min-w-[160px]">
                   Learn More
@@ -187,7 +187,7 @@ const LandingPage = () => {
                       {product.price.currency} {product.price.amount}
                     </span>
                     <Button variant="primary" size="sm">
-                      Add to Cart
+                      View Details
                     </Button>
                   </div>
                 </div>
