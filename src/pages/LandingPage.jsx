@@ -510,82 +510,123 @@ const LandingPage = () => {
               {landingPageContent.contact?.subtitle || 'Have questions? We\'d love to hear from you.'}
             </p>
           </div>
-          {/* Contact Form - First Row */}
-          <div className="mb-12">
-            <div className="bg-gray-50 rounded-lg p-6 max-w-2xl mx-auto">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
-                {landingPageContent.contact.formTitle}
-              </h3>
-              <form className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
+            {/* Contact Form - Left Side */}
+            <div className="order-2 lg:order-1">
+              <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
+                <div className="mb-6">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                    {landingPageContent.contact.formTitle || 'Send us a message'}
+                  </h3>
+                  <p className="text-gray-600">
+                    We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+                  </p>
+                </div>
+                
+                <form className="space-y-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        {landingPageContent.contact.namePlaceholder || 'Your Name'}
+                      </label>
+                      <input
+                        type="text"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
+                        placeholder="Enter your name"
+                      />
+                    </div>
+            <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        {landingPageContent.contact.emailPlaceholder || 'Your Email'}
+                      </label>
+                      <input
+                        type="email"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
+                        placeholder="Enter your email"
+                      />
+                    </div>
+                  </div>
+                  
                   <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      {landingPageContent.contact.subjectPlaceholder || 'Subject'}
+                    </label>
                     <input
                       type="text"
-                      placeholder={landingPageContent.contact.namePlaceholder}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
+                      placeholder="What's this about?"
                     />
-                  </div>
+                </div>
+                  
                   <div>
-                    <input
-                      type="email"
-                      placeholder={landingPageContent.contact.emailPlaceholder}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      {landingPageContent.contact.messagePlaceholder || 'Your Message'}
+                    </label>
+                    <textarea
+                      rows={5}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors resize-none"
+                      placeholder="Tell us more about your inquiry..."
                     />
+                </div>
+                  
+                  <Button variant="primary" size="lg" className="w-full">
+                    {landingPageContent.contact.submitButton || 'Send Message'}
+                  </Button>
+                </form>
+              </div>
+            </div>
+
+            {/* Contact Information - Right Side */}
+            <div className="order-1 lg:order-2">
+              <div className="space-y-8">
+                <div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                    Get in Touch
+                  </h3>
+                  <p className="text-gray-600 mb-8">
+                    We're here to help and answer any question you might have. We look forward to hearing from you.
+                  </p>
+                </div>
+
+                <div className="space-y-6">
+                  {/* Phone */}
+                  <div className="flex items-start space-x-4">
+                    <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <PhoneIcon className="h-6 w-6 text-primary-600" />
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-semibold text-gray-900 mb-1">Phone</h4>
+                      <p className="text-gray-600 mb-2">{landingPageContent.company?.phone || '+1 (555) 123-4567'}</p>
+                      <p className="text-sm text-gray-500">Mon to Fri 9am to 6pm</p>
+                    </div>
+                  </div>
+
+                  {/* Email */}
+                  <div className="flex items-start space-x-4">
+                    <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <ShieldCheckIcon className="h-6 w-6 text-primary-600" />
+                </div>
+                <div>
+                      <h4 className="text-lg font-semibold text-gray-900 mb-1">Email</h4>
+                      <p className="text-gray-600 mb-2">{landingPageContent.company?.email || 'info@herbalmed.com'}</p>
+                      <p className="text-sm text-gray-500">Send us your query anytime!</p>
+                    </div>
+                  </div>
+
+                  {/* Address */}
+                  <div className="flex items-start space-x-4">
+                    <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <TruckIcon className="h-6 w-6 text-primary-600" />
+                </div>
+                <div>
+                      <h4 className="text-lg font-semibold text-gray-900 mb-1">Address</h4>
+                      <p className="text-gray-600 mb-2">{landingPageContent.company?.address || '123 Wellness Street, Health City, HC 12345'}</p>
+                      <p className="text-sm text-gray-500">Visit our office</p>
+                    </div>
                   </div>
                 </div>
-                <div>
-                  <input
-                    type="text"
-                    placeholder={landingPageContent.contact.subjectPlaceholder}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  />
-                </div>
-                <div>
-                  <textarea
-                    rows={4}
-                    placeholder={landingPageContent.contact.messagePlaceholder}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  />
-                </div>
-                <Button variant="primary" size="md" className="w-full">
-                  {landingPageContent.contact.submitButton}
-                </Button>
-              </form>
-            </div>
-          </div>
 
-          {/* Contact Information - Second Row */}
-          <div className="text-center">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">
-              Contact Information
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-              <div className="flex flex-col items-center space-y-2">
-                <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
-                  <PhoneIcon className="h-6 w-6 text-primary-600" />
-                </div>
-                <div className="text-center">
-                  <h4 className="text-sm font-medium text-gray-900">Phone</h4>
-                  <p className="text-sm text-gray-600">{landingPageContent.company?.phone || '+1 (555) 123-4567'}</p>
-                </div>
-              </div>
-              <div className="flex flex-col items-center space-y-2">
-                <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
-                  <ShieldCheckIcon className="h-6 w-6 text-primary-600" />
-                </div>
-                <div className="text-center">
-                  <h4 className="text-sm font-medium text-gray-900">Email</h4>
-                  <p className="text-sm text-gray-600">{landingPageContent.company?.email || 'info@herbalmed.com'}</p>
-                </div>
-              </div>
-              <div className="flex flex-col items-center space-y-2">
-                <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
-                  <TruckIcon className="h-6 w-6 text-primary-600" />
-                </div>
-                <div className="text-center">
-                  <h4 className="text-sm font-medium text-gray-900">Address</h4>
-                  <p className="text-sm text-gray-600">{landingPageContent.company?.address || '123 Wellness Street, Health City, HC 12345'}</p>
-                </div>
+            
               </div>
             </div>
           </div>
