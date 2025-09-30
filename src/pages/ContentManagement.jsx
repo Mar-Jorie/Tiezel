@@ -83,6 +83,21 @@ const ContentManagement = () => {
     setHasChanges(hasFormChanges);
   }, [formData, landingPageContent]);
 
+  // Save function
+  const handleSave = async () => {
+    try {
+      setLoading(true);
+      await updateLandingPageContent(formData);
+      setHasChanges(false);
+      toast.success('Content saved successfully!');
+    } catch (error) {
+      toast.error('Failed to save content. Please try again.');
+      console.error('Save error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Available icons for selection
   const availableIcons = [
     { name: 'ShoppingBagIcon', component: ShoppingBagIcon, label: 'Shopping Bag' },
@@ -166,10 +181,6 @@ const ContentManagement = () => {
     
     // Update local state only
     setFormData(updatedData);
-  };
-
-  const handleSave = () => {
-    setShowSaveConfirm(true);
   };
 
   const handleConfirmSave = async () => {
@@ -1528,6 +1539,7 @@ const ContentManagement = () => {
           bulkActions={[]}
           quickActions={[
             { name: 'Preview Website', icon: 'EyeIcon', action: () => setShowPreviewModal(true), color: 'bg-blue-600' },
+            { name: 'Save Changes', icon: 'CheckIcon', action: handleSave, color: hasChanges ? 'bg-green-600' : 'bg-gray-400', disabled: !hasChanges },
             ...(activeTab === 'services' ? [{ 
               name: 'Add Service', 
               icon: 'PlusIcon', 
@@ -1574,13 +1586,15 @@ const ContentManagement = () => {
         />
       ) : (
         <SmartFloatingActionButton 
-          variant="single"
-          icon="EyeIcon"
-          label="Preview Website"
-          action={() => setShowPreviewModal(true)}
+          variant="dots"
+          icon="EllipsisVerticalIcon"
+          label="Toggle quick actions"
           selectedCount={0}
           bulkActions={[]}
-          quickActions={[]}
+          quickActions={[
+            { name: 'Preview Website', icon: 'EyeIcon', action: () => setShowPreviewModal(true), color: 'bg-blue-600' },
+            { name: 'Save Changes', icon: 'CheckIcon', action: handleSave, color: hasChanges ? 'bg-green-600' : 'bg-gray-400', disabled: !hasChanges }
+          ]}
         />
       )}
 
