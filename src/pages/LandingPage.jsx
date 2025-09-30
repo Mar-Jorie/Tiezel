@@ -33,7 +33,8 @@ const LandingPage = () => {
   // Force re-render when landing page content changes
   useEffect(() => {
     // This will trigger a re-render whenever landingPageContent changes
-  }, [landingPageContent]);
+    console.log('LandingPage content changed:', landingPageContent);
+  }, [landingPageContent, forceUpdate]);
 
   // Apply dynamic primary color when landingPageContent changes
   useEffect(() => {
@@ -152,7 +153,7 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="landing-page-container min-h-screen bg-white overflow-y-auto">
+    <div key={forceUpdate} className="landing-page-container min-h-screen bg-white overflow-y-auto">
       {/* Navigation */}
       <nav className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-40">
         <div className="w-full px-4 sm:px-6 lg:px-6">
