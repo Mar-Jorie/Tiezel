@@ -5,6 +5,7 @@ import {
   ShieldCheckIcon, 
   PhoneIcon, 
   TruckIcon, 
+  StarIcon,
   ArrowRightIcon,
   CheckIcon,
   CursorArrowRaysIcon,
