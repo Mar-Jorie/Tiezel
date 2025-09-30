@@ -9,7 +9,9 @@ import {
   ArrowRightIcon,
   CheckIcon,
   CursorArrowRaysIcon,
-  LightBulbIcon
+  LightBulbIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon
 } from '@heroicons/react/24/outline';
 import Button from '../components/Button';
 import FloatingChatbot from '../components/FloatingChatbot';
@@ -21,6 +23,7 @@ const LandingPage = () => {
   const [showGetStartedModal, setShowGetStartedModal] = useState(false);
   const [showProductModal, setShowProductModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [currentProductIndex, setCurrentProductIndex] = useState(0);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -46,6 +49,19 @@ const LandingPage = () => {
   const handleViewDetails = (product) => {
     setSelectedProduct(product);
     setShowProductModal(true);
+  };
+
+  // Carousel navigation functions
+  const handlePreviousProduct = () => {
+    setCurrentProductIndex((prev) => 
+      prev === 0 ? landingPageContent.products.length - 1 : prev - 1
+    );
+  };
+
+  const handleNextProduct = () => {
+    setCurrentProductIndex((prev) => 
+      prev === landingPageContent.products.length - 1 ? 0 : prev + 1
+    );
   };
 
   return (
@@ -124,7 +140,7 @@ const LandingPage = () => {
               </p>
               <div className="flex flex-row sm:flex-row items-start space-x-4 sm:space-x-4 mb-6 sm:mb-8">
                 <Button variant="primary" size="lg" className="!w-auto min-w-[160px]" onClick={handleGetStarted}>
-                  Get Started
+                  Shop Now
                 </Button>
                 <Button variant="primaryOutline" size="lg" className="!w-auto min-w-[160px]" onClick={handleContactUs}>
                   Learn More
@@ -196,27 +212,76 @@ const LandingPage = () => {
               {landingPageContent.sections.products.subtitle}
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
-            {landingPageContent.products.map((product, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-300">
-                <div className="aspect-w-16 aspect-h-9">
-                    <img 
-                      src={product.image} 
-                      alt={product.name} 
-                    className="w-full h-48 object-cover"
-                    />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">{product.name}</h3>
-                  <p className="text-sm text-gray-600 mb-4 leading-relaxed">{product.description}</p>
-                  <div className="text-center">
-                    <Button variant="primary" size="sm" className="w-full" onClick={() => handleViewDetails(product)}>
-                      View Details
-                    </Button>
+          {/* Products Carousel */}
+          <div className="relative">
+            {/* Carousel Container */}
+            <div className="overflow-hidden">
+              <div 
+                className="flex transition-transform duration-500 ease-in-out"
+                style={{ transform: `translateX(-${currentProductIndex * 100}%)` }}
+              >
+                {landingPageContent.products.map((product, index) => (
+                  <div key={index} className="w-full flex-shrink-0 px-4">
+                    <div className="max-w-md mx-auto bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-300">
+                      <div className="aspect-w-16 aspect-h-9">
+                        <img 
+                          src={product.image} 
+                          alt={product.name}
+                          className="w-full h-48 object-cover"
+                        />
+                      </div>
+                      <div className="p-6">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-3">{product.name}</h3>
+                        <p className="text-sm text-gray-600 mb-4 leading-relaxed">{product.description}</p>
+                        <div className="text-center">
+                          <Button variant="primary" size="sm" className="w-full" onClick={() => handleViewDetails(product)}>
+                            View Details
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
-            ))}
+            </div>
+
+            {/* Navigation Arrows */}
+            {landingPageContent.products.length > 1 && (
+              <>
+                <button
+                  onClick={handlePreviousProduct}
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-gray-600 hover:text-gray-900 rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110 z-10"
+                  aria-label="Previous product"
+                >
+                  <ChevronLeftIcon className="h-6 w-6" />
+                </button>
+                <button
+                  onClick={handleNextProduct}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-gray-600 hover:text-gray-900 rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110 z-10"
+                  aria-label="Next product"
+                >
+                  <ChevronRightIcon className="h-6 w-6" />
+                </button>
+              </>
+            )}
+
+            {/* Dots Indicator */}
+            {landingPageContent.products.length > 1 && (
+              <div className="flex justify-center mt-6 space-x-2">
+                {landingPageContent.products.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentProductIndex(index)}
+                    className={`w-2 h-2 rounded-full transition-all duration-200 ${
+                      index === currentProductIndex 
+                        ? 'bg-primary-600 scale-125' 
+                        : 'bg-gray-300 hover:bg-gray-400'
+                    }`}
+                    aria-label={`Go to product ${index + 1}`}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -482,7 +547,7 @@ const LandingPage = () => {
               </div>
               <div className="space-y-4">
                 <p className="text-sm text-gray-600">
-                  Welcome to our informational platform! Here's how to get started:
+                  Welcome to HerbalMed! Here's how to start your wellness journey:
                 </p>
                 <div className="space-y-3">
                   <div className="flex items-start space-x-3">
@@ -490,8 +555,8 @@ const LandingPage = () => {
                       <span className="text-xs font-medium text-primary-600">1</span>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-gray-900">Explore Our Guides</p>
-                      <p className="text-xs text-gray-600">Browse our comprehensive guides below</p>
+                      <p className="text-sm font-medium text-gray-900">Browse Our Products</p>
+                      <p className="text-xs text-gray-600">Explore our premium herbal medicine collection</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
@@ -499,8 +564,8 @@ const LandingPage = () => {
                       <span className="text-xs font-medium text-primary-600">2</span>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-gray-900">Get Expert Information</p>
-                      <p className="text-xs text-gray-600">Access detailed, expert-curated information</p>
+                      <p className="text-sm font-medium text-gray-900">Add to Cart</p>
+                      <p className="text-xs text-gray-600">Select your desired herbal products</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
@@ -508,8 +573,8 @@ const LandingPage = () => {
                       <span className="text-xs font-medium text-primary-600">3</span>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-gray-900">Contact Us</p>
-                      <p className="text-xs text-gray-600">Reach out for personalized assistance</p>
+                      <p className="text-sm font-medium text-gray-900">Secure Checkout</p>
+                      <p className="text-xs text-gray-600">Complete your purchase safely</p>
                     </div>
                   </div>
                 </div>
@@ -523,7 +588,7 @@ const LandingPage = () => {
                       document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
                     }}
                   >
-                    View Guides
+                    View Products
                   </Button>
                   <Button 
                     variant="secondaryOutline" 
@@ -567,24 +632,24 @@ const LandingPage = () => {
                   <p className="text-sm text-gray-600 mb-4">{selectedProduct.description}</p>
                   
                   <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                    <h4 className="text-sm font-medium text-gray-900 mb-2">What You'll Learn:</h4>
+                    <h4 className="text-sm font-medium text-gray-900 mb-2">Product Benefits:</h4>
                     <ul className="text-xs text-gray-600 space-y-1">
-                      <li>• Expert recommendations and insights</li>
-                      <li>• Key factors to consider when choosing</li>
-                      <li>• Common mistakes to avoid</li>
-                      <li>• Best practices and tips</li>
+                      <li>• 100% natural and organic ingredients</li>
+                      <li>• Traditional herbal medicine properties</li>
+                      <li>• Premium quality and purity guaranteed</li>
+                      <li>• Expertly formulated for maximum effectiveness</li>
                     </ul>
                   </div>
 
-                  <div className="bg-blue-50 rounded-lg p-4">
+                  <div className="bg-green-50 rounded-lg p-4">
                     <div className="flex items-center space-x-2 mb-2">
-                      <svg className="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      <svg className="h-4 w-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                      <span className="text-sm font-medium text-blue-900">Free Information</span>
+                      <span className="text-sm font-medium text-green-900">Premium Quality</span>
                     </div>
-                    <p className="text-xs text-blue-700">
-                      This is informational content to help you make informed decisions. No purchase required.
+                    <p className="text-xs text-green-700">
+                      Certified organic and natural ingredients for your wellness journey.
                     </p>
                   </div>
                 </div>

@@ -13,42 +13,42 @@ export const AppProvider = ({ children }) => {
   // Landing page content state
   const [landingPageContent, setLandingPageContent] = useState({
     branding: {
-      logo: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=200&h=200&fit=crop&crop=center",
-      brandName: "TechStore",
-      tagline: "Your Trusted Technology Partner",
+      logo: "https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=200&h=200&fit=crop&crop=center",
+      brandName: "HerbalMed",
+      tagline: "Nature's Healing Power",
       primaryColor: "#6589a4"
     },
     hero: {
-      title: "Welcome to TechStore - Your Trusted Technology Partner",
-      subtitle: "Discover comprehensive information and expert guidance that helps you make informed decisions",
-      ctaPrimary: "Learn More",
-      ctaSecondary: "Contact Us",
-      visualTitle: "TechStore",
-      visualSubtitle: "Expert information, trusted guidance",
+      title: "Welcome to HerbalMed - Premium Herbal Medicine",
+      subtitle: "Discover the healing power of nature with our premium collection of herbal medicines and natural remedies",
+      ctaPrimary: "Shop Now",
+      ctaSecondary: "Learn More",
+      visualTitle: "HerbalMed",
+      visualSubtitle: "Pure, natural, effective",
       heroIcon: "ShieldCheckIcon"
     },
     company: {
-      name: "TechStore",
-      description: "Your trusted source for comprehensive technology information and expert guidance.",
-      address: "123 Business Street, City, State 12345",
+      name: "HerbalMed",
+      description: "Your trusted source for premium herbal medicines and natural healing solutions.",
+      address: "123 Wellness Street, Green City, State 12345",
       phone: "(555) 123-4567",
-      email: "info@techstore.com",
+      email: "info@herbalmed.com",
       hours: "Mon-Fri: 9AM-6PM, Sat: 10AM-4PM"
     },
     services: [
       {
-        title: "Expert Information",
-        description: "Comprehensive guides and detailed specifications",
+        title: "Premium Quality",
+        description: "100% natural, organic herbal medicines",
         icon: "ShieldCheckIcon"
       },
       {
-        title: "Technical Support",
-        description: "Expert guidance and technical assistance",
+        title: "Expert Consultation",
+        description: "Professional herbal medicine guidance",
         icon: "PhoneIcon"
       },
       {
-        title: "Quick Access",
-        description: "Fast and reliable information delivery",
+        title: "Fast Delivery",
+        description: "Quick and secure shipping worldwide",
         icon: "TruckIcon"
       },
       {
@@ -59,19 +59,29 @@ export const AppProvider = ({ children }) => {
     ],
     products: [
       {
-        name: "Laptop Buying Guide",
-        image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=300&fit=crop&crop=center",
-        description: "Choose the perfect laptop for your needs"
+        name: "Turmeric Golden Blend",
+        image: "https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=400&h=300&fit=crop&crop=center",
+        description: "Premium organic turmeric with anti-inflammatory properties"
       },
       {
-        name: "Audio Equipment Guide", 
-        image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop&crop=center",
-        description: "Expert advice on audio equipment selection"
+        name: "Ginger Root Extract", 
+        image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center",
+        description: "Pure ginger root extract for digestive health"
       },
       {
-        name: "Wearable Tech Guide",
-        image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop&crop=center",
-        description: "Complete guide to wearable technology"
+        name: "Echinacea Immune Support",
+        image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&h=300&fit=crop&crop=center",
+        description: "Natural immune system booster from echinacea"
+      },
+      {
+        name: "Ashwagandha Stress Relief",
+        image: "https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=400&h=300&fit=crop&crop=center",
+        description: "Ancient herb for stress management and vitality"
+      },
+      {
+        name: "Ginkgo Biloba Memory",
+        image: "https://images.unsplash.com/photo-1594736797933-d0d4b7a8b4b4?w=400&h=300&fit=crop&crop=center",
+        description: "Traditional herb for cognitive function and memory"
       }
     ],
     testimonials: [
@@ -139,8 +149,8 @@ export const AppProvider = ({ children }) => {
         subtitle: 'Comprehensive information designed to help you make informed decisions.'
       },
       products: {
-        title: 'Free Resources & Guides',
-        subtitle: 'Expert knowledge and comprehensive guides to help you make informed decisions.'
+        title: 'Featured Herbal Products',
+        subtitle: 'Premium quality herbal medicines and natural remedies for your wellness journey.'
       },
       about: {
         title: 'About {company.name}',
