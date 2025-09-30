@@ -56,7 +56,7 @@ import SelectInput from '../components/SelectInput';
 import { useApp } from '../hooks/useApp';
 import { toast } from 'react-hot-toast';
 import SmartFloatingActionButton from '../components/SmartFloatingActionButton';
-import LandingPagePreview from '../components/LandingPagePreview';
+import LandingPage from './LandingPage';
 import ConfirmationModal from '../components/ConfirmationModal';
 
 const ContentManagement = () => {
@@ -447,7 +447,8 @@ const ContentManagement = () => {
     { id: 'services', name: 'Services', icon: CogIcon },
     { id: 'products', name: 'Products', icon: ShoppingBagIcon },
     { id: 'testimonials', name: 'Testimonials', icon: StarIcon },
-    { id: 'sections', name: 'Section Headers', icon: DocumentTextIcon }
+    { id: 'sections', name: 'Section Headers', icon: DocumentTextIcon },
+    { id: 'modals', name: 'Modal Content', icon: MegaphoneIcon }
   ];
 
   const renderTabContent = () => {
@@ -1206,6 +1207,247 @@ const ContentManagement = () => {
           </div>
         );
 
+      case 'modals':
+        return (
+          <div className="space-y-6">
+            <h3 className="text-base font-semibold text-gray-900">Modal Content Management</h3>
+            
+            {/* Shop Now Modal Content */}
+            <div className="space-y-4">
+              <h4 className="text-sm font-medium text-gray-700">Shop Now Modal</h4>
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="space-y-4">
+                  <InputFactory
+                    fieldName="shopNowModalTitle"
+                    config={{
+                      type: 'String',
+                      label: 'Modal Title',
+                      placeholder: 'e.g., How to Order',
+                      required: true
+                    }}
+                    value={formData.modals?.shopNow?.title || 'How to Order'}
+                    onChange={(value) => handleChange('modals', 'shopNow', 'title', value)}
+                  />
+                  
+                  <InputFactory
+                    fieldName="shopNowModalDescription"
+                    config={{
+                      type: 'Textarea',
+                      label: 'Modal Description',
+                      placeholder: 'e.g., Ready to start your wellness journey? Here\'s where you can order our premium herbal medicines:',
+                      required: true
+                    }}
+                    value={formData.modals?.shopNow?.description || 'Ready to start your wellness journey? Here\'s where you can order our premium herbal medicines:'}
+                    onChange={(value) => handleChange('modals', 'shopNow', 'description', value)}
+                  />
+                  
+                  {/* Ordering Methods */}
+                  <div className="space-y-3">
+                    <h5 className="text-sm font-medium text-gray-700">Ordering Methods</h5>
+                    
+                    {/* Facebook Orders */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <InputFactory
+                        fieldName="facebookTitle"
+                        config={{
+                          type: 'String',
+                          label: 'Facebook Title',
+                          placeholder: 'e.g., Facebook Page',
+                          required: true
+                        }}
+                        value={formData.modals?.shopNow?.facebook?.title || 'Facebook Page'}
+                        onChange={(value) => handleChange('modals', 'shopNow', 'facebook', 'title', value)}
+                      />
+                      <InputFactory
+                        fieldName="facebookDescription"
+                        config={{
+                          type: 'String',
+                          label: 'Facebook Description',
+                          placeholder: 'e.g., Message us for orders and inquiries',
+                          required: true
+                        }}
+                        value={formData.modals?.shopNow?.facebook?.description || 'Message us for orders and inquiries'}
+                        onChange={(value) => handleChange('modals', 'shopNow', 'facebook', 'description', value)}
+                      />
+                    </div>
+                    
+                    {/* Phone Orders */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <InputFactory
+                        fieldName="phoneTitle"
+                        config={{
+                          type: 'String',
+                          label: 'Phone Title',
+                          placeholder: 'e.g., Phone Orders',
+                          required: true
+                        }}
+                        value={formData.modals?.shopNow?.phone?.title || 'Phone Orders'}
+                        onChange={(value) => handleChange('modals', 'shopNow', 'phone', 'title', value)}
+                      />
+                      <InputFactory
+                        fieldName="phoneDescription"
+                        config={{
+                          type: 'String',
+                          label: 'Phone Description',
+                          placeholder: 'e.g., Call directly for personalized service',
+                          required: true
+                        }}
+                        value={formData.modals?.shopNow?.phone?.description || 'Call directly for personalized service'}
+                        onChange={(value) => handleChange('modals', 'shopNow', 'phone', 'description', value)}
+                      />
+                    </div>
+                    
+                    {/* Email Orders */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <InputFactory
+                        fieldName="emailTitle"
+                        config={{
+                          type: 'String',
+                          label: 'Email Title',
+                          placeholder: 'e.g., Email Orders',
+                          required: true
+                        }}
+                        value={formData.modals?.shopNow?.email?.title || 'Email Orders'}
+                        onChange={(value) => handleChange('modals', 'shopNow', 'email', 'title', value)}
+                      />
+                      <InputFactory
+                        fieldName="emailDescription"
+                        config={{
+                          type: 'String',
+                          label: 'Email Description',
+                          placeholder: 'e.g., Send us your requirements',
+                          required: true
+                        }}
+                        value={formData.modals?.shopNow?.email?.description || 'Send us your requirements'}
+                        onChange={(value) => handleChange('modals', 'shopNow', 'email', 'description', value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Product Details Modal Content */}
+            <div className="space-y-4">
+              <h4 className="text-sm font-medium text-gray-700">Product Details Modal</h4>
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="space-y-4">
+                  <InputFactory
+                    fieldName="productModalTitle"
+                    config={{
+                      type: 'String',
+                      label: 'Modal Title Template',
+                      placeholder: 'e.g., {productName} - Product Details',
+                      required: true
+                    }}
+                    value={formData.modals?.productDetails?.title || '{productName} - Product Details'}
+                    onChange={(value) => handleChange('modals', 'productDetails', 'title', value)}
+                  />
+                  
+                  <InputFactory
+                    fieldName="productModalDescription"
+                    config={{
+                      type: 'Textarea',
+                      label: 'Modal Description Template',
+                      placeholder: 'e.g., Learn more about this premium herbal product and its benefits.',
+                      required: true
+                    }}
+                    value={formData.modals?.productDetails?.description || 'Learn more about this premium herbal product and its benefits.'}
+                    onChange={(value) => handleChange('modals', 'productDetails', 'description', value)}
+                  />
+                  
+                  {/* Product Benefits Section */}
+                  <div className="space-y-3">
+                    <h5 className="text-sm font-medium text-gray-700">Product Benefits Section</h5>
+                    
+                    <InputFactory
+                      fieldName="benefitsTitle"
+                      config={{
+                        type: 'String',
+                        label: 'Benefits Section Title',
+                        placeholder: 'e.g., Key Benefits',
+                        required: true
+                      }}
+                      value={formData.modals?.productDetails?.benefits?.title || 'Key Benefits'}
+                      onChange={(value) => handleChange('modals', 'productDetails', 'benefits', 'title', value)}
+                    />
+                    
+                    <InputFactory
+                      fieldName="benefitsDescription"
+                      config={{
+                        type: 'Textarea',
+                        label: 'Benefits Description',
+                        placeholder: 'e.g., This product offers numerous health benefits including...',
+                        required: true
+                      }}
+                      value={formData.modals?.productDetails?.benefits?.description || 'This product offers numerous health benefits including natural healing properties, antioxidant support, and immune system enhancement.'}
+                      onChange={(value) => handleChange('modals', 'productDetails', 'benefits', 'description', value)}
+                    />
+                  </div>
+                  
+                  {/* Usage Instructions Section */}
+                  <div className="space-y-3">
+                    <h5 className="text-sm font-medium text-gray-700">Usage Instructions Section</h5>
+                    
+                    <InputFactory
+                      fieldName="usageTitle"
+                      config={{
+                        type: 'String',
+                        label: 'Usage Section Title',
+                        placeholder: 'e.g., Usage Instructions',
+                        required: true
+                      }}
+                      value={formData.modals?.productDetails?.usage?.title || 'Usage Instructions'}
+                      onChange={(value) => handleChange('modals', 'productDetails', 'usage', 'title', value)}
+                    />
+                    
+                    <InputFactory
+                      fieldName="usageDescription"
+                      config={{
+                        type: 'Textarea',
+                        label: 'Usage Description',
+                        placeholder: 'e.g., For best results, take 1-2 capsules daily with water...',
+                        required: true
+                      }}
+                      value={formData.modals?.productDetails?.usage?.description || 'For best results, take 1-2 capsules daily with water. Consult your healthcare provider before use if you have any medical conditions.'}
+                      onChange={(value) => handleChange('modals', 'productDetails', 'usage', 'description', value)}
+                    />
+                  </div>
+                  
+                  {/* Quality Assurance Section */}
+                  <div className="space-y-3">
+                    <h5 className="text-sm font-medium text-gray-700">Quality Assurance Section</h5>
+                    
+                    <InputFactory
+                      fieldName="qualityTitle"
+                      config={{
+                        type: 'String',
+                        label: 'Quality Section Title',
+                        placeholder: 'e.g., Quality Assurance',
+                        required: true
+                      }}
+                      value={formData.modals?.productDetails?.quality?.title || 'Quality Assurance'}
+                      onChange={(value) => handleChange('modals', 'productDetails', 'quality', 'title', value)}
+                    />
+                    
+                    <InputFactory
+                      fieldName="qualityDescription"
+                      config={{
+                        type: 'Textarea',
+                        label: 'Quality Description',
+                        placeholder: 'e.g., Our products are made with premium ingredients and tested for purity...',
+                        required: true
+                      }}
+                      value={formData.modals?.productDetails?.quality?.description || 'Our products are made with premium ingredients and tested for purity. We ensure the highest quality standards in every batch.'}
+                      onChange={(value) => handleChange('modals', 'productDetails', 'quality', 'description', value)}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
       default:
         return null;
     }
@@ -1284,7 +1526,7 @@ const ContentManagement = () => {
       </div>
 
       {/* Smart Floating Action Button */}
-      {(activeTab === 'services' || activeTab === 'products' || activeTab === 'testimonials') ? (
+      {(activeTab === 'services' || activeTab === 'products' || activeTab === 'testimonials' || activeTab === 'modals') ? (
         <SmartFloatingActionButton 
           variant="dots"
           icon="EllipsisVerticalIcon"
@@ -1362,7 +1604,7 @@ const ContentManagement = () => {
               
               {/* Modal Content - Landing Page Preview */}
               <div className="flex-1 overflow-y-auto">
-                <LandingPagePreview landingPageContent={landingPageContent} />
+                <LandingPage />
               </div>
             </div>
           </div>
