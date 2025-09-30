@@ -300,16 +300,16 @@ const LandingPage = () => {
         <div className="w-full">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">
-              {landingPageContent.about?.title || `About ${landingPageContent.company?.name || 'Our Company'}`}
+              {landingPageContent.sections?.about?.title || `About ${landingPageContent.company?.name || 'Our Company'}`}
             </h2>
             <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto font-medium">
-              {landingPageContent.about?.subtitle || 'Learn more about our company and mission.'}
+              {landingPageContent.sections?.about?.subtitle || 'Learn more about our company and mission.'}
             </p>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div>
               <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                {landingPageContent.about?.heading || 'Our Story'}
+                Our Story
               </h3>
               <div className="space-y-4 text-sm text-gray-600 leading-relaxed">
                 <p>
@@ -326,7 +326,7 @@ const LandingPage = () => {
             <div className="bg-gradient-to-br from-primary-50 to-primary-100 rounded-2xl p-8">
               <div className="text-center mb-8">
                 <h4 className="text-xl font-semibold text-gray-900 mb-2">
-                  {landingPageContent.about?.whyChooseTitle || 'Why Choose Us?'}
+                  Why Choose Us?
                 </h4>
               </div>
               <div className="space-y-6">
@@ -359,7 +359,7 @@ const LandingPage = () => {
                     <CursorArrowRaysIcon className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                    {landingPageContent.about?.missionTitle || 'Our Mission'}
+                    Our Mission
                   </h3>
                 </div>
                 <p className="text-sm text-gray-600 leading-relaxed text-center">
@@ -374,7 +374,7 @@ const LandingPage = () => {
                     <LightBulbIcon className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                    {landingPageContent.about?.visionTitle || 'Our Vision'}
+                    Our Vision
                   </h3>
                 </div>
                 <p className="text-sm text-gray-600 leading-relaxed text-center">
@@ -421,30 +421,30 @@ const LandingPage = () => {
         <div className="w-full">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">
-              {landingPageContent.contact.title}
+              {landingPageContent.sections?.contact?.title || 'Get in Touch'}
             </h2>
             <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto font-medium">
-              {landingPageContent.contact.subtitle}
+              {landingPageContent.sections?.contact?.subtitle || 'Have questions? We\'d love to hear from you.'}
             </p>
           </div>
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Contact Information */}
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-6">
-                {landingPageContent.contact.infoTitle}
+                Contact Information
               </h3>
                 <div className="space-y-4">
                   <div className="flex items-center space-x-3">
                       <PhoneIcon className="h-5 w-5 text-primary-600" />
-                  <span className="text-sm text-gray-600">{landingPageContent.contact.phone}</span>
+                  <span className="text-sm text-gray-600">{landingPageContent.company?.phone || '+1 (555) 123-4567'}</span>
                   </div>
                   <div className="flex items-center space-x-3">
                   <ShieldCheckIcon className="h-5 w-5 text-primary-600" />
-                  <span className="text-sm text-gray-600">{landingPageContent.contact.email}</span>
+                  <span className="text-sm text-gray-600">{landingPageContent.company?.email || 'info@herbalmed.com'}</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <TruckIcon className="h-5 w-5 text-primary-600" />
-                  <span className="text-sm text-gray-600">{landingPageContent.contact.address}</span>
+                  <span className="text-sm text-gray-600">{landingPageContent.company?.address || '123 Wellness Street, Health City, HC 12345'}</span>
                 </div>
               </div>
             </div>
