@@ -329,7 +329,7 @@ const LandingPage = () => {
               const currentPageServices = landingPageContent.services?.slice(currentFeaturePage * 4, (currentFeaturePage + 1) * 4) || [];
               const currentPageCount = currentPageServices.length;
               
-              if (currentPageCount === 1) return 'grid-cols-1';
+              if (currentPageCount === 1) return 'grid-cols-1 justify-center max-w-sm mx-auto';
               if (currentPageCount === 2) return 'grid-cols-1 sm:grid-cols-2';
               if (currentPageCount === 3) return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
               return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4';
@@ -360,14 +360,7 @@ const LandingPage = () => {
             {/* Page indicators */}
             {landingPageContent.services?.length > 4 && (
               <div className="flex justify-center mt-8 space-x-2">
-                {Array.from({ length: Math.ceil((landingPageContent.services?.length || 0) / 4) }).map((_, index) => {
-                  console.log('Pagination debug:', {
-                    totalServices: landingPageContent.services?.length,
-                    currentPage: currentFeaturePage,
-                    index,
-                    totalPages: Math.ceil((landingPageContent.services?.length || 0) / 4)
-                  });
-                  return (
+                {Array.from({ length: Math.ceil((landingPageContent.services?.length || 0) / 4) }).map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentFeaturePage(index)}
@@ -377,8 +370,7 @@ const LandingPage = () => {
                         : 'bg-gray-300 hover:bg-gray-400'
                     }`}
                   />
-                  );
-                })}
+                ))}
               </div>
             )}
           </div>
