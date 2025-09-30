@@ -957,7 +957,7 @@ const ContentManagement = () => {
                               </div>
                               <div className="flex-1">
                                 <InputFactory
-                                  fieldName={`product-${index}-benefit-${benefitIndex}`}
+                                  fieldName={`benefit-${benefitIndex}`}
                                   config={{
                                     type: 'String',
                                     label: '',
