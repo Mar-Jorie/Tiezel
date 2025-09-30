@@ -878,8 +878,8 @@ const ContentManagement = () => {
                   <div className="space-y-4">
                     <h5 className="text-sm font-medium text-gray-700">Basic Information</h5>
                     
-                    {/* Name and Price - Two columns */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Product Name - Full width */}
+                    <div>
                       <InputFactory
                         fieldName={`product-${index}-name`}
                         config={{
@@ -890,17 +890,6 @@ const ContentManagement = () => {
                         }}
                         value={product.name}
                         onChange={(value) => handleArrayChange('products', index, 'name', value)}
-                      />
-                      <InputFactory
-                        fieldName={`product-${index}-price`}
-                        config={{
-                          type: 'Currency',
-                          label: 'Price',
-                          placeholder: 'Enter price',
-                          required: true
-                        }}
-                        value={product.price}
-                        onChange={(value) => handleArrayChange('products', index, 'price', value)}
                       />
                     </div>
                     
@@ -930,6 +919,66 @@ const ContentManagement = () => {
                         }}
                         value={product.image || ''}
                         onChange={(value) => handleArrayChange('products', index, 'image', value)}
+                      />
+                    </div>
+                  </div>
+                  
+                  {/* Product Benefits */}
+                  <div className="mt-6 pt-6 border-t border-gray-200">
+                    <h5 className="text-sm font-medium text-gray-700 mb-4">Product Benefits</h5>
+                    <div className="space-y-4">
+                      <InputFactory
+                        fieldName={`product-${index}-benefitsTitle`}
+                        config={{
+                          type: 'String',
+                          label: 'Benefits Section Title',
+                          placeholder: 'e.g., Key Benefits',
+                          required: true
+                        }}
+                        value={product.benefitsTitle || ''}
+                        onChange={(value) => handleArrayChange('products', index, 'benefitsTitle', value)}
+                      />
+                      
+                      <InputFactory
+                        fieldName={`product-${index}-benefitsDescription`}
+                        config={{
+                          type: 'Textarea',
+                          label: 'Benefits Section Description',
+                          placeholder: 'e.g., This product offers multiple health benefits',
+                          required: true
+                        }}
+                        value={product.benefitsDescription || ''}
+                        onChange={(value) => handleArrayChange('products', index, 'benefitsDescription', value)}
+                      />
+                    </div>
+                  </div>
+                  
+                  {/* Quality Assurance */}
+                  <div className="mt-6 pt-6 border-t border-gray-200">
+                    <h5 className="text-sm font-medium text-gray-700 mb-4">Quality Assurance</h5>
+                    <div className="space-y-4">
+                      <InputFactory
+                        fieldName={`product-${index}-qualityTitle`}
+                        config={{
+                          type: 'String',
+                          label: 'Quality Assurance Title',
+                          placeholder: 'e.g., Quality Guarantee',
+                          required: true
+                        }}
+                        value={product.qualityTitle || ''}
+                        onChange={(value) => handleArrayChange('products', index, 'qualityTitle', value)}
+                      />
+                      
+                      <InputFactory
+                        fieldName={`product-${index}-qualityDescription`}
+                        config={{
+                          type: 'Textarea',
+                          label: 'Quality Assurance Description',
+                          placeholder: 'e.g., Premium quality herbal medicine',
+                          required: true
+                        }}
+                        value={product.qualityDescription || ''}
+                        onChange={(value) => handleArrayChange('products', index, 'qualityDescription', value)}
                       />
                     </div>
                   </div>
