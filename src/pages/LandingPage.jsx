@@ -289,44 +289,48 @@ const LandingPage = () => {
             </p>
           </div>
           <div className="relative">
-            {/* Navigation arrows */}
-            <button
-              onClick={prevFeaturePage}
-              disabled={currentFeaturePage === 0}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
-            >
-              <ChevronLeftIcon className="h-6 w-6 text-gray-600" />
-            </button>
-            
-            <button
-              onClick={nextFeaturePage}
-              disabled={currentFeaturePage >= Math.ceil((landingPageContent.services?.length || 0) / 4) - 1}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
-            >
-              <ChevronRightIcon className="h-6 w-6 text-gray-600" />
-            </button>
+            {/* Navigation arrows - only show if there are multiple pages */}
+            {landingPageContent.services?.length > 4 && (
+              <>
+                <button
+                  onClick={prevFeaturePage}
+                  disabled={currentFeaturePage === 0}
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                >
+                  <ChevronLeftIcon className="h-6 w-6 text-gray-600" />
+                </button>
+                
+                <button
+                  onClick={nextFeaturePage}
+                  disabled={currentFeaturePage >= Math.ceil((landingPageContent.services?.length || 0) / 4) - 1}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                >
+                  <ChevronRightIcon className="h-6 w-6 text-gray-600" />
+                </button>
+              </>
+            )}
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
               {landingPageContent.services
                 ?.slice(currentFeaturePage * 4, (currentFeaturePage + 1) * 4)
                 .map((service, index) => {
-                  const IconComponent = {
-                    ShieldCheckIcon,
-                    PhoneIcon,
-                    TruckIcon,
-                    StarIcon
-                  }[service.icon] || ShieldCheckIcon;
-                  
-                  return (
-                  <div key={index} className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 group">
+              const IconComponent = {
+                ShieldCheckIcon,
+                PhoneIcon,
+                TruckIcon,
+                StarIcon
+              }[service.icon] || ShieldCheckIcon;
+              
+              return (
+              <div key={index} className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 group">
                     <div className="w-16 h-16 bg-gradient-to-br from-primary-100 to-primary-200 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                        <IconComponent className="w-8 h-8 text-primary-600" />
-                    </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">{service.title}</h3>
-                    <p className="text-sm text-gray-600 leading-relaxed text-center">{service.description}</p>
-                    </div>
-                  );
-                })}
+                    <IconComponent className="w-8 h-8 text-primary-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">{service.title}</h3>
+                <p className="text-sm text-gray-600 leading-relaxed text-center">{service.description}</p>
+                </div>
+              );
+            })}
             </div>
 
             {/* Page indicators */}
@@ -543,40 +547,49 @@ const LandingPage = () => {
             </p>
           </div>
           <div className="relative">
-            {/* Navigation arrows */}
-            <button
-              onClick={prevTestimonialPage}
-              disabled={currentTestimonialPage === 0}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
-            >
-              <ChevronLeftIcon className="h-6 w-6 text-gray-600" />
-            </button>
-            
-            <button
-              onClick={nextTestimonialPage}
-              disabled={currentTestimonialPage >= Math.ceil((landingPageContent.testimonials?.length || 0) / 3) - 1}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
-            >
-              <ChevronRightIcon className="h-6 w-6 text-gray-600" />
-            </button>
+            {/* Navigation arrows - only show if there are multiple pages */}
+            {landingPageContent.testimonials?.length > 3 && (
+              <>
+                <button
+                  onClick={prevTestimonialPage}
+                  disabled={currentTestimonialPage === 0}
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                >
+                  <ChevronLeftIcon className="h-6 w-6 text-gray-600" />
+                </button>
+                
+                <button
+                  onClick={nextTestimonialPage}
+                  disabled={currentTestimonialPage >= Math.ceil((landingPageContent.testimonials?.length || 0) / 3) - 1}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                >
+                  <ChevronRightIcon className="h-6 w-6 text-gray-600" />
+                </button>
+              </>
+            )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {landingPageContent.testimonials
                 ?.slice(currentTestimonialPage * 3, (currentTestimonialPage + 1) * 3)
-                .map((testimonial, index) => (
-                <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
-                  <div className="flex items-center mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <StarIcon key={i} className="h-5 w-5 text-yellow-400" />
-                    ))}
-                  </div>
-                  <p className="text-sm text-gray-600 mb-4">"{testimonial.text}"</p>
-                    <div>
-                    <p className="text-sm font-medium text-gray-900">{testimonial.name}</p>
-                      <p className="text-xs text-gray-500">{testimonial.company}</p>
-                  </div>
-                </div>
-              ))}
+                .map((testimonial, index) => {
+                  // Debug: Log testimonial data to see what's being received
+                  console.log('Testimonial data:', testimonial);
+                  
+                  return (
+                    <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+                      <div className="flex items-center mb-4">
+                        {[...Array(testimonial.rating || 0)].map((_, i) => (
+                          <StarIcon key={i} className="h-5 w-5 text-yellow-400" />
+                        ))}
+                      </div>
+                      <p className="text-sm text-gray-600 mb-4">"{testimonial.text}"</p>
+                        <div>
+                        <p className="text-sm font-medium text-gray-900">{testimonial.name}</p>
+                          <p className="text-xs text-gray-500">{testimonial.company}</p>
+                      </div>
+                    </div>
+                  );
+                })}
             </div>
 
             {/* Page indicators */}
@@ -693,8 +706,8 @@ const LandingPage = () => {
                   <div className="flex items-start space-x-4">
                     <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center flex-shrink-0">
                       <PhoneIcon className="h-6 w-6 text-primary-600" />
-                    </div>
-                    <div>
+                </div>
+                <div>
                       <h4 className="text-md font-semibold text-gray-900 mb-1">Phone</h4>
                       <p className="text-sm text-gray-600 mb-2">{landingPageContent.company?.phone || '+1 (555) 123-4567'}</p>
                       <p className="text-sm text-gray-500">Mon to Fri 9am to 6pm</p>
