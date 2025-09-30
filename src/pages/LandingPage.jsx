@@ -557,7 +557,7 @@ const LandingPage = () => {
               </div>
               
               {/* Scrollable Content */}
-              <div className="max-h-96 overflow-y-auto p-6">
+              <div className="max-h-96 overflow-y-auto scrollbar-hide p-6">
                 <div className="space-y-4">
                   <p className="text-sm text-gray-600">
                     Ready to start your wellness journey? Here's where you can order our premium herbal medicines:
@@ -645,7 +645,7 @@ const LandingPage = () => {
               </div>
               
               {/* Scrollable Content */}
-              <div className="max-h-96 overflow-y-auto p-6">
+              <div className="max-h-96 overflow-y-auto scrollbar-hide p-6">
                 <div className="space-y-4">
                   <img 
                     src={selectedProduct.image} 
