@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import auditService from '../services/auditService';
 import { 
@@ -11,46 +11,16 @@ import {
   HomeIcon,
   BuildingOfficeIcon,
   CogIcon,
-  ShoppingBagIcon,
-  StarIcon,
   PhotoIcon,
   XMarkIcon,
-  PhoneIcon,
-  TruckIcon,
-  HeartIcon,
-  ShieldCheckIcon,
-  ClockIcon,
-  UserGroupIcon,
-  ChartBarIcon,
-  GlobeAltIcon,
-  EnvelopeIcon,
-  MapPinIcon,
-  AcademicCapIcon,
-  BeakerIcon,
-  BoltIcon,
-  BookOpenIcon,
   EyeIcon as PreviewIcon,
-  BriefcaseIcon,
-  CameraIcon,
-  ComputerDesktopIcon,
-  DevicePhoneMobileIcon,
-  FireIcon,
-  GiftIcon,
-  HandThumbUpIcon,
-  LightBulbIcon,
-  MusicalNoteIcon,
-  PaintBrushIcon,
-  PuzzlePieceIcon,
-  RocketLaunchIcon,
-  SparklesIcon,
-  SunIcon,
-  TagIcon,
-  TrophyIcon,
-  WrenchScrewdriverIcon,
   Bars3Icon,
   MegaphoneIcon,
-  DocumentTextIcon
+  DocumentTextIcon,
+  ShoppingBagIcon,
+  StarIcon
 } from '@heroicons/react/24/outline';
+import { availableIcons } from '../components/IconLibrary';
 import Button from '../components/Button';
 import InputFactory from '../components/InputFactory';
 import SelectInput from '../components/SelectInput';
@@ -82,8 +52,22 @@ const ContentManagement = () => {
   // Track changes in form data
   useEffect(() => {
     const hasFormChanges = JSON.stringify(formData) !== JSON.stringify(landingPageContent);
-    setHasChanges(hasFormChanges);
+    console.log('Change detection useEffect:', { hasFormChanges });
+    // Only set to false if there are no changes, don't override manual changes
+    if (!hasFormChanges) {
+      setHasChanges(false);
+    }
   }, [formData, landingPageContent]);
+
+  // Force change detection for benefits and quality assurance
+  const forceChangeDetection = () => {
+    console.log('Force change detection triggered');
+    // Use a timeout to ensure the state update has been processed
+    setTimeout(() => {
+      console.log('Setting hasChanges to true');
+      setHasChanges(true);
+    }, 0);
+  };
 
   // Save function
   const handleSave = async () => {
@@ -125,41 +109,6 @@ const ContentManagement = () => {
   };
 
   // Available icons for selection
-  const availableIcons = [
-    { name: 'ShoppingBagIcon', component: ShoppingBagIcon, label: 'Shopping Bag' },
-    { name: 'PhoneIcon', component: PhoneIcon, label: 'Phone' },
-    { name: 'TruckIcon', component: TruckIcon, label: 'Truck' },
-    { name: 'StarIcon', component: StarIcon, label: 'Star' },
-    { name: 'HeartIcon', component: HeartIcon, label: 'Heart' },
-    { name: 'ShieldCheckIcon', component: ShieldCheckIcon, label: 'Shield' },
-    { name: 'ClockIcon', component: ClockIcon, label: 'Clock' },
-    { name: 'UserGroupIcon', component: UserGroupIcon, label: 'Users' },
-    { name: 'ChartBarIcon', component: ChartBarIcon, label: 'Chart' },
-    { name: 'GlobeAltIcon', component: GlobeAltIcon, label: 'Globe' },
-    { name: 'EnvelopeIcon', component: EnvelopeIcon, label: 'Envelope' },
-    { name: 'MapPinIcon', component: MapPinIcon, label: 'Location' },
-    { name: 'AcademicCapIcon', component: AcademicCapIcon, label: 'Education' },
-    { name: 'BeakerIcon', component: BeakerIcon, label: 'Science' },
-    { name: 'BoltIcon', component: BoltIcon, label: 'Lightning' },
-    { name: 'BookOpenIcon', component: BookOpenIcon, label: 'Book' },
-    { name: 'BriefcaseIcon', component: BriefcaseIcon, label: 'Briefcase' },
-    { name: 'CameraIcon', component: CameraIcon, label: 'Camera' },
-    { name: 'ComputerDesktopIcon', component: ComputerDesktopIcon, label: 'Desktop' },
-    { name: 'DevicePhoneMobileIcon', component: DevicePhoneMobileIcon, label: 'Mobile' },
-    { name: 'FireIcon', component: FireIcon, label: 'Fire' },
-    { name: 'GiftIcon', component: GiftIcon, label: 'Gift' },
-    { name: 'HandThumbUpIcon', component: HandThumbUpIcon, label: 'Thumbs Up' },
-    { name: 'LightBulbIcon', component: LightBulbIcon, label: 'Light Bulb' },
-    { name: 'MusicalNoteIcon', component: MusicalNoteIcon, label: 'Music' },
-    { name: 'PaintBrushIcon', component: PaintBrushIcon, label: 'Paint' },
-    { name: 'PuzzlePieceIcon', component: PuzzlePieceIcon, label: 'Puzzle' },
-    { name: 'RocketLaunchIcon', component: RocketLaunchIcon, label: 'Rocket' },
-    { name: 'SparklesIcon', component: SparklesIcon, label: 'Sparkles' },
-    { name: 'SunIcon', component: SunIcon, label: 'Sun' },
-    { name: 'TagIcon', component: TagIcon, label: 'Tag' },
-    { name: 'TrophyIcon', component: TrophyIcon, label: 'Trophy' },
-    { name: 'WrenchScrewdriverIcon', component: WrenchScrewdriverIcon, label: 'Tools' }
-  ];
 
   // Redirect if not admin
   useEffect(() => {
@@ -196,6 +145,7 @@ const ContentManagement = () => {
     
     // Update local state only
     setFormData(updatedData);
+    forceChangeDetection();
   };
 
 
@@ -208,6 +158,7 @@ const ContentManagement = () => {
     
     // Update local state only
     setFormData(updatedData);
+    forceChangeDetection();
     
     // Log content deletion
     auditService.logContentDelete(
@@ -498,6 +449,45 @@ const ContentManagement = () => {
     }
   };
 
+  const handleAddOrderMethod = () => {
+    const newMethod = {
+      title: '',
+      description: ''
+    };
+    
+    const updatedData = {
+      ...formData,
+      modals: {
+        ...formData.modals,
+        shopNow: {
+          ...formData.modals?.shopNow,
+          methods: [...(formData.modals?.shopNow?.methods || []), newMethod]
+        }
+      }
+    };
+    
+    setFormData(updatedData);
+    forceChangeDetection();
+    toast.success('New order method added');
+  };
+
+  const handleRemoveOrderMethod = (index) => {
+    const updatedData = {
+      ...formData,
+      modals: {
+        ...formData.modals,
+        shopNow: {
+          ...formData.modals?.shopNow,
+          methods: formData.modals?.shopNow?.methods?.filter((_, i) => i !== index) || []
+        }
+      }
+    };
+    
+    setFormData(updatedData);
+    forceChangeDetection();
+    toast.success('Order method removed');
+  };
+
   const getModalFields = (type) => {
     switch (type) {
       case 'services':
@@ -640,7 +630,7 @@ const ContentManagement = () => {
           <div className="flex items-center space-x-2">
             {selectedIcon ? (
               <>
-                <selectedIcon.component className="h-4 w-4 text-gray-600" />
+                {React.createElement(selectedIcon.component, { className: "h-4 w-4 text-gray-600" })}
                 <span>{selectedIcon.label}</span>
               </>
             ) : (
@@ -665,7 +655,7 @@ const ContentManagement = () => {
                       value === icon.name ? 'bg-primary-50 border border-primary-200' : ''
                     }`}
                   >
-                    <icon.component className="h-5 w-5 text-gray-600" />
+                    {React.createElement(icon.component, { className: "h-5 w-5 text-gray-600" })}
                     <span className="text-xs text-gray-600">{icon.label}</span>
                   </button>
                 ))}
@@ -762,7 +752,17 @@ const ContentManagement = () => {
                   required: true
                 }}
                 value={formData.hero?.title || ''}
-                onChange={(value) => handleChange('hero', 'title', value)}
+                onChange={(value) => {
+                  const updatedData = {
+                    ...formData,
+                    hero: {
+                      ...formData.hero,
+                      title: value
+                    }
+                  };
+                  setFormData(updatedData);
+                  forceChangeDetection();
+                }}
               />
               <InputFactory
                 fieldName="subtitle"
@@ -773,7 +773,17 @@ const ContentManagement = () => {
                   required: true
                 }}
                 value={formData.hero?.subtitle || ''}
-                onChange={(value) => handleChange('hero', 'subtitle', value)}
+                onChange={(value) => {
+                  const updatedData = {
+                    ...formData,
+                    hero: {
+                      ...formData.hero,
+                      subtitle: value
+                    }
+                  };
+                  setFormData(updatedData);
+                  forceChangeDetection();
+                }}
               />
               </div>
               
@@ -793,7 +803,17 @@ const ContentManagement = () => {
                       required: true
                     }}
                     value={formData.hero?.visualTitle || ''}
-                    onChange={(value) => handleChange('hero', 'visualTitle', value)}
+                    onChange={(value) => {
+                      const updatedData = {
+                        ...formData,
+                        hero: {
+                          ...formData.hero,
+                          visualTitle: value
+                        }
+                      };
+                      setFormData(updatedData);
+                      forceChangeDetection();
+                    }}
                   />
                   <InputFactory
                     fieldName="visualSubtitle"
@@ -804,7 +824,17 @@ const ContentManagement = () => {
                       required: true
                     }}
                     value={formData.hero?.visualSubtitle || ''}
-                    onChange={(value) => handleChange('hero', 'visualSubtitle', value)}
+                    onChange={(value) => {
+                      const updatedData = {
+                        ...formData,
+                        hero: {
+                          ...formData.hero,
+                          visualSubtitle: value
+                        }
+                      };
+                      setFormData(updatedData);
+                      forceChangeDetection();
+                    }}
                   />
                 </div>
                 
@@ -812,7 +842,17 @@ const ContentManagement = () => {
                 <div className="mt-6">
                   <IconSelector
                     value={formData.hero?.heroIcon || 'ShoppingBagIcon'}
-                    onChange={(value) => handleChange('hero', 'heroIcon', value)}
+                    onChange={(value) => {
+                      const updatedData = {
+                        ...formData,
+                        hero: {
+                          ...formData.hero,
+                          heroIcon: value
+                        }
+                      };
+                      setFormData(updatedData);
+                      forceChangeDetection();
+                    }}
                     label="Hero Icon"
                   />
                 </div>
@@ -836,7 +876,17 @@ const ContentManagement = () => {
                 required: true
               }}
               value={formData.branding?.logo || ''}
-              onChange={(value) => handleChange('branding', 'logo', value)}
+              onChange={(value) => {
+                const updatedData = {
+                  ...formData,
+                  branding: {
+                    ...formData.branding,
+                    logo: value
+                  }
+                };
+                setFormData(updatedData);
+                forceChangeDetection();
+              }}
             />
             
             {/* Name and Phone - Two columns */}
@@ -850,7 +900,17 @@ const ContentManagement = () => {
                   required: true
                 }}
                 value={formData.company?.name || ''}
-                onChange={(value) => handleChange('company', 'name', value)}
+                onChange={(value) => {
+                  const updatedData = {
+                    ...formData,
+                    company: {
+                      ...formData.company,
+                      name: value
+                    }
+                  };
+                  setFormData(updatedData);
+                  forceChangeDetection();
+                }}
               />
               <InputFactory
                 fieldName="phone"
@@ -861,7 +921,17 @@ const ContentManagement = () => {
                   required: true
                 }}
                 value={formData.company?.phone || ''}
-                onChange={(value) => handleChange('company', 'phone', value)}
+                onChange={(value) => {
+                  const updatedData = {
+                    ...formData,
+                    company: {
+                      ...formData.company,
+                      phone: value
+                    }
+                  };
+                  setFormData(updatedData);
+                  forceChangeDetection();
+                }}
               />
             </div>
             
@@ -871,7 +941,17 @@ const ContentManagement = () => {
               <ColorPicker
                 label="Primary Brand Color"
                     value={formData.branding?.primaryColor || '#6589a4'}
-                onChange={(value) => handleChange('branding', 'primaryColor', value)}
+                onChange={(value) => {
+                  const updatedData = {
+                    ...formData,
+                    branding: {
+                      ...formData.branding,
+                      primaryColor: value
+                    }
+                  };
+                  setFormData(updatedData);
+                  forceChangeDetection();
+                }}
                 required={true}
               />
               
@@ -886,7 +966,17 @@ const ContentManagement = () => {
                   format: 'email'
                 }}
                 value={formData.company?.email || ''}
-                onChange={(value) => handleChange('company', 'email', value)}
+                onChange={(value) => {
+                  const updatedData = {
+                    ...formData,
+                    company: {
+                      ...formData.company,
+                      email: value
+                    }
+                  };
+                  setFormData(updatedData);
+                  forceChangeDetection();
+                }}
               />
             </div>
             
@@ -913,7 +1003,17 @@ const ContentManagement = () => {
                   required: true
                 }}
                 value={formData.company?.address || ''}
-                onChange={(value) => handleChange('company', 'address', value)}
+                onChange={(value) => {
+                  const updatedData = {
+                    ...formData,
+                    company: {
+                      ...formData.company,
+                      address: value
+                    }
+                  };
+                  setFormData(updatedData);
+                  forceChangeDetection();
+                }}
               />
             
             {/* Description - Full width */}
@@ -926,7 +1026,17 @@ const ContentManagement = () => {
                     required: true
                   }}
                   value={formData.company?.description || ''}
-                  onChange={(value) => handleChange('company', 'description', value)}
+                onChange={(value) => {
+                  const updatedData = {
+                    ...formData,
+                    company: {
+                      ...formData.company,
+                      description: value
+                    }
+                  };
+                  setFormData(updatedData);
+                  forceChangeDetection();
+                }}
                 />
             
             {/* Business Hours - Full width */}
@@ -939,7 +1049,17 @@ const ContentManagement = () => {
                   required: true
                 }}
                 value={formData.company?.hours || ''}
-                onChange={(value) => handleChange('company', 'hours', value)}
+                onChange={(value) => {
+                  const updatedData = {
+                    ...formData,
+                    company: {
+                      ...formData.company,
+                      hours: value
+                    }
+                  };
+                  setFormData(updatedData);
+                  forceChangeDetection();
+                }}
               />
             
             {/* Mission and Vision Section */}
@@ -957,7 +1077,17 @@ const ContentManagement = () => {
                     required: true
                   }}
                   value={formData.about?.missionDescription || 'To provide innovative technology solutions that empower businesses and individuals to achieve their goals through reliable, high-quality products and exceptional customer service.'}
-                  onChange={(value) => handleChange('about', 'missionDescription', value)}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      about: {
+                        ...formData.about,
+                        missionDescription: value
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
                 />
               </div>
               
@@ -972,7 +1102,17 @@ const ContentManagement = () => {
                     required: true
                   }}
                   value={formData.about?.visionDescription || 'To be the leading technology partner that bridges the gap between cutting-edge innovation and practical business solutions, creating a world where technology serves humanity seamlessly.'}
-                  onChange={(value) => handleChange('about', 'visionDescription', value)}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      about: {
+                        ...formData.about,
+                        visionDescription: value
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
                 />
               </div>
             </div>
@@ -990,7 +1130,17 @@ const ContentManagement = () => {
                     required: true
                   }}
                   value={formData.company?.description || 'It all started in a small garage in 2020, where three friends with a shared passion for technology came together with a simple dream: to make cutting-edge technology accessible to everyone. What began as weekend projects and late-night coding sessions quickly evolved into something much bigger.'}
-                  onChange={(value) => handleChange('company', 'description', value)}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      company: {
+                        ...formData.company,
+                        description: value
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
                 />
                 <InputFactory
                   fieldName="companyStoryPart2"
@@ -1001,7 +1151,17 @@ const ContentManagement = () => {
                     required: true
                   }}
                   value={formData.company?.storyPart2 || 'Our first breakthrough came when we helped a local business digitize their operations during the pandemic. Word spread quickly, and soon we found ourselves working with dozens of companies, each with unique challenges and opportunities. We learned that technology isn\'t just about the latest gadgets—it\'s about understanding people\'s needs and crafting solutions that truly work.'}
-                  onChange={(value) => handleChange('company', 'storyPart2', value)}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      company: {
+                        ...formData.company,
+                        storyPart2: value
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
                 />
                 <InputFactory
                   fieldName="companyStoryPart3"
@@ -1012,7 +1172,17 @@ const ContentManagement = () => {
                     required: true
                   }}
                   value={formData.company?.storyPart3 || 'Today, we\'ve grown from that small garage into a trusted partner for thousands of businesses worldwide. But we\'ve never forgotten our roots. Every product we recommend, every solution we provide, carries the same attention to detail and personal care that started it all. We\'re not just selling technology—we\'re building relationships and helping dreams become reality.'}
-                  onChange={(value) => handleChange('company', 'storyPart3', value)}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      company: {
+                        ...formData.company,
+                        storyPart3: value
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
                 />
               </div>
             </div>
@@ -1165,6 +1335,8 @@ const ContentManagement = () => {
                             ...prev,
                             products: updatedProducts
                           }));
+                          // Force change detection
+                          forceChangeDetection();
                         }}
                       >
                         <PlusIcon className="h-4 w-4 mr-2" />
@@ -1200,6 +1372,8 @@ const ContentManagement = () => {
                                       ...prev,
                                       products: updatedProducts
                                     }));
+                                    // Force change detection
+                                    forceChangeDetection();
                                   }}
                                 />
                               </div>
@@ -1215,6 +1389,8 @@ const ContentManagement = () => {
                                         ...prev,
                                         products: updatedProducts
                                       }));
+                                      // Force change detection
+                                      forceChangeDetection();
                                     }
                                   }}
                                   className="!w-auto flex-shrink-0 h-10"
@@ -1247,10 +1423,13 @@ const ContentManagement = () => {
                           type: 'String',
                           label: 'Quality Assurance Title',
                           placeholder: 'e.g., Quality Guarantee',
-                          required: true
+                          required: false
                         }}
                         value={product.qualityTitle || ''}
-                        onChange={(value) => handleArrayChange('products', index, 'qualityTitle', value)}
+                        onChange={(value) => {
+                          handleArrayChange('products', index, 'qualityTitle', value);
+                          forceChangeDetection();
+                        }}
                       />
                       
                       <InputFactory
@@ -1259,10 +1438,13 @@ const ContentManagement = () => {
                           type: 'Textarea',
                           label: 'Quality Assurance Description',
                           placeholder: 'e.g., Premium quality herbal medicine',
-                          required: true
+                          required: false
                         }}
                         value={product.qualityDescription || ''}
-                        onChange={(value) => handleArrayChange('products', index, 'qualityDescription', value)}
+                        onChange={(value) => {
+                          handleArrayChange('products', index, 'qualityDescription', value);
+                          forceChangeDetection();
+                        }}
                       />
                     </div>
                   </div>
@@ -1367,7 +1549,20 @@ const ContentManagement = () => {
                     required: true
                   }}
                   value={formData.sections?.features?.title || 'Everything You Need to Succeed'}
-                  onChange={(value) => handleChange('sections', 'features', 'title', value)}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      sections: {
+                        ...formData.sections,
+                        features: {
+                          ...formData.sections?.features,
+                          title: value
+                        }
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
                 />
                 <InputFactory
                   fieldName="featuresSubtitle"
@@ -1378,7 +1573,20 @@ const ContentManagement = () => {
                     required: true
                   }}
                   value={formData.sections?.features?.subtitle || 'Comprehensive services designed to meet your e-commerce needs.'}
-                  onChange={(value) => handleChange('sections', 'features', 'subtitle', value)}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      sections: {
+                        ...formData.sections,
+                        features: {
+                          ...formData.sections?.features,
+                          subtitle: value
+                        }
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
                 />
               </div>
             </div>
@@ -1396,7 +1604,20 @@ const ContentManagement = () => {
                     required: true
                   }}
                   value={formData.sections?.products?.title || 'Featured Products'}
-                  onChange={(value) => handleChange('sections', 'products', 'title', value)}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      sections: {
+                        ...formData.sections,
+                        products: {
+                          ...formData.sections?.products,
+                          title: value
+                        }
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
                 />
                 <InputFactory
                   fieldName="productsSubtitle"
@@ -1407,7 +1628,20 @@ const ContentManagement = () => {
                     required: true
                   }}
                   value={formData.sections?.products?.subtitle || 'Discover our carefully curated selection of quality products.'}
-                  onChange={(value) => handleChange('sections', 'products', 'subtitle', value)}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      sections: {
+                        ...formData.sections,
+                        products: {
+                          ...formData.sections?.products,
+                          subtitle: value
+                        }
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
                 />
               </div>
             </div>
@@ -1455,7 +1689,20 @@ const ContentManagement = () => {
                     required: true
                   }}
                   value={formData.sections?.testimonials?.title || 'What Our Customers Say'}
-                  onChange={(value) => handleChange('sections', 'testimonials', 'title', value)}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      sections: {
+                        ...formData.sections,
+                        testimonials: {
+                          ...formData.sections?.testimonials,
+                          title: value
+                        }
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
                 />
                 <InputFactory
                   fieldName="testimonialsSubtitle"
@@ -1466,7 +1713,20 @@ const ContentManagement = () => {
                     required: true
                   }}
                   value={formData.sections?.testimonials?.subtitle || 'Don\'t just take our word for it - hear from our satisfied customers.'}
-                  onChange={(value) => handleChange('sections', 'testimonials', 'subtitle', value)}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      sections: {
+                        ...formData.sections,
+                        testimonials: {
+                          ...formData.sections?.testimonials,
+                          subtitle: value
+                        }
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
                 />
               </div>
             </div>
@@ -1484,7 +1744,17 @@ const ContentManagement = () => {
                     required: true
                   }}
                   value={formData.cta?.title || 'Ready to Start Shopping?'}
-                  onChange={(value) => handleChange('cta', 'title', value)}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      cta: {
+                        ...formData.cta,
+                        title: value
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
                 />
                 <InputFactory
                   fieldName="ctaSubtitle"
@@ -1495,7 +1765,17 @@ const ContentManagement = () => {
                     required: true
                   }}
                   value={formData.cta?.subtitle || 'Join thousands of satisfied customers'}
-                  onChange={(value) => handleChange('cta', 'subtitle', value)}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      cta: {
+                        ...formData.cta,
+                        subtitle: value
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
                 />
               </div>
             </div>
@@ -1513,7 +1793,17 @@ const ContentManagement = () => {
                     required: true
                   }}
                   value={formData.contact?.title || 'Get in Touch'}
-                  onChange={(value) => handleChange('contact', 'title', value)}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      contact: {
+                        ...formData.contact,
+                        title: value
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
                 />
                 <InputFactory
                   fieldName="contactSubtitle"
@@ -1524,7 +1814,17 @@ const ContentManagement = () => {
                     required: true
                   }}
                   value={formData.contact?.subtitle || 'Have questions? We\'d love to hear from you.'}
-                  onChange={(value) => handleChange('contact', 'subtitle', value)}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      contact: {
+                        ...formData.contact,
+                        subtitle: value
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
                 />
               </div>
             </div>
@@ -1551,7 +1851,20 @@ const ContentManagement = () => {
                       required: true
                     }}
                     value={formData.modals?.shopNow?.title || 'How to Order'}
-                    onChange={(value) => handleChange('modals', 'shopNow', 'title', value)}
+                    onChange={(value) => {
+                      const updatedData = {
+                        ...formData,
+                        modals: {
+                          ...formData.modals,
+                          shopNow: {
+                            ...formData.modals?.shopNow,
+                            title: value
+                          }
+                        }
+                      };
+                      setFormData(updatedData);
+                      forceChangeDetection();
+                    }}
                   />
                   
                   <InputFactory
@@ -1563,7 +1876,20 @@ const ContentManagement = () => {
                       required: true
                     }}
                     value={formData.modals?.shopNow?.description || 'Ready to start your wellness journey? Here\'s where you can order our premium herbal medicines:'}
-                    onChange={(value) => handleChange('modals', 'shopNow', 'description', value)}
+                    onChange={(value) => {
+                      const updatedData = {
+                        ...formData,
+                        modals: {
+                          ...formData.modals,
+                          shopNow: {
+                            ...formData.modals?.shopNow,
+                            description: value
+                          }
+                        }
+                      };
+                      setFormData(updatedData);
+                      forceChangeDetection();
+                    }}
                   />
                   
                   {/* Ordering Methods */}
@@ -1594,7 +1920,7 @@ const ContentManagement = () => {
                               <Button
                                 variant="danger"
                                 size="sm"
-                                onClick={() => handleRemoveItem('modals.shopNow.methods', index)}
+                                onClick={() => handleRemoveOrderMethod(index)}
                                 className="!w-auto"
                               >
                                 <TrashIcon className="h-4 w-4 mr-2" />
@@ -1613,7 +1939,22 @@ const ContentManagement = () => {
                                     required: true
                                   }}
                                   value={method.title || ''}
-                                  onChange={(value) => handleArrayChange('modals.shopNow.methods', index, 'title', value)}
+                                  onChange={(value) => {
+                                    const updatedData = {
+                                      ...formData,
+                                      modals: {
+                                        ...formData.modals,
+                                        shopNow: {
+                                          ...formData.modals?.shopNow,
+                                          methods: formData.modals?.shopNow?.methods?.map((method, i) => 
+                                            i === index ? { ...method, title: value } : method
+                                          ) || []
+                                        }
+                                      }
+                                    };
+                                    setFormData(updatedData);
+                                    forceChangeDetection();
+                                  }}
                                 />
                               </div>
                               <div>
@@ -1626,7 +1967,22 @@ const ContentManagement = () => {
                                     required: true
                                   }}
                                   value={method.description || ''}
-                                  onChange={(value) => handleArrayChange('modals.shopNow.methods', index, 'description', value)}
+                                  onChange={(value) => {
+                                    const updatedData = {
+                                      ...formData,
+                                      modals: {
+                                        ...formData.modals,
+                                        shopNow: {
+                                          ...formData.modals?.shopNow,
+                                          methods: formData.modals?.shopNow?.methods?.map((method, i) => 
+                                            i === index ? { ...method, description: value } : method
+                                          ) || []
+                                        }
+                                      }
+                                    };
+                                    setFormData(updatedData);
+                                    forceChangeDetection();
+                                  }}
                                 />
                               </div>
                             </div>
@@ -1774,10 +2130,7 @@ const ContentManagement = () => {
             ...(activeTab === 'orderMethods' ? [{ 
               name: 'Add Method', 
               icon: 'PlusIcon', 
-              action: () => handleAddItem('modals.shopNow.methods', {
-                title: '',
-                description: ''
-              }), 
+              action: handleAddOrderMethod, 
               color: 'bg-primary-600' 
             }] : [])
           ]}

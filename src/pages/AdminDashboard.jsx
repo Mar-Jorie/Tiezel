@@ -8,7 +8,11 @@ import {
   CogIcon,
   PlusIcon,
   DocumentArrowDownIcon,
-  QuestionMarkCircleIcon
+  QuestionMarkCircleIcon,
+  HomeIcon,
+  BuildingOfficeIcon,
+  ShoppingBagIcon,
+  StarIcon
 } from '@heroicons/react/24/outline';
 import Button from '../components/Button';
 import SmartFloatingActionButton from '../components/SmartFloatingActionButton';
@@ -41,6 +45,7 @@ const AdminDashboard = () => {
     totalFAQs: 0,
     activeFAQs: 0,
     totalAuditLogs: 0,
+    contentSections: 5, // Hero, Company, Services, Products, Testimonials
     recentUpdates: []
   });
 
@@ -194,9 +199,9 @@ const AdminDashboard = () => {
   const handleExportCSV = () => {
     try {
       // Sample dashboard data for export
-      const dashboardData = [
-        { metric: 'Total Visitors', value: '1,234', change: '+12%', period: 'From last month' },
-        { metric: 'Content Sections', value: '5', status: 'Active', description: 'Hero, Company, Services' },
+      const exportData = [
+        { metric: 'Page Views', value: '1,234', change: '+12%', period: 'From last month' },
+        { metric: 'Content Sections', value: dashboardData.contentSections.toString(), status: 'Active', description: 'Hero, Company, Services, Products, Testimonials' },
         { metric: 'System Status', value: '24/7', status: 'Online', description: 'All systems operational' },
         { metric: 'Page Performance', value: '89%', change: '+8%', period: 'From last week' }
       ];
@@ -205,7 +210,7 @@ const AdminDashboard = () => {
       const headers = ['Metric', 'Value', 'Change/Status', 'Description/Period'];
       const csvContent = [
         headers.join(','),
-        ...dashboardData.map(row => [
+        ...exportData.map(row => [
           `"${row.metric}"`,
           `"${row.value}"`,
           `"${row.change || row.status || ''}"`,
@@ -259,16 +264,16 @@ const AdminDashboard = () => {
                 <th>Description</th>
               </tr>
               <tr>
-                <td>Total Visitors</td>
+                <td>Page Views</td>
                 <td>1,234</td>
                 <td>+12%</td>
                 <td>From last month</td>
               </tr>
               <tr>
                 <td>Content Sections</td>
-                <td>5</td>
+                <td>${dashboardData.contentSections}</td>
                 <td>Active</td>
-                <td>Hero, Company, Services</td>
+                <td>Hero, Company, Services, Products, Testimonials</td>
               </tr>
               <tr>
                 <td>System Status</td>
@@ -332,7 +337,7 @@ const AdminDashboard = () => {
           Welcome back, Admin!
         </h1>
         <p className="text-gray-600">
-          Here's what's happening with your content management system today.
+          Here's what's happening with your HerbalMed landing page management system today.
         </p>
       </div>
 
@@ -349,7 +354,7 @@ const AdminDashboard = () => {
               </span>
             </div>
             <h3 className="text-2xl font-bold text-gray-900 mb-1">1,234</h3>
-            <p className="text-sm text-gray-600 mb-2">Total Visitors</p>
+            <p className="text-sm text-gray-600 mb-2">Page Views</p>
             <div className="flex items-center justify-between">
               <span className="text-xs text-gray-500">From last month</span>
               <div className="flex items-center space-x-1">
@@ -367,10 +372,10 @@ const AdminDashboard = () => {
                 Active
               </span>
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-1">{dashboardData.totalAuditLogs}</h3>
-            <p className="text-sm text-gray-600 mb-2">Audit Logs</p>
+            <h3 className="text-2xl font-bold text-gray-900 mb-1">{dashboardData.contentSections}</h3>
+            <p className="text-sm text-gray-600 mb-2">Content Sections</p>
             <div className="flex items-center justify-between">
-              <span className="text-xs text-gray-500">System activities tracked</span>
+              <span className="text-xs text-gray-500">Hero, Company, Services, Products, Testimonials</span>
               <div className="flex items-center space-x-1">
                 <span className="text-xs font-medium text-blue-800">Live</span>
               </div>
@@ -389,7 +394,7 @@ const AdminDashboard = () => {
             <h3 className="text-2xl font-bold text-gray-900 mb-1">{dashboardData.activeFAQs}</h3>
             <p className="text-sm text-gray-600 mb-2">FAQ Entries</p>
             <div className="flex items-center justify-between">
-              <span className="text-xs text-gray-500">Help center articles</span>
+              <span className="text-xs text-gray-500">Chatbot support articles</span>
               <div className="flex items-center space-x-1">
                 <span className="text-xs font-medium text-purple-800">Live</span>
               </div>
@@ -417,6 +422,53 @@ const AdminDashboard = () => {
         </div>
 
         {/* Content Management Overview */}
+        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-semibold text-gray-900">Content Management Overview</h3>
+            <div className="w-6 h-6 bg-green-50 rounded-lg flex items-center justify-center">
+              <PencilIcon className="h-6 w-6 text-green-600" />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="text-center p-4 bg-primary-50 rounded-lg">
+              <div className="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                <HomeIcon className="h-5 w-5 text-primary-600" />
+              </div>
+              <h4 className="text-sm font-medium text-gray-900">Hero Section</h4>
+              <p className="text-xs text-gray-600">Main landing content</p>
+            </div>
+            <div className="text-center p-4 bg-blue-50 rounded-lg">
+              <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                <BuildingOfficeIcon className="h-5 w-5 text-blue-600" />
+              </div>
+              <h4 className="text-sm font-medium text-gray-900">Company Info</h4>
+              <p className="text-xs text-gray-600">Business details</p>
+            </div>
+            <div className="text-center p-4 bg-green-50 rounded-lg">
+              <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                <CogIcon className="h-5 w-5 text-green-600" />
+              </div>
+              <h4 className="text-sm font-medium text-gray-900">Services</h4>
+              <p className="text-xs text-gray-600">Service offerings</p>
+            </div>
+            <div className="text-center p-4 bg-purple-50 rounded-lg">
+              <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                <ShoppingBagIcon className="h-5 w-5 text-purple-600" />
+              </div>
+              <h4 className="text-sm font-medium text-gray-900">Products</h4>
+              <p className="text-xs text-gray-600">Product catalog</p>
+            </div>
+            <div className="text-center p-4 bg-orange-50 rounded-lg">
+              <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                <StarIcon className="h-5 w-5 text-orange-600" />
+              </div>
+              <h4 className="text-sm font-medium text-gray-900">Testimonials</h4>
+              <p className="text-xs text-gray-600">Customer reviews</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Analytics and Recent Updates */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
             <div className="flex items-center justify-between mb-6">
@@ -473,8 +525,8 @@ const AdminDashboard = () => {
             </div>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Total FAQs</span>
-                <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">{dashboardData.totalFAQs}</span>
+                <span className="text-sm text-gray-600">Content Sections</span>
+                <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">{dashboardData.contentSections}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-600">Active FAQs</span>

@@ -2,18 +2,17 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Bars3Icon, 
-  ShieldCheckIcon, 
-  PhoneIcon, 
-  TruckIcon, 
-  StarIcon,
   ArrowRightIcon,
   CheckIcon,
   CursorArrowRaysIcon,
-  LightBulbIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  EnvelopeIcon
+  LightBulbIcon,
+  PhoneIcon,
+  ShieldCheckIcon,
+  TruckIcon
 } from '@heroicons/react/24/outline';
+import { getIcon, renderIcon } from '../components/IconLibrary';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 import { StarIcon as StarIconOutline } from '@heroicons/react/24/outline';
 import Button from '../components/Button';
@@ -276,7 +275,7 @@ const LandingPage = () => {
                 <div className="bg-gradient-to-br from-primary-100 to-primary-200 rounded-2xl p-8 lg:p-12">
                 <div className="text-center">
                   <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                      <ShieldCheckIcon className="h-8 w-8 text-white" />
+                      {renderIcon(landingPageContent.hero?.heroIcon, { className: "h-8 w-8 text-white" }, 'ShieldCheckIcon')}
                   </div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">
                     {landingPageContent.hero.visualTitle}
@@ -338,12 +337,7 @@ const LandingPage = () => {
               {landingPageContent.services
                 ?.slice(currentFeaturePage * 4, (currentFeaturePage + 1) * 4)
                 .map((service, index) => {
-              const IconComponent = {
-                ShieldCheckIcon,
-                PhoneIcon,
-                TruckIcon,
-                StarIcon
-              }[service.icon] || ShieldCheckIcon;
+              const IconComponent = getIcon(service.icon, 'ShieldCheckIcon');
               
               return (
               <div key={index} className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 group">
@@ -952,17 +946,19 @@ const LandingPage = () => {
                       </div>
                     )}
 
+                    {selectedProduct.qualityTitle && selectedProduct.qualityDescription && (
                     <div className="bg-green-50 rounded-lg p-4">
                       <div className="flex items-center space-x-2 mb-2">
                         <svg className="h-4 w-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span className="text-sm font-medium text-green-900">Premium Quality</span>
+                          <span className="text-sm font-medium text-green-900">{selectedProduct.qualityTitle}</span>
                       </div>
                       <p className="text-xs text-green-700">
-                        Certified organic and natural ingredients for your wellness journey.
+                          {selectedProduct.qualityDescription}
                       </p>
                     </div>
+                    )}
                   </div>
                 </div>
               </div>
