@@ -102,7 +102,7 @@ const ContentManagement = () => {
         }
       });
       
-      console.log('ContentManagement calling updateLandingPageContent with:', formData);
+      // ContentManagement calling updateLandingPageContent
       await updateLandingPageContent(formData);
       setHasChanges(false);
       

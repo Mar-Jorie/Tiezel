@@ -22,6 +22,7 @@ import { useApp } from '../hooks/useApp';
 const LandingPage = () => {
   const { landingPageContent } = useApp();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [forceUpdate, setForceUpdate] = useState(0);
   const [siteSettings, setSiteSettings] = useState({
     siteName: 'TechStore',
     siteDescription: 'Your Trusted E-commerce Partner',
@@ -54,7 +55,9 @@ const LandingPage = () => {
       // Force re-render when content is updated from admin panel
       // The landingPageContent from useApp() will automatically update
       // This listener ensures the component re-renders
-      console.log('LandingPage received content update event:', event.detail);
+      // LandingPage received content update event
+      // Force a re-render by updating a dummy state
+      setForceUpdate(prev => prev + 1);
     };
 
     window.addEventListener('landingPageContentUpdated', handleContentUpdate);
@@ -62,7 +65,7 @@ const LandingPage = () => {
     return () => {
       window.removeEventListener('landingPageContentUpdated', handleContentUpdate);
     };
-  }, [landingPageContent]);
+  }, []); // Remove landingPageContent from dependencies to prevent listener recreation
 
   // Load settings on component mount and listen for changes
   useEffect(() => {
@@ -212,7 +215,7 @@ const LandingPage = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 lg:px-6 bg-gradient-to-br from-gray-50 to-white">
+      <section className="relative py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 lg:px-6 bg-gradient-to-br from-primary-50 to-white">
         <div className="w-full">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div className="text-left">
@@ -233,7 +236,7 @@ const LandingPage = () => {
             </div>
             <div className="relative order-last lg:order-last">
               {/* Hero Image/Illustration */}
-              <div className="bg-gradient-to-br from-primary-100 to-indigo-100 rounded-2xl p-8 lg:p-12">
+                <div className="bg-gradient-to-br from-primary-100 to-primary-200 rounded-2xl p-8 lg:p-12">
                 <div className="text-center">
                   <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-6">
                       <ShieldCheckIcon className="h-8 w-8 text-white" />
@@ -273,7 +276,7 @@ const LandingPage = () => {
               
               return (
               <div key={index} className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 group">
-                <div className="w-16 h-16 bg-gradient-to-br from-primary-100 to-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary-100 to-primary-200 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                     <IconComponent className="w-8 h-8 text-primary-600" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">{service.title}</h3>
@@ -574,7 +577,7 @@ const LandingPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-8 sm:py-10 px-4 sm:px-6 bg-gradient-to-r from-primary-400 to-indigo-600 opacity-90">
+      <section className="py-8 sm:py-10 px-4 sm:px-6 bg-gradient-to-r from-primary-500 to-primary-600 opacity-90">
         <div className="w-full text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6 sm:mb-8 tracking-tight">
             {landingPageContent.cta.title}
