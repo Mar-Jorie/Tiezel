@@ -541,8 +541,9 @@ const LandingPage = () => {
         <div className="fixed inset-0 z-50 overflow-y-auto">
           <div className="flex items-center justify-center min-h-screen px-4">
             <div className="fixed inset-0 bg-black/50" onClick={() => setShowGetStartedModal(false)}></div>
-            <div className="relative bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-              <div className="flex items-center justify-between mb-4">
+            <div className="relative bg-white rounded-lg shadow-xl max-w-md w-full overflow-hidden">
+              {/* Fixed Header */}
+              <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-white">
                 <h3 className="text-lg font-semibold text-gray-900">How to Get Started</h3>
                 <button
                   onClick={() => setShowGetStartedModal(false)}
@@ -553,42 +554,50 @@ const LandingPage = () => {
                   </svg>
                 </button>
               </div>
-              <div className="space-y-4">
-                <p className="text-sm text-gray-600">
-                  Ready to start your wellness journey? Here's where you can order our premium herbal medicines:
-                </p>
-                <div className="space-y-3">
-                  <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <svg className="h-4 w-4 text-green-600" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
-                      </svg>
+              
+              {/* Scrollable Content */}
+              <div className="max-h-96 overflow-y-auto p-6">
+                <div className="space-y-4">
+                  <p className="text-sm text-gray-600">
+                    Ready to start your wellness journey? Here's where you can order our premium herbal medicines:
+                  </p>
+                  <div className="space-y-3">
+                    <div className="flex items-start space-x-3">
+                      <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <svg className="h-4 w-4 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                        </svg>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">Facebook Page</p>
+                        <p className="text-xs text-gray-600">Message us on Facebook for orders and inquiries</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-900">Facebook Page</p>
-                      <p className="text-xs text-gray-600">Message us on Facebook for orders and inquiries</p>
+                    <div className="flex items-start space-x-3">
+                      <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <PhoneIcon className="h-4 w-4 text-blue-600" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">Phone Orders</p>
+                        <p className="text-xs text-gray-600">Call us directly for personalized service</p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <PhoneIcon className="h-4 w-4 text-blue-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-900">Phone Orders</p>
-                      <p className="text-xs text-gray-600">Call us directly for personalized service</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <EnvelopeIcon className="h-4 w-4 text-purple-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-900">Email Orders</p>
-                      <p className="text-xs text-gray-600">Send us an email with your requirements</p>
+                    <div className="flex items-start space-x-3">
+                      <div className="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <EnvelopeIcon className="h-4 w-4 text-purple-600" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">Email Orders</p>
+                        <p className="text-xs text-gray-600">Send us an email with your requirements</p>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div className="flex space-x-3 pt-4">
+              </div>
+              
+              {/* Fixed Footer */}
+              <div className="p-6 border-t border-gray-200 bg-white">
+                <div className="flex space-x-3">
                   <Button 
                     variant="primary" 
                     size="sm" 
@@ -620,8 +629,9 @@ const LandingPage = () => {
         <div className="fixed inset-0 z-50 overflow-y-auto">
           <div className="flex items-center justify-center min-h-screen px-4">
             <div className="fixed inset-0 bg-black/50" onClick={() => setShowProductModal(false)}></div>
-            <div className="relative bg-white rounded-lg shadow-xl max-w-lg w-full p-6">
-              <div className="flex items-center justify-between mb-4">
+            <div className="relative bg-white rounded-lg shadow-xl max-w-lg w-full overflow-hidden">
+              {/* Fixed Header */}
+              <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-white">
                 <h3 className="text-lg font-semibold text-gray-900">{selectedProduct.name}</h3>
                 <button
                   onClick={() => setShowProductModal(false)}
@@ -632,38 +642,46 @@ const LandingPage = () => {
                   </svg>
                 </button>
               </div>
-              <div className="space-y-4">
-                <img 
-                  src={selectedProduct.image} 
-                  alt={selectedProduct.name}
-                  className="w-full h-48 object-cover rounded-lg"
-                />
-                <div>
-                  <p className="text-sm text-gray-600 mb-4">{selectedProduct.description}</p>
-                  
-                  <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                    <h4 className="text-sm font-medium text-gray-900 mb-2">Product Benefits:</h4>
-                    <ul className="text-xs text-gray-600 space-y-1">
-                      <li>• 100% natural and organic ingredients</li>
-                      <li>• Traditional herbal medicine properties</li>
-                      <li>• Premium quality and purity guaranteed</li>
-                      <li>• Expertly formulated for maximum effectiveness</li>
-                    </ul>
-                  </div>
-
-                  <div className="bg-green-50 rounded-lg p-4">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <svg className="h-4 w-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      <span className="text-sm font-medium text-green-900">Premium Quality</span>
+              
+              {/* Scrollable Content */}
+              <div className="max-h-96 overflow-y-auto p-6">
+                <div className="space-y-4">
+                  <img 
+                    src={selectedProduct.image} 
+                    alt={selectedProduct.name}
+                    className="w-full h-48 object-cover rounded-lg"
+                  />
+                  <div>
+                    <p className="text-sm text-gray-600 mb-4">{selectedProduct.description}</p>
+                    
+                    <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                      <h4 className="text-sm font-medium text-gray-900 mb-2">Product Benefits:</h4>
+                      <ul className="text-xs text-gray-600 space-y-1">
+                        <li>• 100% natural and organic ingredients</li>
+                        <li>• Traditional herbal medicine properties</li>
+                        <li>• Premium quality and purity guaranteed</li>
+                        <li>• Expertly formulated for maximum effectiveness</li>
+                      </ul>
                     </div>
-                    <p className="text-xs text-green-700">
-                      Certified organic and natural ingredients for your wellness journey.
-                    </p>
+
+                    <div className="bg-green-50 rounded-lg p-4">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <svg className="h-4 w-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span className="text-sm font-medium text-green-900">Premium Quality</span>
+                      </div>
+                      <p className="text-xs text-green-700">
+                        Certified organic and natural ingredients for your wellness journey.
+                      </p>
+                    </div>
                   </div>
                 </div>
-                <div className="flex space-x-3 pt-4">
+              </div>
+              
+              {/* Fixed Footer */}
+              <div className="p-6 border-t border-gray-200 bg-white">
+                <div className="flex space-x-3">
                   <Button 
                     variant="primary" 
                     size="sm" 
