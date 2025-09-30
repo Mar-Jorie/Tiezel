@@ -61,27 +61,57 @@ export const AppProvider = ({ children }) => {
       {
         name: "Turmeric Golden Blend",
         image: "https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=400&h=300&fit=crop&crop=center",
-        description: "Premium organic turmeric with anti-inflammatory properties"
+        description: "Premium organic turmeric with anti-inflammatory properties",
+        benefits: [
+          "Reduces inflammation naturally",
+          "Supports joint health and mobility",
+          "Boosts immune system function",
+          "Promotes healthy digestion"
+        ]
       },
       {
         name: "Ginger Root Extract", 
         image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center",
-        description: "Pure ginger root extract for digestive health"
+        description: "Pure ginger root extract for digestive health",
+        benefits: [
+          "Soothes digestive discomfort",
+          "Reduces nausea and motion sickness",
+          "Supports healthy metabolism",
+          "Natural anti-inflammatory properties"
+        ]
       },
       {
         name: "Echinacea Immune Support",
         image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&h=300&fit=crop&crop=center",
-        description: "Natural immune system booster from echinacea"
+        description: "Natural immune system booster from echinacea",
+        benefits: [
+          "Strengthens immune system",
+          "Reduces cold and flu duration",
+          "Supports respiratory health",
+          "Natural antioxidant properties"
+        ]
       },
       {
         name: "Ashwagandha Stress Relief",
         image: "https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=400&h=300&fit=crop&crop=center",
-        description: "Ancient herb for stress management and vitality"
+        description: "Ancient herb for stress management and vitality",
+        benefits: [
+          "Reduces stress and anxiety",
+          "Improves sleep quality",
+          "Boosts energy and vitality",
+          "Supports adrenal gland function"
+        ]
       },
       {
         name: "Ginkgo Biloba Memory",
         image: "https://images.unsplash.com/photo-1594736797933-d0d4b7a8b4b4?w=400&h=300&fit=crop&crop=center",
-        description: "Traditional herb for cognitive function and memory"
+        description: "Traditional herb for cognitive function and memory",
+        benefits: [
+          "Enhances memory and focus",
+          "Improves blood circulation",
+          "Supports brain health",
+          "Natural antioxidant protection"
+        ]
       }
     ],
     testimonials: [

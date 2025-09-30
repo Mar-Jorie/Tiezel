@@ -643,15 +643,16 @@ const LandingPage = () => {
                   <div>
                     <p className="text-sm text-gray-600 mb-4">{selectedProduct.description}</p>
                     
-                    <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                      <h4 className="text-sm font-medium text-gray-900 mb-2">Product Benefits:</h4>
-                      <ul className="text-xs text-gray-600 space-y-1">
-                        <li>• 100% natural and organic ingredients</li>
-                        <li>• Traditional herbal medicine properties</li>
-                        <li>• Premium quality and purity guaranteed</li>
-                        <li>• Expertly formulated for maximum effectiveness</li>
-                      </ul>
-                    </div>
+                    {selectedProduct.benefits && selectedProduct.benefits.length > 0 && (
+                      <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                        <h4 className="text-sm font-medium text-gray-900 mb-2">Product Benefits:</h4>
+                        <ul className="text-xs text-gray-600 space-y-1">
+                          {selectedProduct.benefits.map((benefit, index) => (
+                            <li key={index}>• {benefit}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
 
                     <div className="bg-green-50 rounded-lg p-4">
                       <div className="flex items-center space-x-2 mb-2">

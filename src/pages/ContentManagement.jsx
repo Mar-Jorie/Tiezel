@@ -925,32 +925,56 @@ const ContentManagement = () => {
                   
                   {/* Product Benefits */}
                   <div className="mt-6 pt-6 border-t border-gray-200">
-                    <h5 className="text-sm font-medium text-gray-700 mb-4">Product Benefits</h5>
-                    <div className="space-y-4">
-                      <InputFactory
-                        fieldName={`product-${index}-benefitsTitle`}
-                        config={{
-                          type: 'String',
-                          label: 'Benefits Section Title',
-                          placeholder: 'e.g., Key Benefits',
-                          required: true
-                        }}
-                        value={product.benefitsTitle || ''}
-                        onChange={(value) => handleArrayChange('products', index, 'benefitsTitle', value)}
-                      />
-                      
-                      <InputFactory
-                        fieldName={`product-${index}-benefitsDescription`}
-                        config={{
-                          type: 'Textarea',
-                          label: 'Benefits Section Description',
-                          placeholder: 'e.g., This product offers multiple health benefits',
-                          required: true
-                        }}
-                        value={product.benefitsDescription || ''}
-                        onChange={(value) => handleArrayChange('products', index, 'benefitsDescription', value)}
-                      />
+                    <div className="flex items-center justify-between mb-4">
+                      <h5 className="text-sm font-medium text-gray-700">Product Benefits</h5>
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        onClick={() => handleAddItem(`products.${index}.benefits`)}
+                      >
+                        <PlusIcon className="h-4 w-4 mr-2" />
+                        Add Benefit
+                      </Button>
                     </div>
+                    
+                    {product.benefits && product.benefits.length > 0 ? (
+                      <div className="space-y-3">
+                        {product.benefits.map((benefit, benefitIndex) => (
+                          <div key={benefitIndex} className="flex items-center space-x-3 bg-gray-50 rounded-lg p-3">
+                            <div className="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                              <span className="text-primary-600 font-semibold text-xs">•</span>
+                            </div>
+                            <InputFactory
+                              fieldName={`product-${index}-benefit-${benefitIndex}`}
+                              config={{
+                                type: 'String',
+                                label: '',
+                                placeholder: 'e.g., Boosts immune system naturally',
+                                required: true
+                              }}
+                              value={benefit || ''}
+                              onChange={(value) => handleArrayChange(`products.${index}.benefits`, benefitIndex, '', value)}
+                            />
+                            <Button
+                              variant="danger"
+                              size="sm"
+                              onClick={() => handleRemoveItem(`products.${index}.benefits`, benefitIndex)}
+                              className="!w-auto flex-shrink-0"
+                            >
+                              <TrashIcon className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                        <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-3">
+                          <PlusIcon className="h-5 w-5 text-gray-400" />
+                        </div>
+                        <p className="text-sm text-gray-600 mb-2">No benefits added yet</p>
+                        <p className="text-xs text-gray-500">Click "Add Benefit" to get started</p>
+                      </div>
+                    )}
                   </div>
                   
                   {/* Quality Assurance */}
