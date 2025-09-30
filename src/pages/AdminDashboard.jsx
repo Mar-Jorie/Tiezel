@@ -506,7 +506,7 @@ const AdminDashboard = () => {
                   if (action.includes('Create') || action.includes('Add')) return '➕';
                   if (action.includes('Update') || action.includes('Edit')) return '✏️';
                   if (action.includes('Delete') || action.includes('Remove')) return '🗑️';
-                  return '📝';
+                  return '';
                 };
 
                 return (
