@@ -1118,14 +1118,6 @@ const ContentManagement = () => {
                     </div>
                   </div>
                 ))}
-                <Button
-                  variant="primaryOutline"
-                  size="sm"
-                  onClick={() => handleAddItem('about.whyChooseFeatures', { title: '', description: '' })}
-                >
-                  <PlusIcon className="h-4 w-4 mr-2" />
-                  Add Feature
-                </Button>
               </div>
             </div>
 
