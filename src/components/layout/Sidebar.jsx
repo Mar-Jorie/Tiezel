@@ -65,7 +65,7 @@ const Sidebar = ({ show, onSetShow, position = "left" }) => {
         className={`
           fixed top-0 h-full z-30 transition-transform duration-300 ease-in-out
           ${position === 'left' ? 'left-0' : 'right-0'}
-          ${isMobile ? 'w-80 max-w-[80vw]' : 'lg:w-[270px]'}
+          ${isMobile ? 'w-80 max-w-[80vw]' : 'w-[270px]'}
           ${show ? 'translate-x-0' : '-translate-x-full'}
         `}
         onTouchStart={onTouchStart}

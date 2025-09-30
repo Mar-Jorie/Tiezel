@@ -277,7 +277,7 @@ const AdminDashboard = () => {
           Welcome back, Admin!
         </h1>
         <p className="text-gray-600">
-          Here's what's happening with your landing page today.
+          Here's what's happening with your content management system today.
         </p>
       </div>
 
@@ -324,19 +324,19 @@ const AdminDashboard = () => {
 
           <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100">
             <div className="flex items-center justify-between mb-3">
-              <div className="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center">
-                <CogIcon className="h-6 w-6 text-green-600" />
+              <div className="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center">
+                <QuestionMarkCircleIcon className="h-6 w-6 text-purple-600" />
               </div>
-              <span className="text-xs font-medium text-green-800 bg-green-50 px-2 py-1 rounded-full">
-                Online
+              <span className="text-xs font-medium text-purple-800 bg-purple-50 px-2 py-1 rounded-full">
+                Active
               </span>
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-1">24/7</h3>
-            <p className="text-sm text-gray-600 mb-2">System Status</p>
+            <h3 className="text-2xl font-bold text-gray-900 mb-1">12</h3>
+            <p className="text-sm text-gray-600 mb-2">FAQ Entries</p>
             <div className="flex items-center justify-between">
-              <span className="text-xs text-gray-500">All systems operational</span>
+              <span className="text-xs text-gray-500">Help center articles</span>
               <div className="flex items-center space-x-1">
-                <span className="text-xs font-medium text-green-800">✓</span>
+                <span className="text-xs font-medium text-purple-800">Live</span>
               </div>
             </div>
           </div>
@@ -374,21 +374,21 @@ const AdminDashboard = () => {
               <div className="flex items-center space-x-3">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                 <div>
-                  <p className="text-sm font-medium text-gray-900">Hero section updated</p>
+                  <p className="text-sm font-medium text-gray-900">Landing page content updated</p>
                   <p className="text-xs text-gray-500">2 hours ago</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                 <div>
-                  <p className="text-sm font-medium text-gray-900">Company info modified</p>
+                  <p className="text-sm font-medium text-gray-900">FAQ entry added</p>
                   <p className="text-xs text-gray-500">1 day ago</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
                 <div>
-                  <p className="text-sm font-medium text-gray-900">New service added</p>
+                  <p className="text-sm font-medium text-gray-900">Settings configuration changed</p>
                   <p className="text-xs text-gray-500">3 days ago</p>
                 </div>
               </div>
@@ -397,23 +397,23 @@ const AdminDashboard = () => {
 
           <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-semibold text-gray-900">System Status</h3>
-              <div className="w-6 h-6 bg-emerald-50 rounded-lg flex items-center justify-center">
-                <CogIcon className="h-6 w-6 text-green-800" />
+              <h3 className="text-lg font-semibold text-gray-900">Content Analytics</h3>
+              <div className="w-6 h-6 bg-blue-50 rounded-lg flex items-center justify-center">
+                <ChartBarIcon className="h-6 w-6 text-blue-600" />
               </div>
             </div>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Database</span>
-                <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Online</span>
+                <span className="text-sm text-gray-600">Landing Page Views</span>
+                <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">1,234</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">API Services</span>
-                <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Operational</span>
+                <span className="text-sm text-gray-600">Contact Form Submissions</span>
+                <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">23</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">CDN</span>
-                <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Active</span>
+                <span className="text-sm text-gray-600">FAQ Interactions</span>
+                <span className="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full">156</span>
               </div>
             </div>
           </div>

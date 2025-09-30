@@ -131,7 +131,7 @@ const NavSidebar = ({ isMobile, setShow }) => {
   ];
 
   return (
-    <div className="bg-white border-r border-gray-200 h-full w-80 max-w-[80vw] lg:w-[270px]">
+    <div className={`bg-white border-r border-gray-200 h-full ${isMobile ? 'w-80 max-w-[80vw]' : 'w-[270px]'}`}>
       <div className="flex flex-col h-full">
         {/* Header Section - Responsive */}
         <div className="flex flex-col p-6 border-b border-gray-200">

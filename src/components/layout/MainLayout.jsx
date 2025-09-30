@@ -40,9 +40,9 @@ const MainLayout = ({ children }) => {
         <div 
           className="flex flex-col overflow-hidden transition-all duration-300 ease-in-out"
           style={{
-            marginLeft: isDesktop && show ? '270px' : '0px',
-            width: isDesktop && show ? 'calc(100vw - 270px)' : '100vw',
-            minWidth: isDesktop && show ? 'calc(100vw - 270px)' : '100vw',
+            marginLeft: !isMobile && show ? '270px' : '0px',
+            width: !isMobile && show ? 'calc(100vw - 270px)' : '100vw',
+            minWidth: !isMobile && show ? 'calc(100vw - 270px)' : '100vw',
             height: '100vh',
             position: 'relative'
           }}
