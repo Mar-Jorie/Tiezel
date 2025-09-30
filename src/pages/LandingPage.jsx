@@ -214,7 +214,7 @@ const LandingPage = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 lg:px-6 bg-gradient-to-br from-primary-50 to-white">
+      <section className="relative py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 lg:px-6 bg-gray-50">
         <div className="w-full">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div className="text-left">
@@ -510,47 +510,28 @@ const LandingPage = () => {
               {landingPageContent.contact?.subtitle || 'Have questions? We\'d love to hear from you.'}
             </p>
           </div>
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
-            {/* Contact Information */}
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-6">
-                Contact Information
-              </h3>
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-3">
-                      <PhoneIcon className="h-5 w-5 text-primary-600" />
-                  <span className="text-sm text-gray-600">{landingPageContent.company?.phone || '+1 (555) 123-4567'}</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                  <ShieldCheckIcon className="h-5 w-5 text-primary-600" />
-                  <span className="text-sm text-gray-600">{landingPageContent.company?.email || 'info@herbalmed.com'}</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <TruckIcon className="h-5 w-5 text-primary-600" />
-                  <span className="text-sm text-gray-600">{landingPageContent.company?.address || '123 Wellness Street, Health City, HC 12345'}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Contact Form */}
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          {/* Contact Form - First Row */}
+          <div className="mb-12">
+            <div className="bg-gray-50 rounded-lg p-6 max-w-2xl mx-auto">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
                 {landingPageContent.contact.formTitle}
               </h3>
               <form className="space-y-4">
-                <div>
-                  <input
-                    type="text"
-                    placeholder={landingPageContent.contact.namePlaceholder}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  />
-                </div>
-                <div>
-                  <input
-                    type="email"
-                    placeholder={landingPageContent.contact.emailPlaceholder}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <input
+                      type="text"
+                      placeholder={landingPageContent.contact.namePlaceholder}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="email"
+                      placeholder={landingPageContent.contact.emailPlaceholder}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    />
+                  </div>
                 </div>
                 <div>
                   <input
@@ -570,6 +551,42 @@ const LandingPage = () => {
                   {landingPageContent.contact.submitButton}
                 </Button>
               </form>
+            </div>
+          </div>
+
+          {/* Contact Information - Second Row */}
+          <div className="text-center">
+            <h3 className="text-lg font-semibold text-gray-900 mb-6">
+              Contact Information
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+              <div className="flex flex-col items-center space-y-2">
+                <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                  <PhoneIcon className="h-6 w-6 text-primary-600" />
+                </div>
+                <div className="text-center">
+                  <h4 className="text-sm font-medium text-gray-900">Phone</h4>
+                  <p className="text-sm text-gray-600">{landingPageContent.company?.phone || '+1 (555) 123-4567'}</p>
+                </div>
+              </div>
+              <div className="flex flex-col items-center space-y-2">
+                <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                  <ShieldCheckIcon className="h-6 w-6 text-primary-600" />
+                </div>
+                <div className="text-center">
+                  <h4 className="text-sm font-medium text-gray-900">Email</h4>
+                  <p className="text-sm text-gray-600">{landingPageContent.company?.email || 'info@herbalmed.com'}</p>
+                </div>
+              </div>
+              <div className="flex flex-col items-center space-y-2">
+                <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                  <TruckIcon className="h-6 w-6 text-primary-600" />
+                </div>
+                <div className="text-center">
+                  <h4 className="text-sm font-medium text-gray-900">Address</h4>
+                  <p className="text-sm text-gray-600">{landingPageContent.company?.address || '123 Wellness Street, Health City, HC 12345'}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
