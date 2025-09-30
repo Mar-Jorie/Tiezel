@@ -30,6 +30,25 @@ const LandingPage = () => {
 
   // Track landing page visits
   useEffect(() => {
+    // Generate or get session ID
+    let sessionId = sessionStorage.getItem('sessionId');
+    if (!sessionId) {
+      sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+      sessionStorage.setItem('sessionId', sessionId);
+    }
+    
+    // Check if this session has already been counted
+    const sessionKey = 'landingPageVisited_' + sessionId;
+    const hasVisitedThisSession = sessionStorage.getItem(sessionKey);
+    
+    if (hasVisitedThisSession) {
+      console.log('Visit already counted for this session, skipping...');
+      return;
+    }
+    
+    // Mark this session as visited
+    sessionStorage.setItem(sessionKey, 'true');
+    
     // Increment visit count when landing page loads
     const currentVisits = parseInt(localStorage.getItem('landingPageVisits') || '0');
     const newVisits = currentVisits + 1;
