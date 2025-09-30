@@ -15,6 +15,7 @@ const StarRating = ({
 
   const handleStarClick = (rating) => {
     if (!disabled) {
+      console.log('StarRating: handleStarClick called with rating:', rating);
       onChange(rating);
     }
   };

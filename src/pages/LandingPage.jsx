@@ -574,6 +574,7 @@ const LandingPage = () => {
                 .map((testimonial, index) => {
                   // Debug: Log testimonial data to see what's being received
                   console.log('Testimonial data:', testimonial);
+                  console.log('Rating value:', testimonial.rating, 'Type:', typeof testimonial.rating);
                   
                   return (
                     <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
