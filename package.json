@@ -7,7 +7,11 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node scripts/run-all-tests.js",
+    "test:landing": "node scripts/test-landing-page.js",
+    "test:auth": "node scripts/test-admin-authentication.js",
+    "test:navigation": "node scripts/test-navigation.js"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -28,6 +32,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.4.0",
+    "puppeteer": "^24.22.3",
     "vite": "^7.1.7"
   }
 }

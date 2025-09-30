@@ -1,25 +1,39 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AppProvider } from './AppContext';
+import MainLayout from './components/layout/MainLayout';
 import LandingPage from './pages/LandingPage';
+import AdminAccess from './pages/AdminAccess';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
+import ContentManagement from './pages/ContentManagement';
+import Settings from './pages/Settings';
+import AuditTrail from './pages/AuditTrail';
 import './index.css';
 
 function App() {
   return (
     <AppProvider>
       <Router>
-        <div className="App">
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<LandingPage />} />
-            
-            {/* Admin Routes */}
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          </Routes>
-        
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/admin" element={<AdminAccess />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+
+          {/* Admin Routes with MainLayout */}
+          <Route path="/admin/*" element={
+            <MainLayout>
+              <Routes>
+                <Route path="dashboard" element={<AdminDashboard />} />
+                <Route path="content" element={<ContentManagement />} />
+                <Route path="settings" element={<Settings />} />
+                <Route path="audit-trail" element={<AuditTrail />} />
+              </Routes>
+            </MainLayout>
+          } />
+        </Routes>
+
         {/* Toast Notifications */}
         <Toaster 
           position="top-right"
@@ -80,7 +94,6 @@ function App() {
             },
           }}
         />
-        </div>
       </Router>
     </AppProvider>
   );

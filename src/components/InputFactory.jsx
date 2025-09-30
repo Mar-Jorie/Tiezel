@@ -1,5 +1,9 @@
 import { useState } from 'react';
 import { EyeIcon, EyeSlashIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
+import CurrencyInput from './CurrencyInput';
+import ImageUpload from './ImageUpload';
+import StarRating from './StarRating';
+import SelectInput from './SelectInput';
 
 // InputFactory Component - MANDATORY PATTERN
 export default function InputFactory({ fieldName, config, value, onChange, className = '' }) {
@@ -63,7 +67,7 @@ export default function InputFactory({ fieldName, config, value, onChange, class
     onBlur: handleBlur,
     className: `w-full h-10 px-3 border border-gray-300 rounded-md text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent ${error ? 'border-red-300 focus:ring-red-500' : ''} ${className}`,
     placeholder: placeholder || `Enter ${label || fieldName}`,
-    required: required,
+    required: required ? 'required' : undefined,
     ...otherProps
   };
 
@@ -135,6 +139,69 @@ export default function InputFactory({ fieldName, config, value, onChange, class
       );
     }
 
+    if (type === 'Currency') {
+      return (
+        <CurrencyInput
+          value={value || { amount: '', currency: 'USD' }}
+          onChange={onChange}
+          label={label}
+          placeholder={placeholder}
+          required={required}
+          className={className}
+          error={error}
+          showLabel={false}
+        />
+      );
+    }
+
+    if (type === 'FileUpload') {
+      return (
+        <ImageUpload
+          value={value || ''}
+          onChange={onChange}
+          label={label}
+          required={required}
+        />
+      );
+    }
+
+    if (type === 'StarRating') {
+      return (
+        <StarRating
+          value={value || 0}
+          onChange={onChange}
+          label={label}
+          required={required}
+          className={className}
+        />
+      );
+    }
+
+    if (type === 'Textarea') {
+      return (
+        <textarea
+          {...commonProps}
+          rows={4}
+          className={`w-full px-3 py-2 border border-gray-300 rounded-md text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent ${error ? 'border-red-300 focus:ring-red-500' : ''} ${className}`}
+        />
+      );
+    }
+
+    if (type === 'Select') {
+      return (
+        <SelectInput
+          label=""
+          options={config.options || []}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          required={required}
+          className={className}
+          error={error}
+        />
+      );
+    }
+
     // Default text input
     return (
       <input
@@ -146,7 +213,7 @@ export default function InputFactory({ fieldName, config, value, onChange, class
 
   return (
     <div>
-      {type !== 'Boolean' && (
+      {type !== 'Boolean' && type !== 'FileUpload' && type !== 'StarRating' && (
         <label htmlFor={inputId} className="block text-sm font-medium text-gray-700 mb-1">
           {label || fieldName}
           {required && <span className="text-red-500 ml-1">*</span>}

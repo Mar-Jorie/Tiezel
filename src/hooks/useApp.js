@@ -8,3 +8,5 @@ export const useApp = () => {
   }
   return context;
 };
+
+export default useApp;

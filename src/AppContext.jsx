@@ -12,11 +12,20 @@ export const AppProvider = ({ children }) => {
 
   // Landing page content state
   const [landingPageContent, setLandingPageContent] = useState({
+    branding: {
+      logo: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=200&h=200&fit=crop&crop=center",
+      brandName: "TechStore",
+      tagline: "Your Trusted E-commerce Partner",
+      primaryColor: "#6589a4"
+    },
     hero: {
-      title: "Welcome to TechStore - Your Trusted E-commerce Partner",
+      title: "Welcome to TechStore - Your Trusted Technology Partner",
       subtitle: "Discover quality products and exceptional service that exceeds your expectations",
-      ctaPrimary: "Shop Now",
-      ctaSecondary: "Learn More"
+      ctaPrimary: "Learn More",
+      ctaSecondary: "Contact Us",
+      visualTitle: "TechStore",
+      visualSubtitle: "Quality products, exceptional service",
+      heroIcon: "ShieldCheckIcon"
     },
     company: {
       name: "TechStore",
@@ -28,43 +37,43 @@ export const AppProvider = ({ children }) => {
     },
     services: [
       {
-        title: "Product Sales",
-        description: "Wide selection of quality products",
-        icon: "🛍️"
+        title: "Product Information",
+        description: "Comprehensive product details and specifications",
+        icon: "ShieldCheckIcon"
       },
       {
         title: "Customer Support",
         description: "24/7 customer service support",
-        icon: "🎧"
+        icon: "PhoneIcon"
       },
       {
         title: "Fast Shipping",
         description: "Quick and reliable delivery",
-        icon: "🚚"
+        icon: "TruckIcon"
       },
       {
         title: "Quality Guarantee",
         description: "100% satisfaction guarantee",
-        icon: "⭐"
+        icon: "StarIcon"
       }
     ],
     products: [
       {
         name: "Premium Laptop",
-        price: "$999",
-        image: "/api/placeholder/300/200",
+        price: { amount: "999", currency: "PHP" },
+        image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=300&fit=crop&crop=center",
         description: "High-performance laptop for professionals"
       },
       {
         name: "Wireless Headphones",
-        price: "$199",
-        image: "/api/placeholder/300/200",
+        price: { amount: "199", currency: "PHP" },
+        image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop&crop=center",
         description: "Noise-cancelling wireless headphones"
       },
       {
         name: "Smart Watch",
-        price: "$299",
-        image: "/api/placeholder/300/200",
+        price: { amount: "299", currency: "PHP" },
+        image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop&crop=center",
         description: "Advanced fitness tracking smartwatch"
       }
     ],
@@ -84,10 +93,70 @@ export const AppProvider = ({ children }) => {
       {
         name: "Emily Davis",
         rating: 5,
-        text: "Best e-commerce experience I've had. Will definitely shop again!",
+        text: "Best technology information and support I've experienced. Highly recommended!",
         company: "Creative Agency"
       }
-    ]
+    ],
+    navigation: {
+      link1: 'Features',
+      link2: 'Products', 
+      link3: 'About',
+      link4: 'Contact',
+      ctaButton1: 'Learn More',
+      ctaButton2: 'Learn More'
+    },
+    cta: {
+      title: 'Ready to Learn More?',
+      subtitle: 'Get in touch with us to learn more about our products and services.',
+      button1: 'Learn More',
+      button2: 'Contact Us'
+    },
+    about: {
+      title: 'About TechStore',
+      subtitle: 'Learn more about our company and mission.',
+      heading: 'Our Story',
+      description: 'We are a technology company dedicated to providing quality products and exceptional service to our customers.',
+      feature1: 'Quality Products',
+      feature2: 'Expert Support',
+      feature3: 'Customer Satisfaction',
+      visualTitle: 'Trusted Partner',
+      visualSubtitle: 'Your technology needs, our expertise'
+    },
+    contact: {
+      title: 'Get In Touch',
+      subtitle: 'Have questions? We\'d love to hear from you. Send us a message and we\'ll respond as soon as possible.',
+      infoTitle: 'Contact Information',
+      phone: '+1 (555) 123-4567',
+      email: 'info@techstore.com',
+      address: '123 Tech Street, Digital City, DC 12345',
+      formTitle: 'Send us a message',
+      namePlaceholder: 'Your Name',
+      emailPlaceholder: 'Your Email',
+      subjectPlaceholder: 'Subject',
+      messagePlaceholder: 'Your Message',
+      submitButton: 'Send Message'
+    },
+    sections: {
+      features: {
+        title: 'Everything You Need to Know',
+        subtitle: 'Comprehensive information designed to help you make informed decisions.'
+      },
+      products: {
+        title: 'Featured Products',
+        subtitle: 'Discover our carefully curated selection of quality products.'
+      },
+      about: {
+        title: 'About {company.name}',
+        subtitle: 'Why Choose Us?'
+      },
+      testimonials: {
+        title: 'What Our Customers Say',
+        subtitle: 'Don\'t just take our word for it - hear from our satisfied customers.'
+      },
+      footer: {
+        copyright: '© 2024 {brandName}. All rights reserved.'
+      }
+    }
   });
 
   // Check for existing admin session on app load

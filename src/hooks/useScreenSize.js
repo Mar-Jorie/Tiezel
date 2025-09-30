@@ -24,4 +24,5 @@ function useScreenSize() {
   return { isMobile, isTablet, isDesktop, isLargeDesktop };
 }
 
+export { useScreenSize };
 export default useScreenSize;

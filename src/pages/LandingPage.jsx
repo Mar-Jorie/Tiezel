@@ -1,6 +1,14 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Bars3Icon, StarIcon, CheckIcon, PhoneIcon, EnvelopeIcon, MapPinIcon } from '@heroicons/react/24/outline';
+import { 
+  Bars3Icon, 
+  ShieldCheckIcon, 
+  PhoneIcon, 
+  TruckIcon, 
+  StarIcon,
+  ArrowRightIcon,
+  CheckIcon
+} from '@heroicons/react/24/outline';
 import Button from '../components/Button';
 import FloatingChatbot from '../components/FloatingChatbot';
 import { useApp } from '../hooks/useApp';
@@ -24,7 +32,9 @@ const LandingPage = () => {
               <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center">
                 <img src="/vite.svg" alt="Logo" className="w-6 h-6 sm:w-8 sm:h-8 object-contain" />
               </div>
-              <span className="text-lg sm:text-xl font-bold text-gray-900 tracking-tight">{landingPageContent.company.name}</span>
+              <span className="text-lg sm:text-xl font-bold text-gray-900 tracking-tight">
+                {landingPageContent.branding.brandName}
+              </span>
             </div>
             
             {/* Navigation Links - Hidden on Mobile */}
@@ -48,10 +58,10 @@ const LandingPage = () => {
             
             {/* Desktop CTA Buttons - Hidden on Mobile */}
             <div className="hidden lg:flex items-center space-x-4">
-              <Link to="/admin/login">
-                <Button variant="ghost" size="md" className="!w-auto">Admin Login</Button>
+              <Link to="/admin">
+                <Button variant="ghost" size="md" className="!w-auto">Admin</Button>
               </Link>
-              <Button variant="primaryOutline" size="md">Get Started</Button>
+              <Button variant="primaryOutline" size="md">Learn More</Button>
             </div>
           </div>
           
@@ -69,10 +79,10 @@ const LandingPage = () => {
                 
                 {/* Mobile CTA Buttons */}
                 <div className="flex flex-col space-y-3 pt-4 border-t border-gray-100">
-                  <Link to="/admin/login" onClick={() => setIsMobileMenuOpen(false)}>
-                    <Button variant="ghost" size="md" className="w-full">Admin Login</Button>
+                  <Link to="/admin" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Button variant="ghost" size="md" className="w-full">Admin</Button>
                   </Link>
-                  <Button variant="primaryOutline" size="md" className="w-full">Get Started</Button>
+                  <Button variant="primaryOutline" size="md" className="w-full">Learn More</Button>
                 </div>
               </div>
             </div>
@@ -93,22 +103,26 @@ const LandingPage = () => {
               </p>
               <div className="flex flex-row sm:flex-row items-start space-x-4 sm:space-x-4 mb-6 sm:mb-8">
                 <Button variant="primary" size="lg" className="!w-auto min-w-[160px]">
-                  {landingPageContent.hero.ctaPrimary}
+                  Shop Now
                 </Button>
                 <Button variant="primaryOutline" size="lg" className="!w-auto min-w-[160px]">
-                  {landingPageContent.hero.ctaSecondary}
+                  Learn More
                 </Button>
               </div>
             </div>
             <div className="relative order-last lg:order-last">
               {/* Hero Image/Illustration */}
-              <div className="w-full h-80 bg-gradient-to-br from-primary-100 to-primary-200 rounded-2xl flex items-center justify-center">
+              <div className="bg-gradient-to-br from-primary-100 to-indigo-100 rounded-2xl p-8 lg:p-12">
                 <div className="text-center">
-                  <div className="w-24 h-24 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-white text-2xl">🛍️</span>
+                  <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <ShieldCheckIcon className="h-8 w-8 text-white" />
                   </div>
-                  <h3 className="text-xl font-semibold text-primary-800 mb-2">E-commerce Store</h3>
-                  <p className="text-primary-600">Quality products, exceptional service</p>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                    {landingPageContent.hero.visualTitle}
+                  </h3>
+                  <p className="text-gray-600">
+                    {landingPageContent.hero.visualSubtitle}
+                  </p>
                 </div>
               </div>
             </div>
@@ -121,22 +135,31 @@ const LandingPage = () => {
         <div className="w-full">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">
-              Everything You Need to Succeed
+              {landingPageContent.sections.features.title}
             </h2>
             <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto font-medium">
-              Comprehensive services designed to meet your e-commerce needs.
+              {landingPageContent.sections.features.subtitle}
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-            {landingPageContent.services.map((service, index) => (
-              <div key={index} className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 group">
-                <div className="w-16 h-16 bg-gradient-to-br from-primary-100 to-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <span className="text-2xl">{service.icon}</span>
+            {landingPageContent.services.map((service, index) => {
+              const IconComponent = {
+                ShieldCheckIcon,
+                PhoneIcon,
+                TruckIcon,
+                StarIcon
+              }[service.icon] || ShieldCheckIcon;
+              
+              return (
+                <div key={index} className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 group">
+                  <div className="w-16 h-16 bg-gradient-to-br from-primary-100 to-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <IconComponent className="w-8 h-8 text-primary-600" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">{service.title}</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed text-center">{service.description}</p>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">{service.title}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed text-center">{service.description}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -146,24 +169,32 @@ const LandingPage = () => {
         <div className="w-full">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">
-              Featured Products
+              {landingPageContent.sections.products.title}
             </h2>
             <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto font-medium">
-              Discover our carefully curated selection of quality products.
+              {landingPageContent.sections.products.subtitle}
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {landingPageContent.products.map((product, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-200">
-                <div className="h-48 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                  <span className="text-4xl">📱</span>
+              <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-300">
+                <div className="aspect-w-16 aspect-h-9">
+                  <img 
+                    src={product.image} 
+                    alt={product.name}
+                    className="w-full h-48 object-cover"
+                  />
                 </div>
                 <div className="p-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">{product.name}</h3>
                   <p className="text-sm text-gray-600 mb-4">{product.description}</p>
                   <div className="flex items-center justify-between">
-                    <span className="text-xl font-bold text-primary-600">{product.price}</span>
-                    <Button variant="primary" size="sm">Add to Cart</Button>
+                    <span className="text-xl font-bold text-primary-600">
+                      {product.price.currency} {product.price.amount}
+                    </span>
+                    <Button variant="primary" size="sm">
+                      Add to Cart
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -178,56 +209,37 @@ const LandingPage = () => {
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div>
               <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">
-                About {landingPageContent.company.name}
+                {landingPageContent.about.title}
               </h2>
-              <p className="text-sm sm:text-base text-gray-600 mb-6 leading-relaxed">
-                {landingPageContent.company.description}
+              <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8 leading-relaxed">
+                {landingPageContent.about.description}
               </p>
               <div className="space-y-4">
-                <div className="flex items-center">
-                  <CheckIcon className="h-5 w-5 text-green-600 mr-3" />
-                  <span className="text-sm text-gray-700">Quality guaranteed products</span>
+                <div className="flex items-center space-x-3">
+                  <CheckIcon className="h-5 w-5 text-green-600" />
+                  <span className="text-sm font-medium text-gray-900">{landingPageContent.about.feature1}</span>
                 </div>
-                <div className="flex items-center">
-                  <CheckIcon className="h-5 w-5 text-green-600 mr-3" />
-                  <span className="text-sm text-gray-700">Fast and reliable shipping</span>
+                <div className="flex items-center space-x-3">
+                  <CheckIcon className="h-5 w-5 text-green-600" />
+                  <span className="text-sm font-medium text-gray-900">{landingPageContent.about.feature2}</span>
                 </div>
-                <div className="flex items-center">
-                  <CheckIcon className="h-5 w-5 text-green-600 mr-3" />
-                  <span className="text-sm text-gray-700">24/7 customer support</span>
+                <div className="flex items-center space-x-3">
+                  <CheckIcon className="h-5 w-5 text-green-600" />
+                  <span className="text-sm font-medium text-gray-900">{landingPageContent.about.feature3}</span>
                 </div>
               </div>
             </div>
-            <div className="bg-gradient-to-br from-primary-50 to-primary-100 rounded-2xl p-8">
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Why Choose Us?</h3>
-              <div className="space-y-4">
-                <div className="flex items-start">
-                  <div className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                    <span className="text-white text-sm">1</span>
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-900">Quality Products</h4>
-                    <p className="text-sm text-gray-600">Carefully selected items from trusted brands</p>
-                  </div>
+            <div className="bg-gradient-to-br from-primary-100 to-indigo-100 rounded-2xl p-8 lg:p-12">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <ShieldCheckIcon className="h-8 w-8 text-white" />
                 </div>
-                <div className="flex items-start">
-                  <div className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                    <span className="text-white text-sm">2</span>
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-900">Fast Delivery</h4>
-                    <p className="text-sm text-gray-600">Quick and secure shipping to your doorstep</p>
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  <div className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                    <span className="text-white text-sm">3</span>
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-900">Customer Support</h4>
-                    <p className="text-sm text-gray-600">Dedicated support team ready to help</p>
-                  </div>
-                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  {landingPageContent.about.visualTitle}
+                </h3>
+                <p className="text-gray-600">
+                  {landingPageContent.about.visualSubtitle}
+                </p>
               </div>
             </div>
           </div>
@@ -235,35 +247,28 @@ const LandingPage = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 bg-gray-50">
+      <section id="testimonials" className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 bg-gray-50">
         <div className="w-full">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">
-              What Our Customers Say
+              {landingPageContent.sections.testimonials.title}
             </h2>
             <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto font-medium">
-              Don't just take our word for it - hear from our satisfied customers.
+              {landingPageContent.sections.testimonials.subtitle}
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {landingPageContent.testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
+              <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
                 <div className="flex items-center mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
                     <StarIcon key={i} className="h-5 w-5 text-yellow-400" />
                   ))}
                 </div>
-                <p className="text-sm text-gray-600 mb-4 italic">"{testimonial.text}"</p>
-                <div className="flex items-center">
-                  <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center mr-3">
-                    <span className="text-primary-600 font-semibold text-sm">
-                      {testimonial.name.split(' ').map(n => n[0]).join('')}
-                    </span>
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-900 text-sm">{testimonial.name}</h4>
-                    <p className="text-xs text-gray-500">{testimonial.company}</p>
-                  </div>
+                <p className="text-sm text-gray-600 mb-4">"{testimonial.text}"</p>
+                <div>
+                  <p className="text-sm font-medium text-gray-900">{testimonial.name}</p>
+                  <p className="text-xs text-gray-500">{testimonial.company}</p>
                 </div>
               </div>
             ))}
@@ -276,95 +281,70 @@ const LandingPage = () => {
         <div className="w-full">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">
-              Get in Touch
+              {landingPageContent.contact.title}
             </h2>
             <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto font-medium">
-              Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+              {landingPageContent.contact.subtitle}
             </p>
           </div>
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Contact Information */}
-            <div className="space-y-6">
-              <div className="flex items-start">
-                <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                  <MapPinIcon className="h-5 w-5 text-primary-600" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">Address</h3>
-                  <p className="text-sm text-gray-600">{landingPageContent.company.address}</p>
-                </div>
-              </div>
-              <div className="flex items-start">
-                <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-6">
+                {landingPageContent.contact.infoTitle}
+              </h3>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3">
                   <PhoneIcon className="h-5 w-5 text-primary-600" />
+                  <span className="text-sm text-gray-600">{landingPageContent.contact.phone}</span>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">Phone</h3>
-                  <p className="text-sm text-gray-600">{landingPageContent.company.phone}</p>
+                <div className="flex items-center space-x-3">
+                  <ShieldCheckIcon className="h-5 w-5 text-primary-600" />
+                  <span className="text-sm text-gray-600">{landingPageContent.contact.email}</span>
                 </div>
-              </div>
-              <div className="flex items-start">
-                <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
-                  <EnvelopeIcon className="h-5 w-5 text-primary-600" />
+                <div className="flex items-center space-x-3">
+                  <TruckIcon className="h-5 w-5 text-primary-600" />
+                  <span className="text-sm text-gray-600">{landingPageContent.contact.address}</span>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
-                  <p className="text-sm text-gray-600">{landingPageContent.company.email}</p>
-                </div>
-              </div>
-              <div className="bg-primary-50 rounded-lg p-4">
-                <h3 className="font-semibold text-gray-900 mb-2">Business Hours</h3>
-                <p className="text-sm text-gray-600">{landingPageContent.company.hours}</p>
               </div>
             </div>
-
+            
             {/* Contact Form */}
             <div className="bg-gray-50 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                {landingPageContent.contact.formTitle}
+              </h3>
               <form className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
-                    <input
-                      type="text"
-                      id="firstName"
-                      name="firstName"
-                      className="w-full h-10 px-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                      placeholder="Enter your first name"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
-                    <input
-                      type="text"
-                      id="lastName"
-                      name="lastName"
-                      className="w-full h-10 px-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                      placeholder="Enter your last name"
-                    />
-                  </div>
-                </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
                   <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    className="w-full h-10 px-3 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                    placeholder="Enter your email"
+                    type="text"
+                    placeholder={landingPageContent.contact.namePlaceholder}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   />
                 </div>
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={4}
+                  <input
+                    type="email"
+                    placeholder={landingPageContent.contact.emailPlaceholder}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                    placeholder="Enter your message"
+                  />
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    placeholder={landingPageContent.contact.subjectPlaceholder}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <textarea
+                    rows={4}
+                    placeholder={landingPageContent.contact.messagePlaceholder}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   />
                 </div>
                 <Button variant="primary" size="md" className="w-full">
-                  Send Message
+                  {landingPageContent.contact.submitButton}
                 </Button>
               </form>
             </div>
@@ -376,17 +356,17 @@ const LandingPage = () => {
       <section className="py-8 sm:py-10 px-4 sm:px-6 bg-gradient-to-r from-primary-400 to-indigo-600 opacity-90">
         <div className="w-full text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6 sm:mb-8 tracking-tight">
-            Ready to Start Shopping?
+            {landingPageContent.cta.title}
           </h2>
           <p className="text-base sm:text-lg text-primary-100 mb-8 sm:mb-10 font-medium">
-            Join thousands of satisfied customers who trust us for their e-commerce needs.
+            {landingPageContent.cta.subtitle}
           </p>
           <div className="flex flex-row sm:flex-row items-center justify-center space-x-4 sm:space-x-6">
             <Button variant="light" size="lg" className="!w-auto min-w-[160px]">
-              Shop Now
+              {landingPageContent.cta.button1}
             </Button>
             <Button variant="secondaryOutline" size="lg" className="!w-auto min-w-[160px] !border-white !text-white hover:!bg-white hover:!text-primary-600">
-              Contact Sales
+              {landingPageContent.cta.button2}
             </Button>
           </div>
         </div>
@@ -394,7 +374,9 @@ const LandingPage = () => {
 
       {/* Footer */}
       <footer className="bg-gray-900 text-center text-gray-400 py-6 px-4 sm:px-6">
-        <p className="text-xs sm:text-sm">&copy; 2024 {landingPageContent.company.name}. All rights reserved.</p>
+        <p className="text-xs sm:text-sm">
+          {landingPageContent.sections.footer.copyright.replace('{brandName}', landingPageContent.branding.brandName)}
+        </p>
       </footer>
 
       {/* Floating Elements */}
