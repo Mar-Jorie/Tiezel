@@ -515,7 +515,7 @@ const LandingPage = () => {
               Portfolio
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-6 tracking-tight">
-              Featured Projects
+              {landingPageContent?.sections?.projects?.title || 'Featured Projects'}
             </h2>
             <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
               {landingPageContent?.sections?.projects?.subtitle || 'A showcase of my recent work, highlighting innovative solutions and creative problem-solving across various domains.'}
@@ -617,10 +617,10 @@ const LandingPage = () => {
               Professional Journey
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-6 tracking-tight">
-              Experience & Achievements
+              {landingPageContent?.sections?.experience?.title || 'Experience & Achievements'}
             </h2>
             <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              A timeline of my professional growth, key roles, and significant contributions across different organizations.
+              {landingPageContent?.sections?.experience?.subtitle || 'A timeline of my professional growth, key roles, and significant contributions across different organizations.'}
             </p>
           </div>
           
@@ -742,10 +742,10 @@ const LandingPage = () => {
               Technical Expertise
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-6 tracking-tight">
-              {landingPageContent?.skills?.title || 'Skills & Expertise'}
+              {landingPageContent?.sections?.skills?.title || 'Skills & Expertise'}
             </h2>
             <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              {landingPageContent?.skills?.subtitle || 'A comprehensive toolkit of modern technologies and frameworks I use to build exceptional digital experiences.'}
+              {landingPageContent?.sections?.skills?.subtitle || 'A comprehensive toolkit of modern technologies and frameworks I use to build exceptional digital experiences.'}
             </p>
           </div>
 
@@ -889,10 +889,10 @@ const LandingPage = () => {
         <div className="w-full">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">
-              Get In Touch
+              {landingPageContent?.sections?.contact?.title || 'Get In Touch'}
             </h2>
             <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto font-medium">
-              {landingPageContent?.contact?.subtitle || 'Ready to work together? Let\'s discuss your project.'}
+              {landingPageContent?.sections?.contact?.subtitle || 'Ready to work together? Let\'s discuss your project.'}
                   </p>
                 </div>
                 

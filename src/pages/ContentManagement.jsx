@@ -976,7 +976,7 @@ const ContentManagement = () => {
                   placeholder: 'Enter your full name',
                   required: true
                 }}
-                value={formData.personal_info?.name || ''}
+                value={formData.personal_info?.name || 'Your Name'}
                 onChange={(value) => {
                   const updatedData = {
                     ...formData,
@@ -997,7 +997,7 @@ const ContentManagement = () => {
                   placeholder: 'e.g., Software Developer, Designer',
                   required: true
                 }}
-                value={formData.personal_info?.title || ''}
+                value={formData.personal_info?.title || 'UI/UX Designer & Developer'}
                 onChange={(value) => {
                   const updatedData = {
                     ...formData,
@@ -1023,7 +1023,7 @@ const ContentManagement = () => {
                   required: true,
                   format: 'email'
                 }}
-                value={formData.personal_info?.email || ''}
+                value={formData.personal_info?.email || 'your.email@example.com'}
                 onChange={(value) => {
                   const updatedData = {
                     ...formData,
@@ -1044,7 +1044,7 @@ const ContentManagement = () => {
                   placeholder: 'Enter phone number',
                   required: false
                 }}
-                value={formData.personal_info?.phone || ''}
+                value={formData.personal_info?.phone || '+1 (555) 123-4567'}
                 onChange={(value) => {
                   const updatedData = {
                     ...formData,
@@ -1069,7 +1069,7 @@ const ContentManagement = () => {
                   placeholder: 'e.g., San Francisco, CA',
                   required: true
                 }}
-                value={formData.personal_info?.location || ''}
+                value={formData.personal_info?.location || 'Your City, Country'}
                 onChange={(value) => {
                   const updatedData = {
                     ...formData,
@@ -1090,7 +1090,7 @@ const ContentManagement = () => {
                   placeholder: 'e.g., 5+ Years',
                   required: true
                 }}
-                value={formData.personal_info?.experience || ''}
+                value={formData.personal_info?.experience || '5+ Years'}
                 onChange={(value) => {
                   const updatedData = {
                     ...formData,
@@ -1137,7 +1137,7 @@ const ContentManagement = () => {
                 placeholder: 'Write a brief professional summary about yourself...',
                 required: true
               }}
-              value={formData.personal_info?.bio || ''}
+              value={formData.personal_info?.bio || 'I am a passionate UI/UX designer and developer with a deep understanding of user psychology and modern design principles. My approach combines creative thinking with technical expertise to deliver solutions that not only look beautiful but also solve real problems.'}
               onChange={(value) => {
                 const updatedData = {
                   ...formData,
@@ -2219,6 +2219,170 @@ const ContentManagement = () => {
               />
             </div>
 
+            {/* Experience Section */}
+            <div className="space-y-4">
+              <h4 className="text-sm font-medium text-gray-700">Experience Section</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <InputFactory
+                  fieldName="experienceTitle"
+                  config={{
+                    type: 'String',
+                    label: 'Experience Section Title',
+                    placeholder: 'e.g., Experience & Achievements',
+                    required: true
+                  }}
+                  value={formData.sections?.experience?.title || 'Experience & Achievements'}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      sections: {
+                        ...formData.sections,
+                        experience: {
+                          ...formData.sections?.experience,
+                          title: value
+                        }
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
+                />
+                <InputFactory
+                  fieldName="experienceSubtitle"
+                  config={{
+                    type: 'String',
+                    label: 'Experience Section Subtitle',
+                    placeholder: 'e.g., A timeline of my professional growth...',
+                    required: true
+                  }}
+                  value={formData.sections?.experience?.subtitle || 'A timeline of my professional growth, key roles, and significant contributions across different organizations.'}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      sections: {
+                        ...formData.sections,
+                        experience: {
+                          ...formData.sections?.experience,
+                          subtitle: value
+                        }
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Skills Section */}
+            <div className="space-y-4">
+              <h4 className="text-sm font-medium text-gray-700">Skills Section</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <InputFactory
+                  fieldName="skillsTitle"
+                  config={{
+                    type: 'String',
+                    label: 'Skills Section Title',
+                    placeholder: 'e.g., Skills & Expertise',
+                    required: true
+                  }}
+                  value={formData.sections?.skills?.title || 'Skills & Expertise'}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      sections: {
+                        ...formData.sections,
+                        skills: {
+                          ...formData.sections?.skills,
+                          title: value
+                        }
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
+                />
+                <InputFactory
+                  fieldName="skillsSubtitle"
+                  config={{
+                    type: 'String',
+                    label: 'Skills Section Subtitle',
+                    placeholder: 'e.g., A comprehensive toolkit of modern technologies...',
+                    required: true
+                  }}
+                  value={formData.sections?.skills?.subtitle || 'A comprehensive toolkit of modern technologies and frameworks I use to build exceptional digital experiences.'}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      sections: {
+                        ...formData.sections,
+                        skills: {
+                          ...formData.sections?.skills,
+                          subtitle: value
+                        }
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Contact Section */}
+            <div className="space-y-4">
+              <h4 className="text-sm font-medium text-gray-700">Contact Section</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <InputFactory
+                  fieldName="contactTitle"
+                  config={{
+                    type: 'String',
+                    label: 'Contact Section Title',
+                    placeholder: 'e.g., Get In Touch',
+                    required: true
+                  }}
+                  value={formData.sections?.contact?.title || 'Get In Touch'}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      sections: {
+                        ...formData.sections,
+                        contact: {
+                          ...formData.sections?.contact,
+                          title: value
+                        }
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
+                />
+                <InputFactory
+                  fieldName="contactSubtitle"
+                  config={{
+                    type: 'String',
+                    label: 'Contact Section Subtitle',
+                    placeholder: 'e.g., Ready to work together? Let\'s discuss your project.',
+                    required: true
+                  }}
+                  value={formData.sections?.contact?.subtitle || 'Ready to work together? Let\'s discuss your project.'}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      sections: {
+                        ...formData.sections,
+                        contact: {
+                          ...formData.sections?.contact,
+                          subtitle: value
+                        }
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
+                />
+              </div>
+            </div>
 
             {/* Testimonials Section */}
             <div className="space-y-4">
