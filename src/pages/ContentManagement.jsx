@@ -1325,41 +1325,6 @@ const ContentManagement = () => {
                     )}
                   </div>
                   
-                  {/* Quality Assurance */}
-                  <div className="mt-6 pt-6 border-t border-gray-200">
-                    <h5 className="text-sm font-medium text-gray-700 mb-4">Quality Assurance</h5>
-                    <div className="space-y-4">
-                      <InputFactory
-                        fieldName={`product-${index}-qualityTitle`}
-                        config={{
-                          type: 'String',
-                          label: 'Quality Assurance Title',
-                          placeholder: 'e.g., Quality Guarantee',
-                          required: false
-                        }}
-                        value={project.qualityTitle || ''}
-                        onChange={(value) => {
-                          handleArrayChange('projects', index, 'qualityTitle', value);
-                          forceChangeDetection();
-                        }}
-                      />
-                      
-                      <InputFactory
-                        fieldName={`product-${index}-qualityDescription`}
-                        config={{
-                          type: 'Textarea',
-                          label: 'Quality Assurance Description',
-                          placeholder: 'e.g., Premium quality herbal medicine',
-                          required: false
-                        }}
-                        value={project.qualityDescription || ''}
-                        onChange={(value) => {
-                          handleArrayChange('projects', index, 'qualityDescription', value);
-                          forceChangeDetection();
-                        }}
-                      />
-                    </div>
-                  </div>
                   
                 </div>
                 ))
