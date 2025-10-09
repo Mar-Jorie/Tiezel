@@ -1337,9 +1337,9 @@ const ContentManagement = () => {
                           placeholder: 'e.g., Quality Guarantee',
                           required: false
                         }}
-                        value={product.qualityTitle || ''}
+                        value={project.qualityTitle || ''}
                         onChange={(value) => {
-                          handleArrayChange('products', index, 'qualityTitle', value);
+                          handleArrayChange('projects', index, 'qualityTitle', value);
                           forceChangeDetection();
                         }}
                       />
@@ -1352,9 +1352,9 @@ const ContentManagement = () => {
                           placeholder: 'e.g., Premium quality herbal medicine',
                           required: false
                         }}
-                        value={product.qualityDescription || ''}
+                        value={project.qualityDescription || ''}
                         onChange={(value) => {
-                          handleArrayChange('products', index, 'qualityDescription', value);
+                          handleArrayChange('projects', index, 'qualityDescription', value);
                           forceChangeDetection();
                         }}
                       />
