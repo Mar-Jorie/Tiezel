@@ -384,10 +384,10 @@ const LandingPage = () => {
               About Me
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-6 tracking-tight">
-              {landingPageContent?.about?.title || 'Crafting Digital Experiences'}
+              {landingPageContent?.sections?.about?.title || 'About Me'}
             </h2>
             <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              {landingPageContent?.about?.subtitle || 'Passionate about creating meaningful connections between users and technology through thoughtful design and seamless experiences.'}
+              {landingPageContent?.sections?.about?.subtitle || 'Get to know me better'}
             </p>
           </div>
           
