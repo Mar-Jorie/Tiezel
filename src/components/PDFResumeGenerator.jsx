@@ -199,9 +199,9 @@ const PDFResumeGenerator = ({ portfolioData }) => {
     <Button
       onClick={generatePDF}
       variant="primary"
-      size="md"
+      size="lg"
       disabled={isGenerating}
-      className="!w-auto"
+      className="!w-auto min-w-[200px] h-12 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
     >
       {isGenerating ? (
         <>

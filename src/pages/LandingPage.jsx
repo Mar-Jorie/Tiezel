@@ -23,7 +23,8 @@ import {
   XMarkIcon,
   PaperAirplaneIcon,
   QuestionMarkCircleIcon,
-  ClockIcon
+  ClockIcon,
+  ArrowTopRightOnSquareIcon
 } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 import Button from '../components/Button';
@@ -251,7 +252,7 @@ const LandingPage = () => {
                     Available for new opportunities
                   </div>
                   
-                  <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight tracking-tight">
+                  <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight tracking-tight">
                     Hi, I'm{' '}
                     <span className="bg-gradient-to-r from-primary-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
                       {landingPageContent?.personal_info?.name || 'Your Name'}
@@ -264,19 +265,19 @@ const LandingPage = () => {
                 </div>
 
                 {/* Description */}
-                <p className="text-lg sm:text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                <p className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto lg:mx-0">
                   {landingPageContent?.hero?.subtitle || 'I craft beautiful, functional digital experiences that solve real problems and delight users. Passionate about clean design, intuitive interfaces, and meaningful interactions.'}
                 </p>
 
                 {/* CTA Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                  <Button 
-                    variant="primary" 
+                  <Button
+                    variant="primary"
                     size="lg" 
-                    className="!w-auto min-w-[200px] h-14 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300" 
+                    className="!w-auto min-w-[200px] h-12 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300" 
                     onClick={() => document.getElementById('projects').scrollIntoView({ behavior: 'smooth' })}
                   >
-                    <EyeIcon className="h-5 w-5 mr-3" />
+                    <EyeIcon className="h-4 w-4 mr-2" />
                     View My Work
                 </Button>
                   <PDFResumeGenerator portfolioData={landingPageContent} />
@@ -355,10 +356,10 @@ const LandingPage = () => {
               <UserIcon className="h-4 w-4 mr-2" />
               About Me
             </div>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-6 tracking-tight">
               {landingPageContent?.about?.title || 'Crafting Digital Experiences'}
             </h2>
-            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
               {landingPageContent?.about?.subtitle || 'Passionate about creating meaningful connections between users and technology through thoughtful design and seamless experiences.'}
             </p>
           </div>
@@ -486,10 +487,10 @@ const LandingPage = () => {
               <BriefcaseIcon className="h-4 w-4 mr-2" />
               Portfolio
             </div>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-6 tracking-tight">
               Featured Projects
             </h2>
-            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
               {landingPageContent?.sections?.projects?.subtitle || 'A showcase of my recent work, highlighting innovative solutions and creative problem-solving across various domains.'}
             </p>
           </div>
