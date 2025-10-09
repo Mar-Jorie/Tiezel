@@ -436,7 +436,7 @@ const LandingPage = () => {
             {/* Visual */}
             <div className="lg:col-span-5">
               <div className="relative">
-                <div className="bg-gradient-to-br from-primary-50 via-indigo-50 to-purple-50 rounded-3xl p-8 lg:p-12">
+                <div className="bg-gradient-to-br from-primary-50 via-indigo-50 to-purple-50 rounded-3xl p-8 lg:p-12 mt-12 lg:mt-16">
                   <div className="space-y-8">
                     <div className="text-center">
                       <div className="w-16 h-16 bg-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
