@@ -276,7 +276,7 @@ const LandingPage = () => {
                 <div className="space-y-4">
                   <div className="inline-flex items-center px-4 py-2 bg-primary-50 border border-primary-200 rounded-full text-sm font-medium text-primary-700">
                     <span className="w-2 h-2 bg-primary-500 rounded-full mr-2 animate-pulse"></span>
-                    Available for new opportunities
+                    {landingPageContent?.hero?.statusBadge || 'Available for new opportunities'}
                   </div>
                   
                   <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight tracking-tight">

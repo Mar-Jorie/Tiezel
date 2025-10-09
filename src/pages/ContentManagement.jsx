@@ -749,22 +749,44 @@ const ContentManagement = () => {
           <div className="space-y-6">
             <h3 className="text-lg font-semibold text-gray-900">Hero Section</h3>
             <div className="space-y-6">
-              {/* Title and Subtitle - Two columns */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Status Badge */}
               <InputFactory
-                fieldName="title"
+                fieldName="statusBadge"
                 config={{
                   type: 'String',
-                  label: 'Main Title',
-                  placeholder: 'Enter main title',
+                  label: 'Status Badge Text',
+                  placeholder: 'e.g., Available for new opportunities',
                   required: true
                 }}
-                value={formData.hero?.title || ''}
+                value={formData.hero?.statusBadge || 'Available for new opportunities'}
                 onChange={(value) => {
                   const updatedData = {
                     ...formData,
                     hero: {
                       ...formData.hero,
+                      statusBadge: value
+                    }
+                  };
+                  setFormData(updatedData);
+                  forceChangeDetection();
+                }}
+              />
+
+              {/* Professional Title */}
+              <InputFactory
+                fieldName="professionalTitle"
+                config={{
+                  type: 'String',
+                  label: 'Professional Title',
+                  placeholder: 'e.g., UI/UX Designer & Developer',
+                  required: true
+                }}
+                value={formData.personal_info?.title || 'UI/UX Designer & Developer'}
+                onChange={(value) => {
+                  const updatedData = {
+                    ...formData,
+                    personal_info: {
+                      ...formData.personal_info,
                       title: value
                     }
                   };
@@ -772,15 +794,17 @@ const ContentManagement = () => {
                   forceChangeDetection();
                 }}
               />
+
+              {/* Hero Description */}
               <InputFactory
-                fieldName="subtitle"
+                fieldName="heroDescription"
                 config={{
                   type: 'String',
-                  label: 'Subtitle',
-                  placeholder: 'Enter subtitle',
+                  label: 'Hero Description',
+                  placeholder: 'Enter your professional description',
                   required: true
                 }}
-                value={formData.hero?.subtitle || ''}
+                value={formData.hero?.subtitle || 'I craft beautiful, functional digital experiences that solve real problems and delight users. Passionate about clean design, intuitive interfaces, and meaningful interactions.'}
                 onChange={(value) => {
                   const updatedData = {
                     ...formData,
@@ -793,6 +817,51 @@ const ContentManagement = () => {
                   forceChangeDetection();
                 }}
               />
+
+              {/* CTA Buttons */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <InputFactory
+                  fieldName="ctaPrimary"
+                  config={{
+                    type: 'String',
+                    label: 'Primary CTA Button Text',
+                    placeholder: 'e.g., View My Work',
+                    required: true
+                  }}
+                  value={formData.hero?.ctaPrimary || 'View My Work'}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      hero: {
+                        ...formData.hero,
+                        ctaPrimary: value
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
+                />
+                <InputFactory
+                  fieldName="ctaSecondary"
+                  config={{
+                    type: 'String',
+                    label: 'Secondary CTA Button Text',
+                    placeholder: 'e.g., Download Resume',
+                    required: true
+                  }}
+                  value={formData.hero?.ctaSecondary || 'Download Resume'}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      hero: {
+                        ...formData.hero,
+                        ctaSecondary: value
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
+                />
               </div>
               
               
@@ -2053,26 +2122,26 @@ const ContentManagement = () => {
               </div>
             </div>
 
-            {/* Products Section */}
+            {/* Projects Section */}
             <div className="space-y-4">
-              <h4 className="text-sm font-medium text-gray-700">Products Section</h4>
+              <h4 className="text-sm font-medium text-gray-700">Projects Section</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <InputFactory
-                  fieldName="productsTitle"
+                  fieldName="projectsTitle"
                   config={{
                     type: 'String',
-                    label: 'Products Section Title',
-                    placeholder: 'e.g., Featured Products',
+                    label: 'Projects Section Title',
+                    placeholder: 'e.g., Featured Projects',
                     required: true
                   }}
-                  value={formData.sections?.products?.title || 'Featured Products'}
+                  value={formData.sections?.projects?.title || 'Featured Projects'}
                   onChange={(value) => {
                     const updatedData = {
                       ...formData,
                       sections: {
                         ...formData.sections,
-                        products: {
-                          ...formData.sections?.products,
+                        projects: {
+                          ...formData.sections?.projects,
                           title: value
                         }
                       }
@@ -2082,21 +2151,21 @@ const ContentManagement = () => {
                   }}
                 />
                 <InputFactory
-                  fieldName="productsSubtitle"
+                  fieldName="projectsSubtitle"
                   config={{
                     type: 'String',
-                    label: 'Products Section Subtitle',
-                    placeholder: 'e.g., Discover our carefully curated selection',
+                    label: 'Projects Section Subtitle',
+                    placeholder: 'e.g., A showcase of my recent work...',
                     required: true
                   }}
-                  value={formData.sections?.products?.subtitle || 'Discover our carefully curated selection of quality products.'}
+                  value={formData.sections?.projects?.subtitle || 'A showcase of my recent work, highlighting innovative solutions and creative problem-solving across various domains.'}
                   onChange={(value) => {
                     const updatedData = {
                       ...formData,
                       sections: {
                         ...formData.sections,
-                        products: {
-                          ...formData.sections?.products,
+                        projects: {
+                          ...formData.sections?.projects,
                           subtitle: value
                         }
                       }
@@ -2120,7 +2189,7 @@ const ContentManagement = () => {
                     placeholder: 'e.g., About TechStore',
                     required: true
                   }}
-                  value={formData.about?.title || 'About TechStore'}
+                  value={formData.about?.title || 'Crafting Digital Experiences'}
                   onChange={(value) => handleChange('about', 'title', value)}
                 />
                 <InputFactory
@@ -2128,13 +2197,26 @@ const ContentManagement = () => {
                   config={{
                     type: 'String',
                     label: 'About Section Subtitle',
-                    placeholder: 'e.g., Learn more about our company and mission.',
+                    placeholder: 'e.g., Passionate about creating meaningful connections...',
                     required: true
                   }}
-                  value={formData.about?.subtitle || 'Learn more about our company and mission.'}
+                  value={formData.about?.subtitle || 'Passionate about creating meaningful connections between users and technology through thoughtful design and seamless experiences.'}
                   onChange={(value) => handleChange('about', 'subtitle', value)}
                 />
               </div>
+              
+              {/* About Description */}
+              <InputFactory
+                fieldName="aboutDescription"
+                config={{
+                  type: 'String',
+                  label: 'About Description',
+                  placeholder: 'Write a detailed description about yourself...',
+                  required: true
+                }}
+                value={formData.about?.description || 'I am a passionate UI/UX designer and developer with a deep understanding of user psychology and modern design principles. My approach combines creative thinking with technical expertise to deliver solutions that not only look beautiful but also solve real problems.'}
+                onChange={(value) => handleChange('about', 'description', value)}
+              />
             </div>
 
 
