@@ -1905,8 +1905,21 @@ const ContentManagement = () => {
                     placeholder: 'e.g., About TechStore',
                     required: true
                   }}
-                  value={formData.about?.title || ''}
-                  onChange={(value) => handleChange('about', 'title', value)}
+                  value={formData.sections?.about?.title || 'About Me'}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      sections: {
+                        ...formData.sections,
+                        about: {
+                          ...formData.sections?.about,
+                          title: value
+                        }
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
                 />
                 <InputFactory
                   fieldName="aboutSubtitle"
@@ -1916,23 +1929,24 @@ const ContentManagement = () => {
                     placeholder: 'e.g., Passionate about creating meaningful connections...',
                     required: true
                   }}
-                  value={formData.about?.subtitle || ''}
-                  onChange={(value) => handleChange('about', 'subtitle', value)}
+                  value={formData.sections?.about?.subtitle || 'Get to know me better'}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      sections: {
+                        ...formData.sections,
+                        about: {
+                          ...formData.sections?.about,
+                          subtitle: value
+                        }
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
                 />
               </div>
               
-              {/* About Description */}
-              <InputFactory
-                fieldName="aboutDescription"
-                config={{
-                  type: 'String',
-                  label: 'About Description',
-                  placeholder: 'Write a detailed description about yourself...',
-                  required: true
-                }}
-                value={formData.about?.description || ''}
-                onChange={(value) => handleChange('about', 'description', value)}
-              />
             </div>
 
             {/* Experience Section */}
