@@ -67,7 +67,7 @@ const LandingPage = () => {
   };
 
   const nextSkillSlide = () => {
-    const skillsData = landingPageContent?.skills?.categories || [
+    const skillsData = landingPageContent?.skills || [
       { category: 'Frontend Development', skills: ['React', 'Vue.js', 'TypeScript', 'Next.js', 'Tailwind CSS', 'Framer Motion'] },
       { category: 'Backend Development', skills: ['Node.js', 'Python', 'FastAPI', 'GraphQL', 'PostgreSQL', 'Redis'] },
       { category: 'Cloud & DevOps', skills: ['AWS', 'Docker', 'Kubernetes', 'CI/CD', 'Terraform', 'Vercel'] },
@@ -79,7 +79,7 @@ const LandingPage = () => {
   };
 
   const prevSkillSlide = () => {
-    const skillsData = landingPageContent?.skills?.categories || [
+    const skillsData = landingPageContent?.skills || [
       { category: 'Frontend Development', skills: ['React', 'Vue.js', 'TypeScript', 'Next.js', 'Tailwind CSS', 'Framer Motion'] },
       { category: 'Backend Development', skills: ['Node.js', 'Python', 'FastAPI', 'GraphQL', 'PostgreSQL', 'Redis'] },
       { category: 'Cloud & DevOps', skills: ['AWS', 'Docker', 'Kubernetes', 'CI/CD', 'Terraform', 'Vercel'] },
@@ -326,7 +326,7 @@ const LandingPage = () => {
               </div>
                   <div className="text-center lg:text-left">
                     <div className="text-2xl sm:text-3xl font-bold text-gray-900">
-                      {landingPageContent?.skills?.categories?.reduce((total, cat) => total + (cat.skills?.length || 0), 0) || '20+'}
+                      {landingPageContent?.skills?.reduce((total, cat) => total + (cat.skills?.length || 0), 0) || '20+'}
                     </div>
                     <div className="text-sm text-gray-600">Skills</div>
                   </div>
@@ -775,7 +775,7 @@ const LandingPage = () => {
                 style={{ transform: `translateX(-${currentSkillSlide * 100}%)` }}
               >
                 {(() => {
-                  const skillsData = landingPageContent?.skills?.categories || [
+                  const skillsData = landingPageContent?.skills || [
                     { 
                       name: 'Frontend Development', 
                       skills: ['React', 'Vue.js', 'TypeScript', 'Next.js', 'Tailwind CSS', 'Framer Motion']
@@ -812,7 +812,7 @@ const LandingPage = () => {
                           </div>
                           <div>
                             <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                              {category.name}
+                              {category.category || category.name}
                             </h3>
                             <div className="w-16 h-1 bg-primary-500 rounded-full"></div>
                           </div>
@@ -848,7 +848,7 @@ const LandingPage = () => {
             {/* Slide Indicators */}
             <div className="flex justify-center mt-8 space-x-2">
               {(() => {
-                const skillsData = landingPageContent?.skills?.categories || [
+                const skillsData = landingPageContent?.skills || [
                   { name: 'Frontend Development', skills: ['React', 'Vue.js', 'TypeScript', 'Next.js', 'Tailwind CSS', 'Framer Motion'] },
                   { name: 'Backend Development', skills: ['Node.js', 'Python', 'FastAPI', 'GraphQL', 'PostgreSQL', 'Redis'] },
                   { name: 'Cloud & DevOps', skills: ['AWS', 'Docker', 'Kubernetes', 'CI/CD', 'Terraform', 'Vercel'] },

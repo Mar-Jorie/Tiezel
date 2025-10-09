@@ -1579,51 +1579,7 @@ const ContentManagement = () => {
               <h3 className="text-base font-semibold text-gray-900">Skills & Expertise</h3>
             </div>
             
-            {/* Skills Section Header */}
-            <div className="space-y-4">
-              <InputFactory
-                fieldName="skillsTitle"
-                config={{
-                  type: 'String',
-                  label: 'Skills Section Title',
-                  placeholder: 'e.g., Skills & Expertise',
-                  required: true
-                }}
-                value={formData.skills?.title || ''}
-                onChange={(value) => {
-                  const updatedData = {
-                    ...formData,
-                    skills: {
-                      ...formData.skills,
-                      title: value
-                    }
-                  };
-                  setFormData(updatedData);
-                  forceChangeDetection();
-                }}
-              />
-              <InputFactory
-                fieldName="skillsSubtitle"
-                config={{
-                  type: 'String',
-                  label: 'Skills Section Subtitle',
-                  placeholder: 'e.g., Technical skills and tools I work with',
-                  required: true
-                }}
-                value={formData.skills?.subtitle || ''}
-                onChange={(value) => {
-                  const updatedData = {
-                    ...formData,
-                    skills: {
-                      ...formData.skills,
-                      subtitle: value
-                    }
-                  };
-                  setFormData(updatedData);
-                  forceChangeDetection();
-                }}
-              />
-            </div>
+            {/* Skills title and subtitle moved to Section Headers tab */}
             
             {/* Skills Categories */}
             <div className="space-y-4">
@@ -1635,16 +1591,13 @@ const ContentManagement = () => {
                   onClick={() => {
                     const updatedData = {
                       ...formData,
-                      skills: {
-                        ...formData.skills,
-                        categories: [
-                          ...(formData.skills?.categories || []),
-                          {
-                            name: '',
-                            skills: []
-                          }
-                        ]
-                      }
+                      skills: [
+                        ...(formData.skills || []),
+                        {
+                          category: '',
+                          skills: []
+                        }
+                      ]
                     };
                     setFormData(updatedData);
                     forceChangeDetection();
@@ -1655,7 +1608,7 @@ const ContentManagement = () => {
                 </Button>
               </div>
               
-              {formData.skills?.categories?.map((category, categoryIndex) => (
+              {formData.skills?.map((category, categoryIndex) => (
                 <div key={categoryIndex} className="bg-gray-50 rounded-lg p-4">
                   <div className="flex items-center justify-between mb-4">
                     <h5 className="font-medium text-gray-900">Category {categoryIndex + 1}</h5>
@@ -1663,14 +1616,11 @@ const ContentManagement = () => {
                       variant="danger"
                       size="sm"
                       onClick={() => {
-                        const updatedCategories = [...(formData.skills?.categories || [])];
+                        const updatedCategories = [...(formData.skills || [])];
                         updatedCategories.splice(categoryIndex, 1);
                         const updatedData = {
                           ...formData,
-                          skills: {
-                            ...formData.skills,
-                            categories: updatedCategories
-                          }
+                          skills: updatedCategories
                         };
                         setFormData(updatedData);
                         forceChangeDetection();
@@ -1690,19 +1640,16 @@ const ContentManagement = () => {
                         placeholder: 'e.g., Frontend, Backend, Database',
                         required: true
                       }}
-                      value={category.name || ''}
+                      value={category.category || ''}
                       onChange={(value) => {
-                        const updatedCategories = [...(formData.skills?.categories || [])];
+                        const updatedCategories = [...(formData.skills || [])];
                         updatedCategories[categoryIndex] = {
                           ...updatedCategories[categoryIndex],
-                          name: value
+                          category: value
                         };
                         const updatedData = {
                           ...formData,
-                          skills: {
-                            ...formData.skills,
-                            categories: updatedCategories
-                          }
+                          skills: updatedCategories
                         };
                         setFormData(updatedData);
                         forceChangeDetection();
@@ -1718,17 +1665,14 @@ const ContentManagement = () => {
                         variant="secondary"
                         size="sm"
                         onClick={() => {
-                          const updatedCategories = [...(formData.skills?.categories || [])];
+                          const updatedCategories = [...(formData.skills || [])];
                           if (!updatedCategories[categoryIndex].skills) {
                             updatedCategories[categoryIndex].skills = [];
                           }
                           updatedCategories[categoryIndex].skills.push('');
                           const updatedData = {
                             ...formData,
-                            skills: {
-                              ...formData.skills,
-                              categories: updatedCategories
-                            }
+                            skills: updatedCategories
                           };
                           setFormData(updatedData);
                           forceChangeDetection();
@@ -1754,17 +1698,14 @@ const ContentManagement = () => {
                                 }}
                                 value={skill || ''}
                                 onChange={(value) => {
-                                  const updatedCategories = [...(formData.skills?.categories || [])];
+                                  const updatedCategories = [...(formData.skills || [])];
                                   if (!updatedCategories[categoryIndex].skills) {
                                     updatedCategories[categoryIndex].skills = [];
                                   }
                                   updatedCategories[categoryIndex].skills[skillIndex] = value;
                                   const updatedData = {
                                     ...formData,
-                                    skills: {
-                                      ...formData.skills,
-                                      categories: updatedCategories
-                                    }
+                                    skills: updatedCategories
                                   };
                                   setFormData(updatedData);
                                   forceChangeDetection();
@@ -1775,15 +1716,12 @@ const ContentManagement = () => {
                               variant="danger"
                               size="sm"
                               onClick={() => {
-                                const updatedCategories = [...(formData.skills?.categories || [])];
+                                const updatedCategories = [...(formData.skills || [])];
                                 if (updatedCategories[categoryIndex].skills) {
                                   updatedCategories[categoryIndex].skills.splice(skillIndex, 1);
                                   const updatedData = {
                                     ...formData,
-                                    skills: {
-                                      ...formData.skills,
-                                      categories: updatedCategories
-                                    }
+                                    skills: updatedCategories
                                   };
                                   setFormData(updatedData);
                                   forceChangeDetection();
@@ -1806,7 +1744,7 @@ const ContentManagement = () => {
                 </div>
               ))}
               
-              {(!formData.skills?.categories || formData.skills.categories.length === 0) && (
+              {(!formData.skills || formData.skills.length === 0) && (
                 <div className="text-center py-8">
                   <div className="flex items-center justify-center mb-4">
                     <CodeBracketIcon className="h-8 w-8 text-primary-400" />
