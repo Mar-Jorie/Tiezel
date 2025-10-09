@@ -48,6 +48,33 @@ const ContentManagement = () => {
   const [showSaveConfirm, setShowSaveConfirm] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
 
+  // Check for old data and clear it on component mount
+  useEffect(() => {
+    const savedContent = localStorage.getItem('landingPageContent');
+    if (savedContent) {
+      try {
+        const parsedContent = JSON.parse(savedContent);
+        const hasOldData = (
+          (parsedContent.hero && parsedContent.hero.visualTitle === "HerbalMed") ||
+          (parsedContent.hero && parsedContent.hero.visualSubtitle === "Pure, natural, effective") ||
+          (parsedContent.hero && parsedContent.hero.heroIcon === "ShieldCheckIcon") ||
+          (parsedContent.hero && parsedContent.hero.ctaPrimary === "Shop Now") ||
+          (parsedContent.hero && parsedContent.hero.ctaSecondary === "Learn More")
+        );
+        
+        if (hasOldData) {
+          console.log('Detected old content in ContentManagement, clearing localStorage');
+          localStorage.removeItem('landingPageContent');
+          // Force a page reload to get fresh default data
+          window.location.reload();
+        }
+      } catch (error) {
+        console.error('Error checking saved content:', error);
+        localStorage.removeItem('landingPageContent');
+      }
+    }
+  }, []);
+
   // Update form data when landing page content changes
   useEffect(() => {
     setFormData(landingPageContent);
@@ -208,227 +235,26 @@ const ContentManagement = () => {
   };
 
   const handleReset = () => {
+    // Clear localStorage completely to remove any old data
+    localStorage.removeItem('landingPageContent');
+    
     // Reset to default content
     resetLandingPageContent();
     
-    // Reset form data to default content
-    const defaultContent = {
-      branding: {
-        logo: "https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=200&h=200&fit=crop&crop=center",
-        brandName: "HerbalMed",
-        tagline: "Nature's Healing Power",
-        primaryColor: "#6589a4"
-      },
-      hero: {
-        title: "Welcome to HerbalMed - Premium Herbal Medicine",
-        subtitle: "Discover the healing power of nature with our premium collection of herbal medicines and natural remedies",
-        ctaPrimary: "Shop Now",
-        ctaSecondary: "Learn More",
-        visualTitle: "HerbalMed",
-        visualSubtitle: "Pure, natural, effective",
-        heroIcon: "ShieldCheckIcon"
-      },
-      company: {
-        name: "HerbalMed",
-        description: "Your trusted source for premium herbal medicines and natural healing solutions.",
-        address: "123 Wellness Street, Green City, State 12345",
-        phone: "(555) 123-4567",
-        email: "info@herbalmed.com",
-        hours: "Mon-Fri: 9AM-6PM, Sat: 10AM-4PM"
-      },
-      services: [
-        {
-          title: "Premium Quality",
-          description: "100% natural, organic herbal medicines",
-          icon: "ShieldCheckIcon"
-        },
-        {
-          title: "Expert Consultation",
-          description: "Professional herbal medicine guidance",
-          icon: "PhoneIcon"
-        },
-        {
-          title: "Fast Delivery",
-          description: "Quick and secure shipping worldwide",
-          icon: "TruckIcon"
-        },
-        {
-          title: "Quality Content",
-          description: "Rigorous fact-checking and verification",
-          icon: "StarIcon"
-        }
-      ],
-      products: [
-        {
-          name: "Turmeric Golden Blend",
-          image: "https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=400&h=300&fit=crop&crop=center",
-          description: "Premium organic turmeric with anti-inflammatory properties",
-          benefits: [
-            "Reduces inflammation naturally",
-            "Supports joint health and mobility",
-            "Boosts immune system function",
-            "Promotes healthy digestion"
-          ]
-        },
-        {
-          name: "Ginger Root Extract", 
-          image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center",
-          description: "Pure ginger root extract for digestive health",
-          benefits: [
-            "Soothes digestive discomfort",
-            "Reduces nausea and motion sickness",
-            "Supports healthy metabolism",
-            "Natural anti-inflammatory properties"
-          ]
-        },
-        {
-          name: "Echinacea Immune Support",
-          image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&h=300&fit=crop&crop=center",
-          description: "Natural immune system booster from echinacea",
-          benefits: [
-            "Strengthens immune system",
-            "Reduces cold and flu duration",
-            "Supports respiratory health",
-            "Natural antioxidant properties"
-          ]
-        },
-        {
-          name: "Ashwagandha Stress Relief",
-          image: "https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=400&h=300&fit=crop&crop=center",
-          description: "Ancient herb for stress management and vitality",
-          benefits: [
-            "Reduces stress and anxiety",
-            "Improves sleep quality",
-            "Boosts energy and vitality",
-            "Supports adrenal gland function"
-          ]
-        },
-        {
-          name: "Ginkgo Biloba Memory",
-          image: "https://images.unsplash.com/photo-1594736797933-d0d4b7a8b4b4?w=400&h=300&fit=crop&crop=center",
-          description: "Traditional herb for cognitive function and memory",
-          benefits: [
-            "Enhances memory and focus",
-            "Improves blood circulation",
-            "Supports brain health",
-            "Natural antioxidant protection"
-          ]
-        }
-      ],
-      testimonials: [
-        {
-          name: "Sarah Johnson",
-          rating: 5,
-          text: "Excellent service and fast delivery. Highly recommended!",
-          company: "Tech Solutions Inc."
-        },
-        {
-          name: "Mike Chen",
-          rating: 5,
-          text: "Great products and outstanding customer support.",
-          company: "Digital Innovations"
-        },
-        {
-          name: "Emily Davis",
-          rating: 5,
-          text: "Best technology information and support I've experienced. Highly recommended!",
-          company: "Creative Agency"
-        }
-      ],
-      navigation: {
-        link1: 'Features',
-        link2: 'Products', 
-        link3: 'About',
-        link4: 'Contact',
-        ctaButton1: 'Learn More',
-        ctaButton2: 'Learn More'
-      },
-      cta: {
-        title: 'Ready to Learn More?',
-        subtitle: 'Get in touch with us to learn more about our products and services.',
-        button1: 'Learn More',
-        button2: 'Contact Us'
-      },
-      about: {
-        title: 'About TechStore',
-        subtitle: 'Learn more about our company and mission.',
-        heading: 'Our Story',
-        description: 'We are a technology company dedicated to providing quality products and exceptional service to our customers.',
-        feature1: 'Quality Products',
-        feature2: 'Expert Support',
-        feature3: 'Customer Satisfaction',
-        visualTitle: 'Trusted Partner',
-        visualSubtitle: 'Your technology needs, our expertise'
-      },
-      contact: {
-        title: 'Get In Touch',
-        subtitle: 'Have questions? We\'d love to hear from you. Send us a message and we\'ll respond as soon as possible.',
-        infoTitle: 'Contact Information',
-        phone: '+1 (555) 123-4567',
-        email: 'info@techstore.com',
-        address: '123 Tech Street, Digital City, DC 12345',
-        formTitle: 'Send us a message',
-        namePlaceholder: 'Your Name',
-        emailPlaceholder: 'Your Email',
-        subjectPlaceholder: 'Subject',
-        messagePlaceholder: 'Your Message',
-        submitButton: 'Send Message'
-      },
-      modals: {
-        shopNow: {
-          title: 'How to Order',
-          description: 'Ready to start your wellness journey? Here\'s where you can order our premium herbal medicines:',
-          methods: [
-            {
-              title: 'Facebook Page',
-              description: 'Message us on Facebook for orders and inquiries'
-            },
-            {
-              title: 'Phone Orders',
-              description: 'Call us directly for personalized service'
-            },
-            {
-              title: 'Email Orders',
-              description: 'Send us an email with your requirements'
-            }
-          ]
-        }
-      },
-      sections: {
-        features: {
-          title: 'Everything You Need to Know',
-          subtitle: 'Comprehensive information designed to help you make informed decisions.'
-        },
-        products: {
-          title: 'Featured Herbal Products',
-          subtitle: 'Premium quality herbal medicines and natural remedies for your wellness journey.'
-        },
-        about: {
-          title: 'About {company.name}',
-          subtitle: 'Why Choose Us?'
-        },
-        testimonials: {
-          title: 'What Our Customers Say',
-          subtitle: 'Don\'t just take our word for it - hear from our satisfied customers.'
-        },
-        footer: {
-          copyright: '© 2024 {brandName}. All rights reserved.'
-        }
-      }
-    };
-    
-    setFormData(defaultContent);
+    // Reset form data to context content (new default)
+    // Use the context data instead of hardcoded values
+    setFormData(landingPageContent);
     setHasChanges(false);
     
     // Log content reset
     auditService.logContentUpdate(
       'Landing Page Content',
-      'Reset all changes to default values',
+      'Reset to default content',
       formData,
-      defaultContent
+      landingPageContent
     );
     
-    toast.success('Content reset to default values');
+    toast.success('Content reset to default successfully!');
   };
 
   const handleAddItem = (type, newItem = null) => {
@@ -731,14 +557,12 @@ const ContentManagement = () => {
   const tabs = [
     { id: 'personal', name: 'Personal Info', icon: UserIcon },
     { id: 'hero', name: 'Hero Section', icon: HomeIcon },
-    { id: 'about', name: 'About Section', icon: DocumentTextIcon },
+    { id: 'about', name: 'About', icon: DocumentTextIcon },
     { id: 'projects', name: 'Projects', icon: BriefcaseIcon },
     { id: 'experience', name: 'Experience', icon: AcademicCapIcon },
     { id: 'skills', name: 'Skills', icon: CodeBracketIcon },
-    { id: 'testimonials', name: 'Testimonials', icon: StarIcon },
-    { id: 'contact', name: 'Contact Info', icon: PhoneIcon },
     { id: 'sections', name: 'Section Headers', icon: DocumentTextIcon },
-    { id: 'branding', name: 'Branding & Colors', icon: BuildingOfficeIcon }
+    { id: 'branding', name: 'Branding & Color', icon: BuildingOfficeIcon }
   ];
 
   const renderTabContent = () => {
@@ -749,22 +573,22 @@ const ContentManagement = () => {
           <div className="space-y-6">
             <h3 className="text-lg font-semibold text-gray-900">Hero Section</h3>
             <div className="space-y-6">
-              {/* Status Badge */}
+              {/* Hero Title */}
               <InputFactory
-                fieldName="statusBadge"
+                fieldName="heroTitle"
                 config={{
                   type: 'String',
-                  label: 'Status Badge Text',
-                  placeholder: 'e.g., Available for new opportunities',
+                  label: 'Hero Title',
+                  placeholder: 'e.g., Hi, I\'m [Your Name]',
                   required: true
                 }}
-                value={formData.hero?.statusBadge || 'Available for new opportunities'}
+                value={formData.hero?.title || ''}
                 onChange={(value) => {
                   const updatedData = {
                     ...formData,
                     hero: {
                       ...formData.hero,
-                      statusBadge: value
+                      title: value
                     }
                   };
                   setFormData(updatedData);
@@ -781,13 +605,13 @@ const ContentManagement = () => {
                   placeholder: 'e.g., UI/UX Designer & Developer',
                   required: true
                 }}
-                value={formData.personal_info?.title || 'UI/UX Designer & Developer'}
+                value={formData.hero?.professionalTitle || ''}
                 onChange={(value) => {
                   const updatedData = {
                     ...formData,
-                    personal_info: {
-                      ...formData.personal_info,
-                      title: value
+                    hero: {
+                      ...formData.hero,
+                      professionalTitle: value
                     }
                   };
                   setFormData(updatedData);
@@ -799,12 +623,12 @@ const ContentManagement = () => {
               <InputFactory
                 fieldName="heroDescription"
                 config={{
-                  type: 'String',
+                  type: 'Textarea',
                   label: 'Hero Description',
-                  placeholder: 'Enter your professional description',
+                  placeholder: 'Enter your professional description and what you do...',
                   required: true
                 }}
-                value={formData.hero?.subtitle || 'I craft beautiful, functional digital experiences that solve real problems and delight users. Passionate about clean design, intuitive interfaces, and meaningful interactions.'}
+                value={formData.hero?.subtitle || ''}
                 onChange={(value) => {
                   const updatedData = {
                     ...formData,
@@ -828,7 +652,7 @@ const ContentManagement = () => {
                     placeholder: 'e.g., View My Work',
                     required: true
                   }}
-                  value={formData.hero?.ctaPrimary || 'View My Work'}
+                  value={formData.hero?.ctaPrimary || ''}
                   onChange={(value) => {
                     const updatedData = {
                       ...formData,
@@ -849,7 +673,7 @@ const ContentManagement = () => {
                     placeholder: 'e.g., Download Resume',
                     required: true
                   }}
-                  value={formData.hero?.ctaSecondary || 'Download Resume'}
+                  value={formData.hero?.ctaSecondary || ''}
                   onChange={(value) => {
                     const updatedData = {
                       ...formData,
@@ -864,7 +688,6 @@ const ContentManagement = () => {
                 />
               </div>
               
-              
               {/* Hero Visual Section */}
               <div className="mt-6 pt-6 border-t border-gray-200">
                 <h4 className="text-sm font-medium text-gray-700 mb-4">Hero Visual Section</h4>
@@ -876,7 +699,7 @@ const ContentManagement = () => {
                     config={{
                       type: 'String',
                       label: 'Visual Title',
-                      placeholder: 'Enter visual title (e.g., Your Store)',
+                      placeholder: 'e.g., Creative Designer',
                       required: true
                     }}
                     value={formData.hero?.visualTitle || ''}
@@ -897,7 +720,7 @@ const ContentManagement = () => {
                     config={{
                       type: 'String',
                       label: 'Visual Subtitle',
-                      placeholder: 'Enter visual subtitle',
+                      placeholder: 'e.g., Bringing ideas to life',
                       required: true
                     }}
                     value={formData.hero?.visualSubtitle || ''}
@@ -918,7 +741,7 @@ const ContentManagement = () => {
                 {/* Hero Icon */}
                 <div className="mt-6">
                   <IconSelector
-                    value={formData.hero?.heroIcon || 'ShoppingBagIcon'}
+                    value={formData.hero?.heroIcon || ''}
                     onChange={(value) => {
                       const updatedData = {
                         ...formData,
@@ -976,7 +799,7 @@ const ContentManagement = () => {
                   placeholder: 'Enter your full name',
                   required: true
                 }}
-                value={formData.personal_info?.name || 'Your Name'}
+                value={formData.personal_info?.name || ''}
                 onChange={(value) => {
                   const updatedData = {
                     ...formData,
@@ -997,7 +820,7 @@ const ContentManagement = () => {
                   placeholder: 'e.g., Software Developer, Designer',
                   required: true
                 }}
-                value={formData.personal_info?.title || 'UI/UX Designer & Developer'}
+                value={formData.personal_info?.title || ''}
                 onChange={(value) => {
                   const updatedData = {
                     ...formData,
@@ -1023,7 +846,7 @@ const ContentManagement = () => {
                   required: true,
                   format: 'email'
                 }}
-                value={formData.personal_info?.email || 'your.email@example.com'}
+                value={formData.personal_info?.email || ''}
                 onChange={(value) => {
                   const updatedData = {
                     ...formData,
@@ -1069,7 +892,7 @@ const ContentManagement = () => {
                   placeholder: 'e.g., San Francisco, CA',
                   required: true
                 }}
-                value={formData.personal_info?.location || 'Your City, Country'}
+                value={formData.personal_info?.location || ''}
                 onChange={(value) => {
                   const updatedData = {
                     ...formData,
@@ -1090,7 +913,7 @@ const ContentManagement = () => {
                   placeholder: 'e.g., 5+ Years',
                   required: true
                 }}
-                value={formData.personal_info?.experience || '5+ Years'}
+                value={formData.personal_info?.experience || ''}
                 onChange={(value) => {
                   const updatedData = {
                     ...formData,
@@ -1137,7 +960,7 @@ const ContentManagement = () => {
                 placeholder: 'Write a brief professional summary about yourself...',
                 required: true
               }}
-              value={formData.personal_info?.bio || 'I am a passionate UI/UX designer and developer with a deep understanding of user psychology and modern design principles. My approach combines creative thinking with technical expertise to deliver solutions that not only look beautiful but also solve real problems.'}
+              value={formData.personal_info?.bio || ''}
               onChange={(value) => {
                 const updatedData = {
                   ...formData,
@@ -1315,8 +1138,21 @@ const ContentManagement = () => {
               <h3 className="text-base font-semibold text-gray-900">Featured Projects</h3>
             </div>
             <div className="space-y-4">
-              {formData.projects?.map((project, index) => (
-                <div key={index} className="bg-gray-50 rounded-lg p-4">
+              {(!formData.projects || formData.projects.length === 0) ? (
+                <div className="text-center py-12 bg-gray-50 rounded-lg">
+                  <p className="text-gray-500 mb-4">No projects added yet</p>
+                  <Button
+                    variant="primary"
+                    size="md"
+                    onClick={() => handleAddItem('projects')}
+                  >
+                    <PlusIcon className="h-5 w-5 mr-2" />
+                    Add New Project
+                  </Button>
+                </div>
+              ) : (
+                formData.projects.map((project, index) => (
+                  <div key={index} className="bg-gray-50 rounded-lg p-4">
                   <div className="flex items-center justify-between mb-4">
                     <h4 className="font-medium text-gray-900">Project {index + 1}</h4>
                     <Button
@@ -1328,33 +1164,48 @@ const ContentManagement = () => {
                     </Button>
                   </div>
                   
-                  {/* Basic Product Information */}
+                  {/* Project Information */}
                   <div className="space-y-4">
-                    <h5 className="text-sm font-medium text-gray-700">Basic Information</h5>
+                    <h5 className="text-sm font-medium text-gray-700">Project Information</h5>
                     
-                    {/* Project Name - Full width */}
+                    {/* Project Title - Full width */}
                     <div>
                       <InputFactory
-                        fieldName={`project-${index}-name`}
+                        fieldName={`project-${index}-title`}
                         config={{
                           type: 'String',
-                          label: 'Project Name',
-                          placeholder: 'Enter project name',
+                          label: 'Project Title',
+                          placeholder: 'Enter project title',
                           required: true
                         }}
-                        value={project.name}
-                        onChange={(value) => handleArrayChange('projects', index, 'name', value)}
+                        value={project.title || project.name}
+                        onChange={(value) => handleArrayChange('projects', index, 'title', value)}
                       />
                     </div>
                     
-                    {/* Description - Full width */}
+                    {/* Cover Image - Full width */}
+                    <div>
+                      <InputFactory
+                        fieldName={`project-${index}-coverImage`}
+                        config={{
+                          type: 'FileUpload',
+                          label: 'Cover Image',
+                          placeholder: 'Upload a cover image for this project',
+                          required: true
+                        }}
+                        value={project.coverImage || ''}
+                        onChange={(value) => handleArrayChange('projects', index, 'coverImage', value)}
+                      />
+                    </div>
+                    
+                    {/* Project Description - Full width */}
                     <div>
                       <InputFactory
                         fieldName={`project-${index}-description`}
                         config={{
                           type: 'Textarea',
-                          label: 'Description',
-                          placeholder: 'Enter project description',
+                          label: 'Project Description',
+                          placeholder: 'Enter detailed project description',
                           required: true
                         }}
                         value={project.description}
@@ -1362,26 +1213,27 @@ const ContentManagement = () => {
                       />
                     </div>
                     
-                    {/* Project Images - Full width */}
+                    {/* Showcase Images - Full width */}
                     <div>
                       <InputFactory
-                        fieldName={`project-${index}-images`}
+                        fieldName={`project-${index}-showcaseImages`}
                         config={{
                           type: 'FileUpload',
-                          label: 'Project Images (Multiple)',
+                          label: 'Showcase Images (Multiple)',
+                          placeholder: 'Upload multiple images to showcase the project',
                           required: true,
                           multiple: true
                         }}
-                        value={project.images || []}
-                        onChange={(value) => handleArrayChange('projects', index, 'images', value)}
+                        value={project.showcaseImages || project.images || []}
+                        onChange={(value) => handleArrayChange('projects', index, 'showcaseImages', value)}
                       />
                     </div>
                   </div>
                   
-                  {/* Project Details */}
+                  {/* Other Info (Bullet Type) */}
                   <div className="mt-6 pt-6 border-t border-gray-200">
                     <div className="flex items-center justify-between mb-4">
-                      <h5 className="text-sm font-medium text-gray-700">Project Details</h5>
+                      <h5 className="text-sm font-medium text-gray-700">Other Info (Bullet Type)</h5>
                       <Button
                         variant="primary"
                         size="sm"
@@ -1400,7 +1252,7 @@ const ContentManagement = () => {
                         }}
                       >
                         <PlusIcon className="h-4 w-4 mr-2" />
-                        Add Detail
+                        Add Info
                       </Button>
                     </div>
                     
@@ -1418,7 +1270,7 @@ const ContentManagement = () => {
                                   config={{
                                     type: 'String',
                                     label: '',
-                                    placeholder: 'e.g., Built with React and Node.js',
+                                    placeholder: 'e.g., Built with React and Node.js, Responsive design, Mobile-first approach',
                                     required: true
                                   }}
                                   value={detail || ''}
@@ -1510,7 +1362,8 @@ const ContentManagement = () => {
                   </div>
                   
                 </div>
-              ))}
+                ))
+              )}
             </div>
 
           </div>
@@ -1523,8 +1376,21 @@ const ContentManagement = () => {
               <h3 className="text-base font-semibold text-gray-900">Professional Experience</h3>
             </div>
             <div className="space-y-4">
-              {formData.experience?.map((exp, index) => (
-                <div key={index} className="bg-gray-50 rounded-lg p-4">
+              {(!formData.experience || formData.experience.length === 0) ? (
+                <div className="text-center py-12 bg-gray-50 rounded-lg">
+                  <p className="text-gray-500 mb-4">No experience added yet</p>
+                  <Button
+                    variant="primary"
+                    size="md"
+                    onClick={() => handleAddItem('experience')}
+                  >
+                    <PlusIcon className="h-5 w-5 mr-2" />
+                    Add New Experience
+                  </Button>
+                </div>
+              ) : (
+                formData.experience.map((exp, index) => (
+                  <div key={index} className="bg-gray-50 rounded-lg p-4">
                   <div className="flex items-center justify-between mb-4">
                     <h4 className="font-medium text-gray-900">Experience {index + 1}</h4>
                     <Button
@@ -1717,7 +1583,8 @@ const ContentManagement = () => {
                     )}
                   </div>
                 </div>
-              ))}
+                ))
+              )}
             </div>
             <div className="mt-8 text-center">
               <Button
@@ -2079,7 +1946,7 @@ const ContentManagement = () => {
                     placeholder: 'e.g., Everything You Need to Succeed',
                     required: true
                   }}
-                  value={formData.sections?.features?.title || 'Everything You Need to Succeed'}
+                  value={formData.sections?.features?.title || ''}
                   onChange={(value) => {
                     const updatedData = {
                       ...formData,
@@ -2103,7 +1970,7 @@ const ContentManagement = () => {
                     placeholder: 'e.g., Comprehensive services designed to meet your needs',
                     required: true
                   }}
-                  value={formData.sections?.features?.subtitle || 'Comprehensive services designed to meet your e-commerce needs.'}
+                  value={formData.sections?.features?.subtitle || ''}
                   onChange={(value) => {
                     const updatedData = {
                       ...formData,
@@ -2134,7 +2001,7 @@ const ContentManagement = () => {
                     placeholder: 'e.g., Featured Projects',
                     required: true
                   }}
-                  value={formData.sections?.projects?.title || 'Featured Projects'}
+                  value={formData.sections?.projects?.title || ''}
                   onChange={(value) => {
                     const updatedData = {
                       ...formData,
@@ -2158,7 +2025,7 @@ const ContentManagement = () => {
                     placeholder: 'e.g., A showcase of my recent work...',
                     required: true
                   }}
-                  value={formData.sections?.projects?.subtitle || 'A showcase of my recent work, highlighting innovative solutions and creative problem-solving across various domains.'}
+                  value={formData.sections?.projects?.subtitle || ''}
                   onChange={(value) => {
                     const updatedData = {
                       ...formData,
@@ -2189,7 +2056,7 @@ const ContentManagement = () => {
                     placeholder: 'e.g., About TechStore',
                     required: true
                   }}
-                  value={formData.about?.title || 'Crafting Digital Experiences'}
+                  value={formData.about?.title || ''}
                   onChange={(value) => handleChange('about', 'title', value)}
                 />
                 <InputFactory
@@ -2200,7 +2067,7 @@ const ContentManagement = () => {
                     placeholder: 'e.g., Passionate about creating meaningful connections...',
                     required: true
                   }}
-                  value={formData.about?.subtitle || 'Passionate about creating meaningful connections between users and technology through thoughtful design and seamless experiences.'}
+                  value={formData.about?.subtitle || ''}
                   onChange={(value) => handleChange('about', 'subtitle', value)}
                 />
               </div>
@@ -2214,7 +2081,7 @@ const ContentManagement = () => {
                   placeholder: 'Write a detailed description about yourself...',
                   required: true
                 }}
-                value={formData.about?.description || 'I am a passionate UI/UX designer and developer with a deep understanding of user psychology and modern design principles. My approach combines creative thinking with technical expertise to deliver solutions that not only look beautiful but also solve real problems.'}
+                value={formData.about?.description || ''}
                 onChange={(value) => handleChange('about', 'description', value)}
               />
             </div>
@@ -2231,7 +2098,7 @@ const ContentManagement = () => {
                     placeholder: 'e.g., Experience & Achievements',
                     required: true
                   }}
-                  value={formData.sections?.experience?.title || 'Experience & Achievements'}
+                  value={formData.sections?.experience?.title || ''}
                   onChange={(value) => {
                     const updatedData = {
                       ...formData,
@@ -2712,6 +2579,105 @@ const ContentManagement = () => {
               </div>
             </div>
 
+          </div>
+        );
+
+      case 'about':
+        return (
+          <div className="space-y-6">
+            <h3 className="text-base font-semibold text-gray-900">About Section</h3>
+            
+            {/* Professional Bio/Summary */}
+            <InputFactory
+              fieldName="professionalBio"
+              config={{
+                type: 'Textarea',
+                label: 'Professional Bio/Summary',
+                placeholder: 'Write a comprehensive professional summary about yourself, your background, and what makes you unique...',
+                required: true
+              }}
+              value={formData.about?.professionalBio || ''}
+              onChange={(value) => {
+                const updatedData = {
+                  ...formData,
+                  about: {
+                    ...formData.about,
+                    professionalBio: value
+                  }
+                };
+                setFormData(updatedData);
+                forceChangeDetection();
+              }}
+            />
+            
+            {/* Education Background */}
+            <InputFactory
+              fieldName="educationBackground"
+              config={{
+                type: 'Textarea',
+                label: 'Education Background',
+                placeholder: 'Describe your educational background, degrees, certifications, and relevant coursework...',
+                required: true
+              }}
+              value={formData.about?.educationBackground || ''}
+              onChange={(value) => {
+                const updatedData = {
+                  ...formData,
+                  about: {
+                    ...formData.about,
+                    educationBackground: value
+                  }
+                };
+                setFormData(updatedData);
+                forceChangeDetection();
+              }}
+            />
+            
+            {/* Personal Saying/Quote */}
+            <InputFactory
+              fieldName="personalQuote"
+              config={{
+                type: 'Textarea',
+                label: 'Personal Saying/Quote',
+                placeholder: 'Share a personal motto, favorite quote, or philosophy that drives your work...',
+                required: false
+              }}
+              value={formData.about?.personalQuote || ''}
+              onChange={(value) => {
+                const updatedData = {
+                  ...formData,
+                  about: {
+                    ...formData.about,
+                    personalQuote: value
+                  }
+                };
+                setFormData(updatedData);
+                forceChangeDetection();
+              }}
+            />
+            
+            {/* Additional About Information */}
+            <InputFactory
+              fieldName="additionalInfo"
+              config={{
+                type: 'Textarea',
+                label: 'Additional Information',
+                placeholder: 'Any additional information you\'d like to share about yourself, interests, or values...',
+                required: false
+              }}
+              value={formData.about?.additionalInfo || ''}
+              onChange={(value) => {
+                const updatedData = {
+                  ...formData,
+                  about: {
+                    ...formData.about,
+                    additionalInfo: value
+                  }
+                };
+                setFormData(updatedData);
+                forceChangeDetection();
+              }}
+            />
           </div>
         );
 

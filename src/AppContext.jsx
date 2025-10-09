@@ -12,161 +12,173 @@ export const AppProvider = ({ children }) => {
 
   // Landing page content state
   const [landingPageContent, setLandingPageContent] = useState({
-    branding: {
-      logo: "https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=200&h=200&fit=crop&crop=center",
-      brandName: "HerbalMed",
-      tagline: "Nature's Healing Power",
-      primaryColor: "#6589a4"
+    personal_info: {
+      photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+      name: "John Doe",
+      title: "UI/UX Designer & Developer",
+      email: "john.doe@example.com",
+      phone: "+1 (555) 123-4567",
+      location: "San Francisco, CA",
+      experience: "5+ Years",
+      education: "Bachelor's in Computer Science",
+      bio: "I am a passionate UI/UX designer and developer with a deep understanding of user psychology and modern design principles. My approach combines creative thinking with technical expertise to deliver solutions that not only look beautiful but also solve real problems.",
+      linkedin: "https://linkedin.com/in/johndoe",
+      github: "https://github.com/johndoe",
+      website: "https://johndoe.com",
+      twitter: "https://twitter.com/johndoe"
     },
     hero: {
-      title: "Welcome to HerbalMed - Premium Herbal Medicine",
-      subtitle: "Discover the healing power of nature with our premium collection of herbal medicines and natural remedies",
-      ctaPrimary: "Shop Now",
-      ctaSecondary: "Learn More",
-      visualTitle: "HerbalMed",
-      visualSubtitle: "Pure, natural, effective",
-      heroIcon: "ShieldCheckIcon"
-    },
-    company: {
-      name: "HerbalMed",
-      description: "Your trusted source for premium herbal medicines and natural healing solutions.",
-      address: "123 Wellness Street, Green City, State 12345",
-      phone: "(555) 123-4567",
-      email: "info@herbalmed.com",
-      hours: "Mon-Fri: 9AM-6PM, Sat: 10AM-4PM"
-    },
-    services: [
-      {
-        title: "Premium Quality",
-        description: "100% natural, organic herbal medicines",
-        icon: "ShieldCheckIcon"
-      },
-      {
-        title: "Expert Consultation",
-        description: "Professional herbal medicine guidance",
-        icon: "PhoneIcon"
-      },
-      {
-        title: "Fast Delivery",
-        description: "Quick and secure shipping worldwide",
-        icon: "TruckIcon"
-      },
-      {
-        title: "Quality Content",
-        description: "Rigorous fact-checking and verification",
-        icon: "StarIcon"
-      }
-    ],
-    products: [
-      {
-        name: "Turmeric Golden Blend",
-        image: "https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=400&h=300&fit=crop&crop=center",
-        description: "Premium organic turmeric with anti-inflammatory properties",
-        benefits: [
-          "Reduces inflammation naturally",
-          "Supports joint health and mobility",
-          "Boosts immune system function",
-          "Promotes healthy digestion"
-        ]
-      },
-      {
-        name: "Ginger Root Extract", 
-        image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center",
-        description: "Pure ginger root extract for digestive health",
-        benefits: [
-          "Soothes digestive discomfort",
-          "Reduces nausea and motion sickness",
-          "Supports healthy metabolism",
-          "Natural anti-inflammatory properties"
-        ]
-      },
-      {
-        name: "Echinacea Immune Support",
-        image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&h=300&fit=crop&crop=center",
-        description: "Natural immune system booster from echinacea",
-        benefits: [
-          "Strengthens immune system",
-          "Reduces cold and flu duration",
-          "Supports respiratory health",
-          "Natural antioxidant properties"
-        ]
-      },
-      {
-        name: "Ashwagandha Stress Relief",
-        image: "https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=400&h=300&fit=crop&crop=center",
-        description: "Ancient herb for stress management and vitality",
-        benefits: [
-          "Reduces stress and anxiety",
-          "Improves sleep quality",
-          "Boosts energy and vitality",
-          "Supports adrenal gland function"
-        ]
-      },
-      {
-        name: "Ginkgo Biloba Memory",
-        image: "https://images.unsplash.com/photo-1594736797933-d0d4b7a8b4b4?w=400&h=300&fit=crop&crop=center",
-        description: "Traditional herb for cognitive function and memory",
-        benefits: [
-          "Enhances memory and focus",
-          "Improves blood circulation",
-          "Supports brain health",
-          "Natural antioxidant protection"
-        ]
-      }
-    ],
-    testimonials: [
-      {
-        name: "Sarah Johnson",
-        rating: 5,
-        text: "Excellent service and fast delivery. Highly recommended!",
-        company: "Tech Solutions Inc."
-      },
-      {
-        name: "Mike Chen",
-        rating: 5,
-        text: "Great products and outstanding customer support.",
-        company: "Digital Innovations"
-      },
-      {
-        name: "Emily Davis",
-        rating: 5,
-        text: "Best technology information and support I've experienced. Highly recommended!",
-        company: "Creative Agency"
-      }
-    ],
-    navigation: {
-      link1: 'Features',
-      link2: 'Products', 
-      link3: 'About',
-      link4: 'Contact',
-      ctaButton1: 'Learn More',
-      ctaButton2: 'Learn More'
-    },
-    cta: {
-      title: 'Ready to Learn More?',
-      subtitle: 'Get in touch with us to learn more about our products and services.',
-      button1: 'Learn More',
-      button2: 'Contact Us'
+      statusBadge: "Available for new opportunities",
+      title: "Hi, I'm John Doe",
+      subtitle: "UI/UX Designer & Developer",
+      description: "Passionate designer with 5+ years of experience in creating beautiful, functional, and user-centered digital experiences.",
+      ctaPrimary: "View My Work",
+      ctaSecondary: "Get In Touch",
+      heroImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop&crop=face",
+      visualTitle: "John Doe",
+      visualSubtitle: "Creative & Technical",
+      heroIcon: "SparklesIcon"
     },
     about: {
-      title: 'About TechStore',
-      subtitle: 'Learn more about our company and mission.',
-      heading: 'Our Story',
-      description: 'We are a technology company dedicated to providing quality products and exceptional service to our customers.',
-      feature1: 'Quality Products',
-      feature2: 'Expert Support',
-      feature3: 'Customer Satisfaction',
-      visualTitle: 'Trusted Partner',
-      visualSubtitle: 'Your technology needs, our expertise'
+      professionalBio: "I am a passionate UI/UX designer and developer with a deep understanding of user psychology and modern design principles. My approach combines creative thinking with technical expertise to deliver solutions that not only look beautiful but also solve real problems.",
+      educationBackground: "Bachelor's Degree in Computer Science with a focus on Human-Computer Interaction. Certified in UX Design and Frontend Development.",
+      personalQuote: "Design is not just what it looks like and feels like. Design is how it works.",
+      additionalInfo: "When I'm not designing, you can find me exploring new technologies, contributing to open-source projects, or sharing knowledge with the developer community."
+    },
+    projects: [
+      {
+        title: "E-Commerce Platform",
+        coverImage: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop",
+        description: "A modern e-commerce platform built with React and Node.js, featuring responsive design, secure payment processing, and advanced search functionality.",
+        showcaseImages: [
+          "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop",
+          "https://images.unsplash.com/photo-1556742111-a301076d9d18?w=600&h=400&fit=crop"
+        ],
+        details: [
+          "Built with React and Node.js",
+          "Responsive design for all devices",
+          "Secure payment processing with Stripe",
+          "Advanced search and filtering",
+          "Admin dashboard for inventory management"
+        ]
+      },
+      {
+        title: "Mobile Banking App",
+        coverImage: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop",
+        description: "A comprehensive mobile banking application with biometric authentication, real-time transactions, and intuitive user interface design.",
+        showcaseImages: [
+          "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop",
+          "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop"
+        ],
+        details: [
+          "React Native for cross-platform development",
+          "Biometric authentication integration",
+          "Real-time transaction processing",
+          "Intuitive user interface design",
+          "Bank-level security implementation"
+        ]
+      }
+    ],
+    experience: [
+      {
+        title: "Senior UI/UX Designer",
+        company: "TechCorp Inc.",
+        period: "2022 - Present",
+        description: "Leading design initiatives for enterprise applications, mentoring junior designers, and collaborating with cross-functional teams to deliver exceptional user experiences.",
+        achievements: [
+          "Increased user engagement by 40% through improved UX design",
+          "Led design system implementation across 5 product teams",
+          "Mentored 3 junior designers and improved team productivity"
+        ]
+      },
+      {
+        title: "UI/UX Designer",
+        company: "StartupXYZ",
+        period: "2020 - 2022",
+        description: "Designed and developed user interfaces for web and mobile applications, conducted user research, and created wireframes and prototypes.",
+        achievements: [
+          "Designed 10+ mobile and web applications",
+          "Conducted user research with 500+ participants",
+          "Improved app store ratings from 3.2 to 4.7 stars"
+        ]
+      }
+    ],
+    skills: [
+      {
+        category: "Design",
+        skills: ["UI/UX Design", "User Research", "Wireframing", "Prototyping", "Figma", "Adobe Creative Suite"]
+      },
+      {
+        category: "Frontend Development",
+        skills: ["React", "Vue.js", "JavaScript", "TypeScript", "HTML5", "CSS3", "Tailwind CSS"]
+      },
+      {
+        category: "Backend Development",
+        skills: ["Node.js", "Python", "Express.js", "MongoDB", "PostgreSQL", "REST APIs"]
+      },
+      {
+        category: "Tools & Technologies",
+        skills: ["Git", "Docker", "AWS", "Figma", "Sketch", "InVision", "Jira", "Slack"]
+      }
+    ],
+    section_headers: {
+      hero: {
+        title: "Welcome",
+        subtitle: "Let's create something amazing together"
+      },
+      about: {
+        title: "About Me",
+        subtitle: "Get to know me better"
+      },
+      projects: {
+        title: "My Projects",
+        subtitle: "Some of my recent work"
+      },
+      experience: {
+        title: "Experience",
+        subtitle: "My professional journey"
+      },
+      skills: {
+        title: "Skills & Expertise",
+        subtitle: "What I bring to the table"
+      },
+      contact: {
+        title: "Get In Touch",
+        subtitle: "Let's work together"
+      }
+    },
+    branding: {
+      primaryColor: "#6589a4",
+      secondaryColor: "#4f7897",
+      accentColor: "#91abbe",
+      textColor: "#1f2937",
+      backgroundColor: "#ffffff",
+      logo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face",
+      brandName: "John Doe",
+      tagline: "UI/UX Designer & Developer"
+    },
+    navigation: {
+      link1: 'About',
+      link2: 'Projects', 
+      link3: 'Experience',
+      link4: 'Contact',
+      ctaButton1: 'View Work',
+      ctaButton2: 'Get In Touch'
+    },
+    cta: {
+      title: 'Ready to Work Together?',
+      subtitle: 'Let\'s discuss your next project and how I can help bring your ideas to life.',
+      button1: 'View My Work',
+      button2: 'Get In Touch'
     },
     contact: {
       title: 'Get In Touch',
-      subtitle: 'Have questions? We\'d love to hear from you. Send us a message and we\'ll respond as soon as possible.',
+      subtitle: 'Have a project in mind? I\'d love to hear from you. Send me a message and I\'ll respond as soon as possible.',
       infoTitle: 'Contact Information',
       phone: '+1 (555) 123-4567',
-      email: 'info@techstore.com',
-      address: '123 Tech Street, Digital City, DC 12345',
-      formTitle: 'Send us a message',
+      email: 'john.doe@example.com',
+      address: 'San Francisco, CA',
+      formTitle: 'Send me a message',
       namePlaceholder: 'Your Name',
       emailPlaceholder: 'Your Email',
       subjectPlaceholder: 'Subject',
@@ -174,44 +186,52 @@ export const AppProvider = ({ children }) => {
       submitButton: 'Send Message'
     },
     modals: {
-      shopNow: {
-        title: 'How to Order',
-        description: 'Ready to start your wellness journey? Here\'s where you can order our premium herbal medicines:',
+      contact: {
+        title: 'Let\'s Connect',
+        description: 'Ready to start your next project? Here\'s how you can reach me:',
         methods: [
           {
-            title: 'Facebook Page',
-            description: 'Message us on Facebook for orders and inquiries'
+            title: 'Email',
+            description: 'Send me an email for project inquiries and collaboration'
           },
           {
-            title: 'Phone Orders',
-            description: 'Call us directly for personalized service'
+            title: 'LinkedIn',
+            description: 'Connect with me on LinkedIn for professional networking'
           },
           {
-            title: 'Email Orders',
-            description: 'Send us an email with your requirements'
+            title: 'Phone',
+            description: 'Call me directly for urgent project discussions'
           }
         ]
       }
     },
     sections: {
-      features: {
-        title: 'Everything You Need to Know',
-        subtitle: 'Comprehensive information designed to help you make informed decisions.'
-      },
-      products: {
-        title: 'Featured Herbal Products',
-        subtitle: 'Premium quality herbal medicines and natural remedies for your wellness journey.'
+      hero: {
+        title: 'Welcome',
+        subtitle: 'Let\'s create something amazing together'
       },
       about: {
-        title: 'About {company.name}',
-        subtitle: 'Why Choose Us?'
+        title: 'About Me',
+        subtitle: 'Get to know me better'
       },
-      testimonials: {
-        title: 'What Our Customers Say',
-        subtitle: 'Don\'t just take our word for it - hear from our satisfied customers.'
+      projects: {
+        title: 'My Projects',
+        subtitle: 'Some of my recent work'
+      },
+      experience: {
+        title: 'Experience',
+        subtitle: 'My professional journey'
+      },
+      skills: {
+        title: 'Skills & Expertise',
+        subtitle: 'What I bring to the table'
+      },
+      contact: {
+        title: 'Get In Touch',
+        subtitle: 'Let\'s work together'
       },
       footer: {
-        copyright: '© 2024 {brandName}. All rights reserved.'
+        copyright: '© 2024 John Doe. All rights reserved.'
       }
     }
   });
@@ -305,161 +325,173 @@ export const AppProvider = ({ children }) => {
   // Reset landing page content to default
   const resetLandingPageContent = () => {
     const defaultContent = {
-      branding: {
-        logo: "https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=200&h=200&fit=crop&crop=center",
-        brandName: "HerbalMed",
-        tagline: "Nature's Healing Power",
-        primaryColor: "#6589a4"
+      personal_info: {
+        photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+        name: "John Doe",
+        title: "UI/UX Designer & Developer",
+        email: "john.doe@example.com",
+        phone: "+1 (555) 123-4567",
+        location: "San Francisco, CA",
+        experience: "5+ Years",
+        education: "Bachelor's in Computer Science",
+        bio: "I am a passionate UI/UX designer and developer with a deep understanding of user psychology and modern design principles. My approach combines creative thinking with technical expertise to deliver solutions that not only look beautiful but also solve real problems.",
+        linkedin: "https://linkedin.com/in/johndoe",
+        github: "https://github.com/johndoe",
+        website: "https://johndoe.com",
+        twitter: "https://twitter.com/johndoe"
       },
       hero: {
-        title: "Welcome to HerbalMed - Premium Herbal Medicine",
-        subtitle: "Discover the healing power of nature with our premium collection of herbal medicines and natural remedies",
-        ctaPrimary: "Shop Now",
-        ctaSecondary: "Learn More",
-        visualTitle: "HerbalMed",
-        visualSubtitle: "Pure, natural, effective",
-        heroIcon: "ShieldCheckIcon"
-      },
-      company: {
-        name: "HerbalMed",
-        description: "Your trusted source for premium herbal medicines and natural healing solutions.",
-        address: "123 Wellness Street, Green City, State 12345",
-        phone: "(555) 123-4567",
-        email: "info@herbalmed.com",
-        hours: "Mon-Fri: 9AM-6PM, Sat: 10AM-4PM"
-      },
-      services: [
-        {
-          title: "Premium Quality",
-          description: "100% natural, organic herbal medicines",
-          icon: "ShieldCheckIcon"
-        },
-        {
-          title: "Expert Consultation",
-          description: "Professional herbal medicine guidance",
-          icon: "PhoneIcon"
-        },
-        {
-          title: "Fast Delivery",
-          description: "Quick and secure shipping worldwide",
-          icon: "TruckIcon"
-        },
-        {
-          title: "Quality Content",
-          description: "Rigorous fact-checking and verification",
-          icon: "StarIcon"
-        }
-      ],
-      products: [
-        {
-          name: "Turmeric Golden Blend",
-          image: "https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=400&h=300&fit=crop&crop=center",
-          description: "Premium organic turmeric with anti-inflammatory properties",
-          benefits: [
-            "Reduces inflammation naturally",
-            "Supports joint health and mobility",
-            "Boosts immune system function",
-            "Promotes healthy digestion"
-          ]
-        },
-        {
-          name: "Ginger Root Extract", 
-          image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center",
-          description: "Pure ginger root extract for digestive health",
-          benefits: [
-            "Soothes digestive discomfort",
-            "Reduces nausea and motion sickness",
-            "Supports healthy metabolism",
-            "Natural anti-inflammatory properties"
-          ]
-        },
-        {
-          name: "Echinacea Immune Support",
-          image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&h=300&fit=crop&crop=center",
-          description: "Natural immune system booster from echinacea",
-          benefits: [
-            "Strengthens immune system",
-            "Reduces cold and flu duration",
-            "Supports respiratory health",
-            "Natural antioxidant properties"
-          ]
-        },
-        {
-          name: "Ashwagandha Stress Relief",
-          image: "https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=400&h=300&fit=crop&crop=center",
-          description: "Ancient herb for stress management and vitality",
-          benefits: [
-            "Reduces stress and anxiety",
-            "Improves sleep quality",
-            "Boosts energy and vitality",
-            "Supports adrenal gland function"
-          ]
-        },
-        {
-          name: "Ginkgo Biloba Memory",
-          image: "https://images.unsplash.com/photo-1594736797933-d0d4b7a8b4b4?w=400&h=300&fit=crop&crop=center",
-          description: "Traditional herb for cognitive function and memory",
-          benefits: [
-            "Enhances memory and focus",
-            "Improves blood circulation",
-            "Supports brain health",
-            "Natural antioxidant protection"
-          ]
-        }
-      ],
-      testimonials: [
-        {
-          name: "Sarah Johnson",
-          rating: 5,
-          text: "Excellent service and fast delivery. Highly recommended!",
-          company: "Tech Solutions Inc."
-        },
-        {
-          name: "Mike Chen",
-          rating: 5,
-          text: "Great products and outstanding customer support.",
-          company: "Digital Innovations"
-        },
-        {
-          name: "Emily Davis",
-          rating: 5,
-          text: "Best technology information and support I've experienced. Highly recommended!",
-          company: "Creative Agency"
-        }
-      ],
-      navigation: {
-        link1: 'Features',
-        link2: 'Products', 
-        link3: 'About',
-        link4: 'Contact',
-        ctaButton1: 'Learn More',
-        ctaButton2: 'Learn More'
-      },
-      cta: {
-        title: 'Ready to Learn More?',
-        subtitle: 'Get in touch with us to learn more about our products and services.',
-        button1: 'Learn More',
-        button2: 'Contact Us'
+        statusBadge: "Available for new opportunities",
+        title: "Hi, I'm John Doe",
+        subtitle: "UI/UX Designer & Developer",
+        description: "Passionate designer with 5+ years of experience in creating beautiful, functional, and user-centered digital experiences.",
+        ctaPrimary: "View My Work",
+        ctaSecondary: "Get In Touch",
+        heroImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop&crop=face",
+        visualTitle: "John Doe",
+        visualSubtitle: "Creative & Technical",
+        heroIcon: "SparklesIcon"
       },
       about: {
-        title: 'About TechStore',
-        subtitle: 'Learn more about our company and mission.',
-        heading: 'Our Story',
-        description: 'We are a technology company dedicated to providing quality products and exceptional service to our customers.',
-        feature1: 'Quality Products',
-        feature2: 'Expert Support',
-        feature3: 'Customer Satisfaction',
-        visualTitle: 'Trusted Partner',
-        visualSubtitle: 'Your technology needs, our expertise'
+        professionalBio: "I am a passionate UI/UX designer and developer with a deep understanding of user psychology and modern design principles. My approach combines creative thinking with technical expertise to deliver solutions that not only look beautiful but also solve real problems.",
+        educationBackground: "Bachelor's Degree in Computer Science with a focus on Human-Computer Interaction. Certified in UX Design and Frontend Development.",
+        personalQuote: "Design is not just what it looks like and feels like. Design is how it works.",
+        additionalInfo: "When I'm not designing, you can find me exploring new technologies, contributing to open-source projects, or sharing knowledge with the developer community."
+      },
+      projects: [
+        {
+          title: "E-Commerce Platform",
+          coverImage: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop",
+          description: "A modern e-commerce platform built with React and Node.js, featuring responsive design, secure payment processing, and advanced search functionality.",
+          showcaseImages: [
+            "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop",
+            "https://images.unsplash.com/photo-1556742111-a301076d9d18?w=600&h=400&fit=crop"
+          ],
+          details: [
+            "Built with React and Node.js",
+            "Responsive design for all devices",
+            "Secure payment processing with Stripe",
+            "Advanced search and filtering",
+            "Admin dashboard for inventory management"
+          ]
+        },
+        {
+          title: "Mobile Banking App",
+          coverImage: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop",
+          description: "A comprehensive mobile banking application with biometric authentication, real-time transactions, and intuitive user interface design.",
+          showcaseImages: [
+            "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop",
+            "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop"
+          ],
+          details: [
+            "React Native for cross-platform development",
+            "Biometric authentication integration",
+            "Real-time transaction processing",
+            "Intuitive user interface design",
+            "Bank-level security implementation"
+          ]
+        }
+      ],
+      experience: [
+        {
+          title: "Senior UI/UX Designer",
+          company: "TechCorp Inc.",
+          period: "2022 - Present",
+          description: "Leading design initiatives for enterprise applications, mentoring junior designers, and collaborating with cross-functional teams to deliver exceptional user experiences.",
+          achievements: [
+            "Increased user engagement by 40% through improved UX design",
+            "Led design system implementation across 5 product teams",
+            "Mentored 3 junior designers and improved team productivity"
+          ]
+        },
+        {
+          title: "UI/UX Designer",
+          company: "StartupXYZ",
+          period: "2020 - 2022",
+          description: "Designed and developed user interfaces for web and mobile applications, conducted user research, and created wireframes and prototypes.",
+          achievements: [
+            "Designed 10+ mobile and web applications",
+            "Conducted user research with 500+ participants",
+            "Improved app store ratings from 3.2 to 4.7 stars"
+          ]
+        }
+      ],
+      skills: [
+        {
+          category: "Design",
+          skills: ["UI/UX Design", "User Research", "Wireframing", "Prototyping", "Figma", "Adobe Creative Suite"]
+        },
+        {
+          category: "Frontend Development",
+          skills: ["React", "Vue.js", "JavaScript", "TypeScript", "HTML5", "CSS3", "Tailwind CSS"]
+        },
+        {
+          category: "Backend Development",
+          skills: ["Node.js", "Python", "Express.js", "MongoDB", "PostgreSQL", "REST APIs"]
+        },
+        {
+          category: "Tools & Technologies",
+          skills: ["Git", "Docker", "AWS", "Figma", "Sketch", "InVision", "Jira", "Slack"]
+        }
+      ],
+      section_headers: {
+        hero: {
+          title: "Welcome",
+          subtitle: "Let's create something amazing together"
+        },
+        about: {
+          title: "About Me",
+          subtitle: "Get to know me better"
+        },
+        projects: {
+          title: "My Projects",
+          subtitle: "Some of my recent work"
+        },
+        experience: {
+          title: "Experience",
+          subtitle: "My professional journey"
+        },
+        skills: {
+          title: "Skills & Expertise",
+          subtitle: "What I bring to the table"
+        },
+        contact: {
+          title: "Get In Touch",
+          subtitle: "Let's work together"
+        }
+      },
+      branding: {
+        primaryColor: "#6589a4",
+        secondaryColor: "#4f7897",
+        accentColor: "#91abbe",
+        textColor: "#1f2937",
+        backgroundColor: "#ffffff",
+        logo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face",
+        brandName: "John Doe",
+        tagline: "UI/UX Designer & Developer"
+      },
+      navigation: {
+        link1: 'About',
+        link2: 'Projects', 
+        link3: 'Experience',
+        link4: 'Contact',
+        ctaButton1: 'View Work',
+        ctaButton2: 'Get In Touch'
+      },
+      cta: {
+        title: 'Ready to Work Together?',
+        subtitle: 'Let\'s discuss your next project and how I can help bring your ideas to life.',
+        button1: 'View My Work',
+        button2: 'Get In Touch'
       },
       contact: {
         title: 'Get In Touch',
-        subtitle: 'Have questions? We\'d love to hear from you. Send us a message and we\'ll respond as soon as possible.',
+        subtitle: 'Have a project in mind? I\'d love to hear from you. Send me a message and I\'ll respond as soon as possible.',
         infoTitle: 'Contact Information',
         phone: '+1 (555) 123-4567',
-        email: 'info@techstore.com',
-        address: '123 Tech Street, Digital City, DC 12345',
-        formTitle: 'Send us a message',
+        email: 'john.doe@example.com',
+        address: 'San Francisco, CA',
+        formTitle: 'Send me a message',
         namePlaceholder: 'Your Name',
         emailPlaceholder: 'Your Email',
         subjectPlaceholder: 'Subject',
@@ -467,44 +499,52 @@ export const AppProvider = ({ children }) => {
         submitButton: 'Send Message'
       },
       modals: {
-        shopNow: {
-          title: 'How to Order',
-          description: 'Ready to start your wellness journey? Here\'s where you can order our premium herbal medicines:',
+        contact: {
+          title: 'Let\'s Connect',
+          description: 'Ready to start your next project? Here\'s how you can reach me:',
           methods: [
             {
-              title: 'Facebook Page',
-              description: 'Message us on Facebook for orders and inquiries'
+              title: 'Email',
+              description: 'Send me an email for project inquiries and collaboration'
             },
             {
-              title: 'Phone Orders',
-              description: 'Call us directly for personalized service'
+              title: 'LinkedIn',
+              description: 'Connect with me on LinkedIn for professional networking'
             },
             {
-              title: 'Email Orders',
-              description: 'Send us an email with your requirements'
+              title: 'Phone',
+              description: 'Call me directly for urgent project discussions'
             }
           ]
         }
       },
       sections: {
-        features: {
-          title: 'Everything You Need to Know',
-          subtitle: 'Comprehensive information designed to help you make informed decisions.'
-        },
-        products: {
-          title: 'Featured Herbal Products',
-          subtitle: 'Premium quality herbal medicines and natural remedies for your wellness journey.'
+        hero: {
+          title: 'Welcome',
+          subtitle: 'Let\'s create something amazing together'
         },
         about: {
-          title: 'About {company.name}',
-          subtitle: 'Why Choose Us?'
+          title: 'About Me',
+          subtitle: 'Get to know me better'
         },
-        testimonials: {
-          title: 'What Our Customers Say',
-          subtitle: 'Don\'t just take our word for it - hear from our satisfied customers.'
+        projects: {
+          title: 'My Projects',
+          subtitle: 'Some of my recent work'
+        },
+        experience: {
+          title: 'Experience',
+          subtitle: 'My professional journey'
+        },
+        skills: {
+          title: 'Skills & Expertise',
+          subtitle: 'What I bring to the table'
+        },
+        contact: {
+          title: 'Get In Touch',
+          subtitle: 'Let\'s work together'
         },
         footer: {
-          copyright: '© 2024 {brandName}. All rights reserved.'
+          copyright: '© 2024 John Doe. All rights reserved.'
         }
       }
     };
@@ -519,9 +559,26 @@ export const AppProvider = ({ children }) => {
     if (savedContent) {
       try {
         const parsedContent = JSON.parse(savedContent);
-        setLandingPageContent(parsedContent);
+        // Check if the saved content has the old structure (like "HerbalMed" data)
+        // If it does, clear it and use default content instead
+        const hasOldData = (
+          (parsedContent.hero && parsedContent.hero.visualTitle === "HerbalMed") ||
+          (parsedContent.hero && parsedContent.hero.visualSubtitle === "Pure, natural, effective") ||
+          (parsedContent.hero && parsedContent.hero.heroIcon === "ShieldCheckIcon") ||
+          (parsedContent.hero && parsedContent.hero.ctaPrimary === "Shop Now") ||
+          (parsedContent.hero && parsedContent.hero.ctaSecondary === "Learn More")
+        );
+        
+        if (hasOldData) {
+          console.log('Detected old content structure, clearing localStorage and using default content');
+          localStorage.removeItem('landingPageContent');
+          // The default content is already set in the initial state, so no need to set it again
+        } else {
+          setLandingPageContent(parsedContent);
+        }
       } catch (error) {
         console.error('Error parsing saved content:', error);
+        localStorage.removeItem('landingPageContent');
       }
     }
   }, []);
