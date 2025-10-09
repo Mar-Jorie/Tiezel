@@ -22,17 +22,19 @@ const ProjectModal = ({
   if (!isOpen || !project) return null;
 
   const nextImage = () => {
-    if (project.images && project.images.length > 0) {
+    const images = project.showcaseImages || project.images;
+    if (images && images.length > 0) {
       setCurrentImageIndex((prev) => 
-        prev === project.images.length - 1 ? 0 : prev + 1
+        prev === images.length - 1 ? 0 : prev + 1
       );
     }
   };
 
   const prevImage = () => {
-    if (project.images && project.images.length > 0) {
+    const images = project.showcaseImages || project.images;
+    if (images && images.length > 0) {
       setCurrentImageIndex((prev) => 
-        prev === 0 ? project.images.length - 1 : prev - 1
+        prev === 0 ? images.length - 1 : prev - 1
       );
     }
   };
@@ -55,7 +57,7 @@ const ProjectModal = ({
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-gray-200">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">{project.name}</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{project.title || project.name}</h2>
               {project.category && (
                 <p className="text-sm text-gray-600 mt-1">{project.category}</p>
               )}
@@ -71,18 +73,18 @@ const ProjectModal = ({
           {/* Content */}
           <div className="max-h-[80vh] overflow-y-auto">
             {/* Project Images Carousel */}
-            {project.images && project.images.length > 0 && (
+            {(project.showcaseImages || project.images) && (project.showcaseImages || project.images).length > 0 && (
               <div className="relative bg-gray-100">
                 <div className="aspect-video relative overflow-hidden">
                   {/* Main Image */}
                   <img
-                    src={project.images[currentImageIndex]}
-                    alt={`${project.name} - Image ${currentImageIndex + 1}`}
+                    src={(project.showcaseImages || project.images)[currentImageIndex]}
+                    alt={`${project.title || project.name} - Image ${currentImageIndex + 1}`}
                     className="w-full h-full object-cover"
                   />
                   
                   {/* Navigation Arrows */}
-                  {project.images.length > 1 && (
+                  {(project.showcaseImages || project.images).length > 1 && (
                     <>
                       <button
                         onClick={prevImage}
@@ -100,18 +102,18 @@ const ProjectModal = ({
                   )}
                   
                   {/* Image Counter */}
-                  {project.images.length > 1 && (
+                  {(project.showcaseImages || project.images).length > 1 && (
                     <div className="absolute bottom-4 right-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
-                      {currentImageIndex + 1} / {project.images.length}
+                      {currentImageIndex + 1} / {(project.showcaseImages || project.images).length}
                     </div>
                   )}
                 </div>
                 
                 {/* Thumbnail Navigation */}
-                {project.images.length > 1 && (
+                {(project.showcaseImages || project.images).length > 1 && (
                   <div className="p-4 bg-gray-50">
                     <div className="flex space-x-2 overflow-x-auto">
-                      {project.images.map((image, index) => (
+                      {(project.showcaseImages || project.images).map((image, index) => (
                         <button
                           key={index}
                           onClick={() => goToImage(index)}

@@ -553,8 +553,8 @@ const LandingPage = () => {
               >
                 <div className="relative h-64 overflow-hidden">
                   <img 
-                    src={project.image} 
-                    alt={project.name}
+                    src={project.coverImage || project.image} 
+                    alt={project.title || project.name}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -578,7 +578,7 @@ const LandingPage = () => {
                 <div className="p-8">
                   <div className="flex items-start justify-between mb-4">
                     <h3 className="text-2xl font-bold text-gray-900 group-hover:text-primary-600 transition-colors duration-300">
-                      {project.name}
+                      {project.title || project.name}
                     </h3>
                     <div className="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
                       <ArrowTopRightOnSquareIcon className="h-4 w-4 text-primary-600" />
