@@ -24,7 +24,8 @@ import {
   PaperAirplaneIcon,
   QuestionMarkCircleIcon,
   ClockIcon,
-  ArrowTopRightOnSquareIcon
+  ArrowTopRightOnSquareIcon,
+  HeartIcon
 } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 import Button from '../components/Button';
@@ -395,54 +396,63 @@ const LandingPage = () => {
             {/* Content */}
             <div className="lg:col-span-7">
               <div className="space-y-8">
+                {/* Professional Bio */}
                 <div className="prose prose-lg max-w-none">
                   <p className="text-lg sm:text-xl text-gray-600 leading-relaxed mb-8">
-                    {landingPageContent?.about?.description || 'I am a passionate UI/UX designer and developer with a deep understanding of user psychology and modern design principles. My approach combines creative thinking with technical expertise to deliver solutions that not only look beautiful but also solve real problems.'}
+                    {landingPageContent?.about?.professionalBio || 'I am a passionate UI/UX designer and developer with a deep understanding of user psychology and modern design principles. My approach combines creative thinking with technical expertise to deliver solutions that not only look beautiful but also solve real problems.'}
                   </p>
                 </div>
                 
-                {/* Key Points */}
-                <div className="grid sm:grid-cols-2 gap-6">
-                  <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <CheckIcon className="h-6 w-6 text-primary-600" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2">User-Centered Design</h3>
-                      <p className="text-gray-600">Every decision is backed by research and user insights</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <LightBulbIcon className="h-6 w-6 text-indigo-600" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2">Innovation Focus</h3>
-                      <p className="text-gray-600">Always exploring new technologies and design trends</p>
+                {/* Education Background */}
+                {landingPageContent?.about?.educationBackground && (
+                  <div className="bg-gray-50 rounded-xl p-6">
+                    <div className="flex items-start space-x-4">
+                      <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <AcademicCapIcon className="h-6 w-6 text-primary-600" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2">Education & Background</h3>
+                        <p className="text-gray-600 leading-relaxed">
+                          {landingPageContent.about.educationBackground}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                  
-                  <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <CodeBracketIcon className="h-6 w-6 text-purple-600" />
-                </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2">Technical Excellence</h3>
-                      <p className="text-gray-600">Strong development skills to bring designs to life</p>
-                </div>
-            </div>
+                )}
 
-                  <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <BriefcaseIcon className="h-6 w-6 text-green-600" />
-              </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2">Business Impact</h3>
-                      <p className="text-gray-600">Design solutions that drive measurable results</p>
-          </div>
-        </div>
-                </div>
+                {/* Personal Quote */}
+                {landingPageContent?.about?.personalQuote && (
+                  <div className="bg-primary-50 rounded-xl p-6 border-l-4 border-primary-500">
+                    <div className="flex items-start space-x-4">
+                      <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <ChatBubbleLeftRightIcon className="h-6 w-6 text-primary-600" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2">My Philosophy</h3>
+                        <blockquote className="text-gray-700 italic leading-relaxed">
+                          "{landingPageContent.about.personalQuote}"
+                        </blockquote>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Additional Information */}
+                {landingPageContent?.about?.additionalInfo && (
+                  <div className="bg-indigo-50 rounded-xl p-6">
+                    <div className="flex items-start space-x-4">
+                      <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <HeartIcon className="h-6 w-6 text-indigo-600" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2">Beyond Work</h3>
+                        <p className="text-gray-600 leading-relaxed">
+                          {landingPageContent.about.additionalInfo}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
             
