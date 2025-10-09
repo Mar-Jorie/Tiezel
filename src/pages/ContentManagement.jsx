@@ -2100,60 +2100,6 @@ const ContentManagement = () => {
               </div>
             </div>
 
-            {/* Testimonials Section */}
-            <div className="space-y-4">
-              <h4 className="text-sm font-medium text-gray-700">Testimonials Section</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <InputFactory
-                  fieldName="testimonialsTitle"
-                  config={{
-                    type: 'String',
-                    label: 'Testimonials Section Title',
-                    placeholder: 'e.g., What Our Customers Say',
-                    required: true
-                  }}
-                  value={formData.sections?.testimonials?.title || 'What Our Customers Say'}
-                  onChange={(value) => {
-                    const updatedData = {
-                      ...formData,
-                      sections: {
-                        ...formData.sections,
-                        testimonials: {
-                          ...formData.sections?.testimonials,
-                          title: value
-                        }
-                      }
-                    };
-                    setFormData(updatedData);
-                    forceChangeDetection();
-                  }}
-                />
-                <InputFactory
-                  fieldName="testimonialsSubtitle"
-                  config={{
-                    type: 'String',
-                    label: 'Testimonials Section Subtitle',
-                    placeholder: 'e.g., Don\'t just take our word for it',
-                    required: true
-                  }}
-                  value={formData.sections?.testimonials?.subtitle || 'Don\'t just take our word for it - hear from our satisfied customers.'}
-                  onChange={(value) => {
-                    const updatedData = {
-                      ...formData,
-                      sections: {
-                        ...formData.sections,
-                        testimonials: {
-                          ...formData.sections?.testimonials,
-                          subtitle: value
-                        }
-                      }
-                    };
-                    setFormData(updatedData);
-                    forceChangeDetection();
-                  }}
-                />
-              </div>
-            </div>
 
             {/* CTA Section */}
             <div className="space-y-4">
@@ -2204,54 +2150,6 @@ const ContentManagement = () => {
               </div>
             </div>
 
-            {/* Contact Section */}
-            <div className="space-y-4">
-              <h4 className="text-sm font-medium text-gray-700">Contact Section</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <InputFactory
-                  fieldName="contactTitle"
-                  config={{
-                    type: 'String',
-                    label: 'Contact Section Title',
-                    placeholder: 'e.g., Get in Touch',
-                    required: true
-                  }}
-                  value={formData.contact?.title || 'Get in Touch'}
-                  onChange={(value) => {
-                    const updatedData = {
-                      ...formData,
-                      contact: {
-                        ...formData.contact,
-                        title: value
-                      }
-                    };
-                    setFormData(updatedData);
-                    forceChangeDetection();
-                  }}
-                />
-                <InputFactory
-                  fieldName="contactSubtitle"
-                  config={{
-                    type: 'String',
-                    label: 'Contact Section Subtitle',
-                    placeholder: 'e.g., Have questions? We\'d love to hear from you.',
-                    required: true
-                  }}
-                  value={formData.contact?.subtitle || 'Have questions? We\'d love to hear from you.'}
-                  onChange={(value) => {
-                    const updatedData = {
-                      ...formData,
-                      contact: {
-                        ...formData.contact,
-                        subtitle: value
-                      }
-                    };
-                    setFormData(updatedData);
-                    forceChangeDetection();
-                  }}
-                />
-              </div>
-            </div>
 
           </div>
         );
