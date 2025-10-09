@@ -38,7 +38,6 @@ const LandingPage = () => {
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
   const [selectedProject, setSelectedProject] = useState(null);
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
-  const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showProjectModal, setShowProjectModal] = useState(false);
@@ -149,23 +148,6 @@ const LandingPage = () => {
     }
   };
 
-  const nextTestimonial = () => {
-    const testimonials = landingPageContent?.testimonials || [];
-    if (testimonials.length > 1) {
-      setCurrentTestimonialIndex((prev) => 
-        prev === testimonials.length - 1 ? 0 : prev + 1
-      );
-    }
-  };
-
-  const prevTestimonial = () => {
-    const testimonials = landingPageContent?.testimonials || [];
-    if (testimonials.length > 1) {
-      setCurrentTestimonialIndex((prev) => 
-        prev === 0 ? testimonials.length - 1 : prev - 1
-      );
-    }
-  };
 
   const downloadResume = () => {
     // This will be implemented with PDF generation
@@ -250,47 +232,107 @@ const LandingPage = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 lg:px-6 bg-gradient-to-br from-gray-50 to-white">
-        <div className="w-full">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <div className="text-left">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight tracking-tight">
-                Hi, I'm{' '}
-                <span className="bg-gradient-to-r from-primary-600 to-indigo-600 bg-clip-text text-transparent">
-                  {landingPageContent?.personal_info?.name || 'Your Name'}
-                </span>
+      <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-50 via-white to-gray-50 overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-indigo-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse" style={{animationDelay: '2s'}}></div>
+        </div>
+        
+        <div className="relative w-full max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-12 gap-12 items-center">
+            {/* Content */}
+            <div className="lg:col-span-7 text-center lg:text-left">
+              <div className="space-y-8">
+                {/* Greeting */}
+                <div className="space-y-4">
+                  <div className="inline-flex items-center px-4 py-2 bg-primary-50 border border-primary-200 rounded-full text-sm font-medium text-primary-700">
+                    <span className="w-2 h-2 bg-primary-500 rounded-full mr-2 animate-pulse"></span>
+                    Available for new opportunities
+                  </div>
+                  
+                  <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight tracking-tight">
+                    Hi, I'm{' '}
+                    <span className="bg-gradient-to-r from-primary-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                      {landingPageContent?.personal_info?.name || 'Your Name'}
+                    </span>
               </h1>
-              <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8 leading-relaxed">
-                {landingPageContent?.hero?.subtitle || 'Passionate professional with expertise in creating innovative solutions and delivering exceptional results.'}
-              </p>
-              <div className="flex flex-row sm:flex-row items-start space-x-4 sm:space-x-4 mb-6 sm:mb-8">
-                <Button variant="primary" size="lg" className="!w-auto min-w-[160px]" onClick={() => document.getElementById('projects').scrollIntoView({ behavior: 'smooth' })}>
-                  <EyeIcon className="h-4 w-4 mr-2" />
-                  View My Work
+                  
+                  <div className="text-xl sm:text-2xl lg:text-3xl font-light text-gray-600 leading-relaxed">
+                    {landingPageContent?.personal_info?.title || 'UI/UX Designer & Developer'}
+                  </div>
+                </div>
+
+                {/* Description */}
+                <p className="text-lg sm:text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                  {landingPageContent?.hero?.subtitle || 'I craft beautiful, functional digital experiences that solve real problems and delight users. Passionate about clean design, intuitive interfaces, and meaningful interactions.'}
+                </p>
+
+                {/* CTA Buttons */}
+                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                  <Button 
+                    variant="primary" 
+                    size="lg" 
+                    className="!w-auto min-w-[200px] h-14 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300" 
+                    onClick={() => document.getElementById('projects').scrollIntoView({ behavior: 'smooth' })}
+                  >
+                    <EyeIcon className="h-5 w-5 mr-3" />
+                    View My Work
                 </Button>
-                <PDFResumeGenerator portfolioData={landingPageContent} />
+                  <PDFResumeGenerator portfolioData={landingPageContent} />
+              </div>
+
+                {/* Stats */}
+                <div className="grid grid-cols-3 gap-8 pt-8 border-t border-gray-200">
+                  <div className="text-center lg:text-left">
+                    <div className="text-2xl sm:text-3xl font-bold text-gray-900">
+                      {landingPageContent?.projects?.length || '5+'}
+            </div>
+                    <div className="text-sm text-gray-600">Projects</div>
+                  </div>
+                  <div className="text-center lg:text-left">
+                    <div className="text-2xl sm:text-3xl font-bold text-gray-900">
+                      {landingPageContent?.experience?.length || '3+'}
+                </div>
+                    <div className="text-sm text-gray-600">Years Experience</div>
+              </div>
+                  <div className="text-center lg:text-left">
+                    <div className="text-2xl sm:text-3xl font-bold text-gray-900">
+                      {landingPageContent?.skills?.categories?.reduce((total, cat) => total + (cat.skills?.length || 0), 0) || '20+'}
+                    </div>
+                    <div className="text-sm text-gray-600">Skills</div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="relative order-last lg:order-last">
-              {/* Personal Photo */}
+
+            {/* Visual */}
+            <div className="lg:col-span-5 relative">
               <div className="relative">
                 {landingPageContent?.personal_info?.photo ? (
-                  <img 
-                    src={landingPageContent.personal_info.photo} 
-                    alt={landingPageContent?.personal_info?.name || 'Professional Photo'} 
-                    className="w-full max-w-md mx-auto rounded-2xl shadow-xl"
-                  />
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary-400 to-indigo-400 rounded-3xl transform rotate-6 scale-105 opacity-20"></div>
+                    <img 
+                      src={landingPageContent.personal_info.photo} 
+                      alt={landingPageContent?.personal_info?.name || 'Profile'} 
+                      className="relative w-full max-w-lg mx-auto rounded-3xl shadow-2xl"
+                    />
+                  </div>
                 ) : (
-                  <div className="w-full max-w-md mx-auto h-96 bg-gradient-to-br from-primary-100 to-indigo-100 rounded-2xl shadow-xl flex items-center justify-center">
-                    <UserIcon className="h-24 w-24 text-primary-600" />
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary-400 to-indigo-400 rounded-3xl transform rotate-6 scale-105 opacity-20"></div>
+                    <div className="relative w-full max-w-lg mx-auto h-96 bg-gradient-to-br from-primary-100 via-indigo-100 to-purple-100 rounded-3xl shadow-2xl flex items-center justify-center">
+                      <UserIcon className="h-32 w-32 text-primary-400" />
+                    </div>
                   </div>
                 )}
-                {/* Floating elements */}
-                <div className="absolute -top-4 -right-4 w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center shadow-lg">
-                  <CodeBracketIcon className="h-8 w-8 text-white" />
+                
+                {/* Floating Elements */}
+                <div className="absolute -top-4 -right-4 w-16 h-16 bg-white rounded-2xl shadow-lg flex items-center justify-center">
+                  <CodeBracketIcon className="h-8 w-8 text-primary-600" />
                 </div>
-                <div className="absolute -bottom-4 -left-4 w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center shadow-lg">
-                  <LightBulbIcon className="h-6 w-6 text-white" />
+                <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-white rounded-2xl shadow-lg flex items-center justify-center">
+                  <BriefcaseIcon className="h-8 w-8 text-indigo-600" />
                 </div>
               </div>
             </div>
@@ -299,73 +341,131 @@ const LandingPage = () => {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 bg-white">
-        <div className="w-full">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">
+      <section id="about" className="py-20 sm:py-24 md:py-32 lg:py-40 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236589a4' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          }}></div>
+        </div>
+        
+        <div className="relative w-full max-w-7xl mx-auto">
+          <div className="text-center mb-16 sm:mb-20">
+            <div className="inline-flex items-center px-4 py-2 bg-primary-50 border border-primary-200 rounded-full text-sm font-medium text-primary-700 mb-6">
+              <UserIcon className="h-4 w-4 mr-2" />
               About Me
+            </div>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 tracking-tight">
+              {landingPageContent?.about?.title || 'Crafting Digital Experiences'}
             </h2>
-            <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto font-medium">
-              {landingPageContent?.about?.subtitle || 'Learn more about my background, skills, and professional journey.'}
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              {landingPageContent?.about?.subtitle || 'Passionate about creating meaningful connections between users and technology through thoughtful design and seamless experiences.'}
             </p>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Professional Summary</h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                {landingPageContent?.about?.description || 'I am a passionate professional with a strong background in technology and innovation. With years of experience in delivering high-quality solutions, I bring creativity, technical expertise, and a results-driven approach to every project.'}
-              </p>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
-                      <BriefcaseIcon className="h-6 w-6 text-primary-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-900">Experience</p>
-                      <p className="text-xs text-gray-600">{landingPageContent?.personal_info?.experience || '5+ Years'}</p>
-                    </div>
-                  </div>
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            {/* Content */}
+            <div className="lg:col-span-7">
+              <div className="space-y-8">
+                <div className="prose prose-lg max-w-none">
+                  <p className="text-lg sm:text-xl text-gray-600 leading-relaxed mb-8">
+                    {landingPageContent?.about?.description || 'I am a passionate UI/UX designer and developer with a deep understanding of user psychology and modern design principles. My approach combines creative thinking with technical expertise to deliver solutions that not only look beautiful but also solve real problems.'}
+                  </p>
                 </div>
                 
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
-                      <AcademicCapIcon className="h-6 w-6 text-indigo-600" />
+                {/* Key Points */}
+                <div className="grid sm:grid-cols-2 gap-6">
+                  <div className="flex items-start space-x-4">
+                    <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <CheckIcon className="h-6 w-6 text-primary-600" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">User-Centered Design</h3>
+                      <p className="text-gray-600">Every decision is backed by research and user insights</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start space-x-4">
+                    <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <LightBulbIcon className="h-6 w-6 text-indigo-600" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">Innovation Focus</h3>
+                      <p className="text-gray-600">Always exploring new technologies and design trends</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start space-x-4">
+                    <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <CodeBracketIcon className="h-6 w-6 text-purple-600" />
                 </div>
                     <div>
-                      <p className="text-sm font-medium text-gray-900">Education</p>
-                      <p className="text-xs text-gray-600">{landingPageContent?.personal_info?.education || 'Bachelor\'s Degree'}</p>
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">Technical Excellence</h3>
+                      <p className="text-gray-600">Strong development skills to bring designs to life</p>
                 </div>
-                  </div>
+            </div>
+
+                  <div className="flex items-start space-x-4">
+                    <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <BriefcaseIcon className="h-6 w-6 text-green-600" />
+              </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">Business Impact</h3>
+                      <p className="text-gray-600">Design solutions that drive measurable results</p>
+          </div>
+        </div>
                 </div>
               </div>
             </div>
-
-            <div className="space-y-6">
-              <h3 className="text-xl font-semibold text-gray-900">Key Skills</h3>
-              <div className="grid grid-cols-2 gap-4">
-                {(landingPageContent?.skills || [
-                  { name: 'JavaScript', level: 90 },
-                  { name: 'React', level: 85 },
-                  { name: 'Node.js', level: 80 },
-                  { name: 'Python', level: 75 }
-                ]).slice(0, 4).map((skill, index) => (
-                  <div key={index} className="bg-white border border-gray-200 rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-gray-900">{skill.name}</span>
-                      <span className="text-xs text-gray-600">{skill.level}%</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div 
-                        className="bg-primary-600 h-2 rounded-full transition-all duration-300" 
-                        style={{ width: `${skill.level}%` }}
-                      ></div>
+            
+            {/* Visual */}
+            <div className="lg:col-span-5">
+              <div className="relative">
+                <div className="bg-gradient-to-br from-primary-50 via-indigo-50 to-purple-50 rounded-3xl p-8 lg:p-12">
+                  <div className="space-y-8">
+                    <div className="text-center">
+                      <h3 className="text-2xl font-bold text-gray-900 mb-4">Design Philosophy</h3>
+                      <p className="text-gray-600 leading-relaxed">
+                        "Good design is not just what it looks like and feels like. Good design is how it works."
+            </p>
+          </div>
+                    
+                    <div className="space-y-6">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-gray-700">User Research</span>
+                        <div className="w-32 bg-gray-200 rounded-full h-3">
+                          <div className="bg-gradient-to-r from-primary-500 to-indigo-500 h-3 rounded-full" style={{width: '95%'}}></div>
+                            </div>
+                              </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-gray-700">Visual Design</span>
+                        <div className="w-32 bg-gray-200 rounded-full h-3">
+                          <div className="bg-gradient-to-r from-indigo-500 to-purple-500 h-3 rounded-full" style={{width: '90%'}}></div>
+                            </div>
+                          </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-gray-700">Prototyping</span>
+                        <div className="w-32 bg-gray-200 rounded-full h-3">
+                          <div className="bg-gradient-to-r from-purple-500 to-pink-500 h-3 rounded-full" style={{width: '88%'}}></div>
                     </div>
                   </div>
-                ))}
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-gray-700">Development</span>
+                        <div className="w-32 bg-gray-200 rounded-full h-3">
+                          <div className="bg-gradient-to-r from-pink-500 to-red-500 h-3 rounded-full" style={{width: '85%'}}></div>
+                        </div>
+                      </div>
+                    </div>
+              </div>
+            </div>
+
+                {/* Floating Elements */}
+                <div className="absolute -top-6 -right-6 w-12 h-12 bg-white rounded-2xl shadow-lg flex items-center justify-center">
+                  <span className="text-2xl">🎨</span>
+                </div>
+                <div className="absolute -bottom-6 -left-6 w-12 h-12 bg-white rounded-2xl shadow-lg flex items-center justify-center">
+                  <span className="text-2xl">💡</span>
+                </div>
               </div>
             </div>
           </div>
@@ -373,18 +473,28 @@ const LandingPage = () => {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 bg-gray-50">
-        <div className="w-full">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">
+      <section id="projects" className="py-20 sm:py-24 md:py-32 lg:py-40 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-1/4 -right-32 w-64 h-64 bg-primary-100 rounded-full mix-blend-multiply filter blur-xl opacity-60"></div>
+          <div className="absolute bottom-1/4 -left-32 w-64 h-64 bg-indigo-100 rounded-full mix-blend-multiply filter blur-xl opacity-60"></div>
+        </div>
+        
+        <div className="relative w-full max-w-7xl mx-auto">
+          <div className="text-center mb-16 sm:mb-20">
+            <div className="inline-flex items-center px-4 py-2 bg-primary-50 border border-primary-200 rounded-full text-sm font-medium text-primary-700 mb-6">
+              <BriefcaseIcon className="h-4 w-4 mr-2" />
+              Portfolio
+            </div>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 tracking-tight">
               Featured Projects
             </h2>
-            <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto font-medium">
-              {landingPageContent?.sections?.projects?.subtitle || 'Explore some of my recent work and creative projects.'}
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              {landingPageContent?.sections?.projects?.subtitle || 'A showcase of my recent work, highlighting innovative solutions and creative problem-solving across various domains.'}
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
             {(landingPageContent?.projects || [
               {
                 name: 'E-Commerce Platform',
@@ -410,36 +520,57 @@ const LandingPage = () => {
             ]).map((project, index) => (
               <div 
                 key={index} 
-                className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 group cursor-pointer"
+                className="group relative bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 cursor-pointer"
                 onClick={() => openProjectModal(project)}
               >
-                <div className="relative mb-6">
+                <div className="relative h-64 overflow-hidden">
                   <img 
                     src={project.image} 
                     alt={project.name}
-                    className="w-full h-48 object-cover rounded-lg"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 rounded-lg flex items-center justify-center">
-                    <button
-                      onClick={() => handleProjectClick(project)}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white text-gray-900 px-4 py-2 rounded-lg font-medium flex items-center space-x-2"
-                    >
-                      <EyeIcon className="h-4 w-4" />
-                      <span>View Details</span>
-                    </button>
-                            </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  
+                  {/* Overlay Content */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                              <div className="text-center">
+                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <EyeIcon className="h-8 w-8 text-white" />
                               </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">{project.name}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed text-center mb-4">{project.description}</p>
-                <div className="flex flex-wrap justify-center gap-2">
-                  {project.technologies?.map((tech, techIndex) => (
-                    <span key={techIndex} className="px-2 py-1 bg-primary-100 text-primary-700 text-xs rounded-full">
-                      {tech}
-                    </span>
-                        ))}
+                      <p className="text-white font-medium">View Project</p>
+                            </div>
+                          </div>
+                  
+                  {/* Project Number */}
+                  <div className="absolute top-6 left-6 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+                    <span className="text-lg font-bold text-gray-900">{String(index + 1).padStart(2, '0')}</span>
                     </div>
                   </div>
+                
+                <div className="p-8">
+                  <div className="flex items-start justify-between mb-4">
+                    <h3 className="text-2xl font-bold text-gray-900 group-hover:text-primary-600 transition-colors duration-300">
+                      {project.name}
+                    </h3>
+                    <div className="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <ArrowTopRightOnSquareIcon className="h-4 w-4 text-primary-600" />
+              </div>
+            </div>
+
+                  <p className="text-gray-600 leading-relaxed mb-6">
+                    {project.description}
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-2">
+                    {project.technologies?.map((tech, techIndex) => (
+                      <span key={techIndex} className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full font-medium">
+                        {tech}
+                      </span>
                 ))}
+              </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -568,79 +699,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 bg-white">
-        <div className="w-full">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">
-              What People Say
-            </h2>
-            <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto font-medium">
-              {landingPageContent?.sections?.testimonials?.subtitle || 'Testimonials from colleagues and clients'}
-            </p>
-          </div>
-          
-          <div className="max-w-4xl mx-auto">
-          <div className="relative">
-              {(landingPageContent?.testimonials || [
-                {
-                  name: 'Sarah Johnson',
-                  role: 'Project Manager',
-                  company: 'Tech Solutions Inc.',
-                  text: 'Exceptional work and great attention to detail. Delivered exactly what we needed on time and within budget.',
-                  rating: 5
-                },
-                {
-                  name: 'Mike Chen',
-                  role: 'CEO',
-                  company: 'Digital Innovations',
-                  text: 'Outstanding developer with excellent communication skills. Highly recommend for any technical project.',
-                  rating: 5
-                },
-                {
-                  name: 'Emily Davis',
-                  role: 'Design Director',
-                  company: 'Creative Agency',
-                  text: 'Collaborative and innovative approach to problem-solving. A pleasure to work with.',
-                  rating: 5
-                }
-              ]).slice(currentTestimonialIndex, currentTestimonialIndex + 1).map((testimonial, index) => (
-                <div key={index} className="bg-gray-50 rounded-2xl p-8 text-center">
-                  <div className="flex justify-center mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <StarIconSolid key={i} className="h-5 w-5 text-yellow-400" />
-                    ))}
-                  </div>
-                  <blockquote className="text-lg text-gray-700 mb-6 italic">
-                    "{testimonial.text}"
-                  </blockquote>
-                  <div>
-                    <p className="font-semibold text-gray-900">{testimonial.name}</p>
-                    <p className="text-sm text-gray-600">{testimonial.role} at {testimonial.company}</p>
-                  </div>
-                </div>
-              ))}
-              
-              {(landingPageContent?.testimonials || []).length > 1 && (
-              <>
-                <button
-                    onClick={prevTestimonial}
-                    className="absolute left-4 top-1/2 transform -translate-y-1/2 p-2 bg-white rounded-full shadow-lg hover:shadow-xl transition-shadow"
-                >
-                    <ChevronLeftIcon className="h-5 w-5 text-gray-600" />
-                </button>
-                <button
-                    onClick={nextTestimonial}
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 p-2 bg-white rounded-full shadow-lg hover:shadow-xl transition-shadow"
-                >
-                    <ChevronRightIcon className="h-5 w-5 text-gray-600" />
-                </button>
-              </>
-            )}
-                </div>
-          </div>
-        </div>
-      </section>
 
       {/* Contact Section */}
       <section id="contact" className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 bg-gray-50">
@@ -745,9 +803,9 @@ const LandingPage = () => {
                       !landingPageContent?.personal_info?.twitter) && (
                       <span className="text-sm text-gray-500">No social links added yet</span>
                     )}
+                </div>
+                    </div>
                   </div>
-                </div>
-                </div>
 
               {/* Contact Form */}
               <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
@@ -770,7 +828,7 @@ const LandingPage = () => {
                       required
                       className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     />
-                  </div>
+                </div>
                   <input
                     type="text"
                     name="subject"
@@ -790,7 +848,7 @@ const LandingPage = () => {
                       <div className="flex items-center justify-center">
                         <ArrowPathIcon className="h-4 w-4 animate-spin mr-2" />
                         Sending...
-                      </div>
+                    </div>
                     ) : (
                       <>
                         <PaperAirplaneIcon className="h-4 w-4 mr-2" />
