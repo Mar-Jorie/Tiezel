@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Bars3Icon, 
@@ -43,6 +43,14 @@ const LandingPage = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showProjectModal, setShowProjectModal] = useState(false);
   const [currentSkillSlide, setCurrentSkillSlide] = useState(0);
+
+  // Update CSS variables when branding data changes
+  useEffect(() => {
+    if (landingPageContent?.branding?.primaryColor) {
+      document.documentElement.style.setProperty('--dynamic-primary-color', landingPageContent.branding.primaryColor);
+      document.documentElement.classList.add('dynamic-primary');
+    }
+  }, [landingPageContent?.branding?.primaryColor]);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
