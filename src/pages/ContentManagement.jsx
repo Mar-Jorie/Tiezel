@@ -18,7 +18,12 @@ import {
   MegaphoneIcon,
   DocumentTextIcon,
   ShoppingBagIcon,
-  StarIcon
+  StarIcon,
+  UserIcon,
+  BriefcaseIcon,
+  AcademicCapIcon,
+  CodeBracketIcon,
+  PhoneIcon
 } from '@heroicons/react/24/outline';
 import { availableIcons } from '../components/IconLibrary';
 import Button from '../components/Button';
@@ -34,7 +39,7 @@ import ConfirmationModal from '../components/ConfirmationModal';
 const ContentManagement = () => {
   const { isAdmin, landingPageContent, updateLandingPageContent, resetLandingPageContent } = useApp();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('company');
+  const [activeTab, setActiveTab] = useState('personal');
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState(landingPageContent);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -724,13 +729,15 @@ const ContentManagement = () => {
   }
 
   const tabs = [
-    { id: 'company', name: 'Company Info', icon: BuildingOfficeIcon },
+    { id: 'personal', name: 'Personal Info', icon: UserIcon },
     { id: 'hero', name: 'Hero Section', icon: HomeIcon },
-    { id: 'services', name: 'Services', icon: CogIcon },
-    { id: 'products', name: 'Products', icon: ShoppingBagIcon },
+    { id: 'about', name: 'About Section', icon: DocumentTextIcon },
+    { id: 'projects', name: 'Projects', icon: BriefcaseIcon },
+    { id: 'experience', name: 'Experience', icon: AcademicCapIcon },
+    { id: 'skills', name: 'Skills', icon: CodeBracketIcon },
     { id: 'testimonials', name: 'Testimonials', icon: StarIcon },
-    { id: 'sections', name: 'Section Headers', icon: DocumentTextIcon },
-    { id: 'orderMethods', name: 'Order Methods', icon: MegaphoneIcon }
+    { id: 'contact', name: 'Contact Info', icon: PhoneIcon },
+    { id: 'sections', name: 'Section Headers', icon: DocumentTextIcon }
   ];
 
   const renderTabContent = () => {
@@ -862,26 +869,26 @@ const ContentManagement = () => {
           </div>
         );
 
-      case 'company':
+      case 'personal':
         return (
           <div className="space-y-6">
-            <h3 className="text-base font-semibold text-gray-900">Company Information</h3>
+            <h3 className="text-base font-semibold text-gray-900">Personal Information</h3>
             
-            {/* Logo - Full width */}
+            {/* Personal Photo - Full width */}
             <InputFactory
-              fieldName="logo"
+              fieldName="photo"
               config={{
                 type: 'FileUpload',
-                label: 'Company Logo',
+                label: 'Personal Photo',
                 required: true
               }}
-              value={formData.branding?.logo || ''}
+              value={formData.personal_info?.photo || ''}
               onChange={(value) => {
                 const updatedData = {
                   ...formData,
-                  branding: {
-                    ...formData.branding,
-                    logo: value
+                  personal_info: {
+                    ...formData.personal_info,
+                    photo: value
                   }
                 };
                 setFormData(updatedData);
@@ -889,23 +896,70 @@ const ContentManagement = () => {
               }}
             />
             
-            {/* Name and Phone - Two columns */}
+            {/* Name and Professional Title - Two columns */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <InputFactory
                 fieldName="name"
                 config={{
                   type: 'String',
-                  label: 'Company Name',
-                  placeholder: 'Enter company name',
+                  label: 'Full Name',
+                  placeholder: 'Enter your full name',
                   required: true
                 }}
-                value={formData.company?.name || ''}
+                value={formData.personal_info?.name || ''}
                 onChange={(value) => {
                   const updatedData = {
                     ...formData,
-                    company: {
-                      ...formData.company,
+                    personal_info: {
+                      ...formData.personal_info,
                       name: value
+                    }
+                  };
+                  setFormData(updatedData);
+                  forceChangeDetection();
+                }}
+              />
+              <InputFactory
+                fieldName="title"
+                config={{
+                  type: 'String',
+                  label: 'Professional Title',
+                  placeholder: 'e.g., Software Developer, Designer',
+                  required: true
+                }}
+                value={formData.personal_info?.title || ''}
+                onChange={(value) => {
+                  const updatedData = {
+                    ...formData,
+                    personal_info: {
+                      ...formData.personal_info,
+                      title: value
+                    }
+                  };
+                  setFormData(updatedData);
+                  forceChangeDetection();
+                }}
+              />
+            </div>
+            
+            {/* Email and Phone - Two columns */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <InputFactory
+                fieldName="email"
+                config={{
+                  type: 'String',
+                  label: 'Email Address',
+                  placeholder: 'Enter email address',
+                  required: true,
+                  format: 'email'
+                }}
+                value={formData.personal_info?.email || ''}
+                onChange={(value) => {
+                  const updatedData = {
+                    ...formData,
+                    personal_info: {
+                      ...formData.personal_info,
+                      email: value
                     }
                   };
                   setFormData(updatedData);
@@ -918,14 +972,14 @@ const ContentManagement = () => {
                   type: 'String',
                   label: 'Phone Number',
                   placeholder: 'Enter phone number',
-                  required: true
+                  required: false
                 }}
-                value={formData.company?.phone || ''}
+                value={formData.personal_info?.phone || ''}
                 onChange={(value) => {
                   const updatedData = {
                     ...formData,
-                    company: {
-                      ...formData.company,
+                    personal_info: {
+                      ...formData.personal_info,
                       phone: value
                     }
                   };
@@ -935,43 +989,44 @@ const ContentManagement = () => {
               />
             </div>
             
-            {/* Primary Brand Color and Email - Two columns */}
+            {/* Location and Experience - Two columns */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Color picker */}
-              <ColorPicker
-                label="Primary Brand Color"
-                    value={formData.branding?.primaryColor || '#6589a4'}
+              <InputFactory
+                fieldName="location"
+                config={{
+                  type: 'String',
+                  label: 'Location',
+                  placeholder: 'e.g., San Francisco, CA',
+                  required: true
+                }}
+                value={formData.personal_info?.location || ''}
                 onChange={(value) => {
                   const updatedData = {
                     ...formData,
-                    branding: {
-                      ...formData.branding,
-                      primaryColor: value
+                    personal_info: {
+                      ...formData.personal_info,
+                      location: value
                     }
                   };
                   setFormData(updatedData);
                   forceChangeDetection();
                 }}
-                required={true}
               />
-              
-              {/* Email */}
               <InputFactory
-                fieldName="email"
+                fieldName="experience"
                 config={{
                   type: 'String',
-                  label: 'Email Address',
-                  placeholder: 'Enter email address',
-                  required: true,
-                  format: 'email'
+                  label: 'Years of Experience',
+                  placeholder: 'e.g., 5+ Years',
+                  required: true
                 }}
-                value={formData.company?.email || ''}
+                value={formData.personal_info?.experience || ''}
                 onChange={(value) => {
                   const updatedData = {
                     ...formData,
-                    company: {
-                      ...formData.company,
-                      email: value
+                    personal_info: {
+                      ...formData.personal_info,
+                      experience: value
                     }
                   };
                   setFormData(updatedData);
@@ -980,204 +1035,138 @@ const ContentManagement = () => {
               />
             </div>
             
-            {/* Company Tagline - Full width */}
+            {/* Education - Full width */}
             <InputFactory
-              fieldName="tagline"
+              fieldName="education"
               config={{
                 type: 'String',
-                label: 'Company Tagline',
-                placeholder: 'Enter company tagline',
-                required: false
+                label: 'Education',
+                placeholder: 'e.g., Bachelor\'s in Computer Science',
+                required: true
               }}
-              value={formData.branding?.tagline || ''}
-              onChange={(value) => handleChange('branding', 'tagline', value)}
+              value={formData.personal_info?.education || ''}
+              onChange={(value) => {
+                const updatedData = {
+                  ...formData,
+                  personal_info: {
+                    ...formData.personal_info,
+                    education: value
+                  }
+                };
+                setFormData(updatedData);
+                forceChangeDetection();
+              }}
             />
             
-            {/* Address - Full width */}
-              <InputFactory
-                fieldName="address"
-                config={{
-                  type: 'String',
-                  label: 'Address',
-                  placeholder: 'Enter business address',
-                  required: true
-                }}
-                value={formData.company?.address || ''}
-                onChange={(value) => {
-                  const updatedData = {
-                    ...formData,
-                    company: {
-                      ...formData.company,
-                      address: value
-                    }
-                  };
-                  setFormData(updatedData);
-                  forceChangeDetection();
-                }}
-              />
-            
-            {/* Description - Full width */}
-                <InputFactory
-                  fieldName="description"
-                  config={{
+            {/* Bio/Summary - Full width */}
+            <InputFactory
+              fieldName="bio"
+              config={{
                 type: 'Textarea',
-                    label: 'Company Description',
-                    placeholder: 'Enter company description',
-                    required: true
-                  }}
-                  value={formData.company?.description || ''}
-                onChange={(value) => {
-                  const updatedData = {
-                    ...formData,
-                    company: {
-                      ...formData.company,
-                      description: value
-                    }
-                  };
-                  setFormData(updatedData);
-                  forceChangeDetection();
-                }}
-                />
+                label: 'Professional Bio/Summary',
+                placeholder: 'Write a brief professional summary about yourself...',
+                required: true
+              }}
+              value={formData.personal_info?.bio || ''}
+              onChange={(value) => {
+                const updatedData = {
+                  ...formData,
+                  personal_info: {
+                    ...formData.personal_info,
+                    bio: value
+                  }
+                };
+                setFormData(updatedData);
+                forceChangeDetection();
+              }}
+            />
             
-            {/* Business Hours - Full width */}
-              <InputFactory
-                fieldName="hours"
-                config={{
-                  type: 'String',
-                  label: 'Business Hours',
-                  placeholder: 'Enter business hours',
-                  required: true
-                }}
-                value={formData.company?.hours || ''}
-                onChange={(value) => {
-                  const updatedData = {
-                    ...formData,
-                    company: {
-                      ...formData.company,
-                      hours: value
-                    }
-                  };
-                  setFormData(updatedData);
-                  forceChangeDetection();
-                }}
-              />
-            
-            {/* Mission and Vision Section */}
+            {/* Social Links Section */}
             <div className="mt-8 pt-6 border-t border-gray-200">
-              <h4 className="text-sm font-medium text-gray-700 mb-4">Mission & Vision</h4>
+              <h4 className="text-sm font-medium text-gray-700 mb-4">Social Links</h4>
               
-              {/* Mission */}
-              <div className="mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <InputFactory
-                  fieldName="missionDescription"
+                  fieldName="linkedin"
                   config={{
-                    type: 'Textarea',
-                    label: 'Mission Description',
-                    placeholder: 'e.g., To provide innovative technology solutions...',
-                    required: true
+                    type: 'String',
+                    label: 'LinkedIn Profile',
+                    placeholder: 'https://linkedin.com/in/yourname',
+                    required: false
                   }}
-                  value={formData.about?.missionDescription || 'To provide innovative technology solutions that empower businesses and individuals to achieve their goals through reliable, high-quality products and exceptional customer service.'}
+                  value={formData.personal_info?.linkedin || ''}
                   onChange={(value) => {
                     const updatedData = {
                       ...formData,
-                      about: {
-                        ...formData.about,
-                        missionDescription: value
+                      personal_info: {
+                        ...formData.personal_info,
+                        linkedin: value
                       }
                     };
                     setFormData(updatedData);
                     forceChangeDetection();
                   }}
                 />
-              </div>
-              
-              {/* Vision */}
-              <div>
+                
                 <InputFactory
-                  fieldName="visionDescription"
+                  fieldName="github"
                   config={{
-                    type: 'Textarea',
-                    label: 'Vision Description',
-                    placeholder: 'e.g., To be the leading technology partner...',
-                    required: true
+                    type: 'String',
+                    label: 'GitHub Profile',
+                    placeholder: 'https://github.com/yourname',
+                    required: false
                   }}
-                  value={formData.about?.visionDescription || 'To be the leading technology partner that bridges the gap between cutting-edge innovation and practical business solutions, creating a world where technology serves humanity seamlessly.'}
+                  value={formData.personal_info?.github || ''}
                   onChange={(value) => {
                     const updatedData = {
                       ...formData,
-                      about: {
-                        ...formData.about,
-                        visionDescription: value
+                      personal_info: {
+                        ...formData.personal_info,
+                        github: value
                       }
                     };
                     setFormData(updatedData);
                     forceChangeDetection();
                   }}
                 />
-              </div>
-            </div>
-            
-            {/* Company Story Section */}
-            <div className="mt-8 pt-6 border-t border-gray-200">
-              <h4 className="text-sm font-medium text-gray-700 mb-4">Company Story</h4>
-              <div className="grid grid-cols-1 gap-6">
+                
                 <InputFactory
-                  fieldName="companyDescription"
+                  fieldName="website"
                   config={{
-                    type: 'Textarea',
-                    label: 'Story Part 1 - The Beginning',
-                    placeholder: 'e.g., It all started in a small garage in 2020, where three friends...',
-                    required: true
+                    type: 'String',
+                    label: 'Personal Website',
+                    placeholder: 'https://yourwebsite.com',
+                    required: false
                   }}
-                  value={formData.company?.description || 'It all started in a small garage in 2020, where three friends with a shared passion for technology came together with a simple dream: to make cutting-edge technology accessible to everyone. What began as weekend projects and late-night coding sessions quickly evolved into something much bigger.'}
+                  value={formData.personal_info?.website || ''}
                   onChange={(value) => {
                     const updatedData = {
                       ...formData,
-                      company: {
-                        ...formData.company,
-                        description: value
+                      personal_info: {
+                        ...formData.personal_info,
+                        website: value
                       }
                     };
                     setFormData(updatedData);
                     forceChangeDetection();
                   }}
                 />
+                
                 <InputFactory
-                  fieldName="companyStoryPart2"
+                  fieldName="twitter"
                   config={{
-                    type: 'Textarea',
-                    label: 'Story Part 2 - The Breakthrough',
-                    placeholder: 'e.g., Our first breakthrough came when we helped a local business...',
-                    required: true
+                    type: 'String',
+                    label: 'Twitter/X Profile',
+                    placeholder: 'https://twitter.com/yourname',
+                    required: false
                   }}
-                  value={formData.company?.storyPart2 || 'Our first breakthrough came when we helped a local business digitize their operations during the pandemic. Word spread quickly, and soon we found ourselves working with dozens of companies, each with unique challenges and opportunities. We learned that technology isn\'t just about the latest gadgets—it\'s about understanding people\'s needs and crafting solutions that truly work.'}
+                  value={formData.personal_info?.twitter || ''}
                   onChange={(value) => {
                     const updatedData = {
                       ...formData,
-                      company: {
-                        ...formData.company,
-                        storyPart2: value
-                      }
-                    };
-                    setFormData(updatedData);
-                    forceChangeDetection();
-                  }}
-                />
-                <InputFactory
-                  fieldName="companyStoryPart3"
-                  config={{
-                    type: 'Textarea',
-                    label: 'Story Part 3 - The Present',
-                    placeholder: 'e.g., Today, we\'ve grown from that small garage into a trusted partner...',
-                    required: true
-                  }}
-                  value={formData.company?.storyPart3 || 'Today, we\'ve grown from that small garage into a trusted partner for thousands of businesses worldwide. But we\'ve never forgotten our roots. Every product we recommend, every solution we provide, carries the same attention to detail and personal care that started it all. We\'re not just selling technology—we\'re building relationships and helping dreams become reality.'}
-                  onChange={(value) => {
-                    const updatedData = {
-                      ...formData,
-                      company: {
-                        ...formData.company,
-                        storyPart3: value
+                      personal_info: {
+                        ...formData.personal_info,
+                        twitter: value
                       }
                     };
                     setFormData(updatedData);
@@ -1249,21 +1238,21 @@ const ContentManagement = () => {
           </div>
         );
 
-      case 'products':
+      case 'projects':
         return (
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h3 className="text-base font-semibold text-gray-900">Featured Products</h3>
+              <h3 className="text-base font-semibold text-gray-900">Featured Projects</h3>
             </div>
             <div className="space-y-4">
-              {formData.products?.map((product, index) => (
+              {formData.projects?.map((project, index) => (
                 <div key={index} className="bg-gray-50 rounded-lg p-4">
                   <div className="flex items-center justify-between mb-4">
-                    <h4 className="font-medium text-gray-900">Product {index + 1}</h4>
+                    <h4 className="font-medium text-gray-900">Project {index + 1}</h4>
                     <Button
                       variant="danger"
                       size="sm"
-                      onClick={() => handleRemoveItem('products', index)}
+                      onClick={() => handleRemoveItem('projects', index)}
                     >
                       <TrashIcon className="h-4 w-4" />
                     </Button>
@@ -1273,104 +1262,105 @@ const ContentManagement = () => {
                   <div className="space-y-4">
                     <h5 className="text-sm font-medium text-gray-700">Basic Information</h5>
                     
-                    {/* Product Name - Full width */}
+                    {/* Project Name - Full width */}
                     <div>
                       <InputFactory
-                        fieldName={`product-${index}-name`}
+                        fieldName={`project-${index}-name`}
                         config={{
                           type: 'String',
-                          label: 'Product Name',
-                          placeholder: 'Enter product name',
+                          label: 'Project Name',
+                          placeholder: 'Enter project name',
                           required: true
                         }}
-                        value={product.name}
-                        onChange={(value) => handleArrayChange('products', index, 'name', value)}
+                        value={project.name}
+                        onChange={(value) => handleArrayChange('projects', index, 'name', value)}
                       />
                     </div>
                     
                     {/* Description - Full width */}
                     <div>
                       <InputFactory
-                        fieldName={`product-${index}-description`}
+                        fieldName={`project-${index}-description`}
                         config={{
                           type: 'Textarea',
                           label: 'Description',
-                          placeholder: 'Enter product description',
+                          placeholder: 'Enter project description',
                           required: true
                         }}
-                        value={product.description}
-                        onChange={(value) => handleArrayChange('products', index, 'description', value)}
+                        value={project.description}
+                        onChange={(value) => handleArrayChange('projects', index, 'description', value)}
                       />
                     </div>
                     
-                    {/* Product Image - Full width */}
+                    {/* Project Images - Full width */}
                     <div>
                       <InputFactory
-                        fieldName={`product-${index}-image`}
+                        fieldName={`project-${index}-images`}
                         config={{
                           type: 'FileUpload',
-                          label: 'Product Image',
-                          required: true
+                          label: 'Project Images (Multiple)',
+                          required: true,
+                          multiple: true
                         }}
-                        value={product.image || ''}
-                        onChange={(value) => handleArrayChange('products', index, 'image', value)}
+                        value={project.images || []}
+                        onChange={(value) => handleArrayChange('projects', index, 'images', value)}
                       />
                     </div>
                   </div>
                   
-                  {/* Product Benefits */}
+                  {/* Project Details */}
                   <div className="mt-6 pt-6 border-t border-gray-200">
                     <div className="flex items-center justify-between mb-4">
-                      <h5 className="text-sm font-medium text-gray-700">Product Benefits</h5>
+                      <h5 className="text-sm font-medium text-gray-700">Project Details</h5>
                       <Button
                         variant="primary"
                         size="sm"
                         onClick={() => {
-                          const updatedProducts = [...formData.products];
-                          if (!updatedProducts[index].benefits) {
-                            updatedProducts[index].benefits = [];
+                          const updatedProjects = [...formData.projects];
+                          if (!updatedProjects[index].details) {
+                            updatedProjects[index].details = [];
                           }
-                          updatedProducts[index].benefits.push('');
+                          updatedProjects[index].details.push('');
                           setFormData(prev => ({
                             ...prev,
-                            products: updatedProducts
+                            projects: updatedProjects
                           }));
                           // Force change detection
                           forceChangeDetection();
                         }}
                       >
                         <PlusIcon className="h-4 w-4 mr-2" />
-                        Add Benefit
+                        Add Detail
                       </Button>
                     </div>
                     
-                    {product.benefits && product.benefits.length > 0 ? (
+                    {project.details && project.details.length > 0 ? (
                       <div className="space-y-3">
-                        {product.benefits.map((benefit, benefitIndex) => (
-                          <div key={benefitIndex} className="bg-gray-50 rounded-lg p-4">
+                        {project.details.map((detail, detailIndex) => (
+                          <div key={detailIndex} className="bg-gray-50 rounded-lg p-4">
                             <div className="flex items-center space-x-3">
                               <div className="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                <span className="text-primary-600 font-semibold text-xs">{benefitIndex + 1}</span>
+                                <span className="text-primary-600 font-semibold text-xs">{detailIndex + 1}</span>
                               </div>
                               <div className="flex-1">
                                 <InputFactory
-                                  fieldName={`benefit-${benefitIndex}`}
+                                  fieldName={`detail-${detailIndex}`}
                                   config={{
                                     type: 'String',
                                     label: '',
-                                    placeholder: 'e.g., Boosts immune system naturally',
+                                    placeholder: 'e.g., Built with React and Node.js',
                                     required: true
                                   }}
-                                  value={benefit || ''}
+                                  value={detail || ''}
                                   onChange={(value) => {
-                                    const updatedProducts = [...formData.products];
-                                    if (!updatedProducts[index].benefits) {
-                                      updatedProducts[index].benefits = [];
+                                    const updatedProjects = [...formData.projects];
+                                    if (!updatedProjects[index].details) {
+                                      updatedProjects[index].details = [];
                                     }
-                                    updatedProducts[index].benefits[benefitIndex] = value;
+                                    updatedProjects[index].details[detailIndex] = value;
                                     setFormData(prev => ({
                                       ...prev,
-                                      products: updatedProducts
+                                      projects: updatedProjects
                                     }));
                                     // Force change detection
                                     forceChangeDetection();
@@ -1382,12 +1372,12 @@ const ContentManagement = () => {
                                   variant="danger"
                                   size="sm"
                                   onClick={() => {
-                                    const updatedProducts = [...formData.products];
-                                    if (updatedProducts[index].benefits) {
-                                      updatedProducts[index].benefits.splice(benefitIndex, 1);
+                                    const updatedProjects = [...formData.projects];
+                                    if (updatedProjects[index].details) {
+                                      updatedProjects[index].details.splice(detailIndex, 1);
                                       setFormData(prev => ({
                                         ...prev,
-                                        products: updatedProducts
+                                        projects: updatedProjects
                                       }));
                                       // Force change detection
                                       forceChangeDetection();
@@ -1453,6 +1443,477 @@ const ContentManagement = () => {
               ))}
             </div>
 
+          </div>
+        );
+
+      case 'experience':
+        return (
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-base font-semibold text-gray-900">Professional Experience</h3>
+            </div>
+            <div className="space-y-4">
+              {formData.experience?.map((exp, index) => (
+                <div key={index} className="bg-gray-50 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-4">
+                    <h4 className="font-medium text-gray-900">Experience {index + 1}</h4>
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      onClick={() => handleRemoveItem('experience', index)}
+                    >
+                      <TrashIcon className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  
+                  {/* Basic Experience Information */}
+                  <div className="space-y-4">
+                    <h5 className="text-sm font-medium text-gray-700">Basic Information</h5>
+                    
+                    {/* Experience Type - Full width */}
+                    <div>
+                      <SelectInput
+                        label="Experience Type"
+                        value={exp.type || 'work'}
+                        onChange={(value) => handleArrayChange('experience', index, 'type', value)}
+                        options={[
+                          { value: 'work', label: 'Work Experience' },
+                          { value: 'education', label: 'Education' },
+                          { value: 'certification', label: 'Certification' },
+                          { value: 'volunteer', label: 'Volunteer Work' }
+                        ]}
+                        placeholder="Select experience type"
+                        required
+                      />
+                    </div>
+                    
+                    {/* Title and Company - Two columns */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <InputFactory
+                        fieldName={`experience-${index}-title`}
+                        config={{
+                          type: 'String',
+                          label: 'Title/Position',
+                          placeholder: 'e.g., Senior Software Developer',
+                          required: true
+                        }}
+                        value={exp.title || ''}
+                        onChange={(value) => handleArrayChange('experience', index, 'title', value)}
+                      />
+                      <InputFactory
+                        fieldName={`experience-${index}-company`}
+                        config={{
+                          type: 'String',
+                          label: 'Company/Institution',
+                          placeholder: 'e.g., Tech Company Inc.',
+                          required: true
+                        }}
+                        value={exp.company || ''}
+                        onChange={(value) => handleArrayChange('experience', index, 'company', value)}
+                      />
+                    </div>
+                    
+                    {/* Duration and Location - Two columns */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <InputFactory
+                        fieldName={`experience-${index}-duration`}
+                        config={{
+                          type: 'String',
+                          label: 'Duration',
+                          placeholder: 'e.g., 2022 - Present',
+                          required: true
+                        }}
+                        value={exp.duration || ''}
+                        onChange={(value) => handleArrayChange('experience', index, 'duration', value)}
+                      />
+                      <InputFactory
+                        fieldName={`experience-${index}-location`}
+                        config={{
+                          type: 'String',
+                          label: 'Location',
+                          placeholder: 'e.g., San Francisco, CA',
+                          required: false
+                        }}
+                        value={exp.location || ''}
+                        onChange={(value) => handleArrayChange('experience', index, 'location', value)}
+                      />
+                    </div>
+                    
+                    {/* Description - Full width */}
+                    <div>
+                      <InputFactory
+                        fieldName={`experience-${index}-description`}
+                        config={{
+                          type: 'Textarea',
+                          label: 'Description',
+                          placeholder: 'Brief description of your role and responsibilities...',
+                          required: true
+                        }}
+                        value={exp.description || ''}
+                        onChange={(value) => handleArrayChange('experience', index, 'description', value)}
+                      />
+                    </div>
+                  </div>
+                  
+                  {/* Achievements/Responsibilities */}
+                  <div className="mt-6 pt-6 border-t border-gray-200">
+                    <div className="flex items-center justify-between mb-4">
+                      <h5 className="text-sm font-medium text-gray-700">Key Achievements</h5>
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        onClick={() => {
+                          const updatedExperience = [...formData.experience];
+                          if (!updatedExperience[index].achievements) {
+                            updatedExperience[index].achievements = [];
+                          }
+                          updatedExperience[index].achievements.push('');
+                          setFormData(prev => ({
+                            ...prev,
+                            experience: updatedExperience
+                          }));
+                          forceChangeDetection();
+                        }}
+                      >
+                        <PlusIcon className="h-4 w-4 mr-2" />
+                        Add Achievement
+                      </Button>
+                    </div>
+                    
+                    {exp.achievements && exp.achievements.length > 0 ? (
+                      <div className="space-y-3">
+                        {exp.achievements.map((achievement, achievementIndex) => (
+                          <div key={achievementIndex} className="bg-gray-50 rounded-lg p-4">
+                            <div className="flex items-center space-x-3">
+                              <div className="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span className="text-primary-600 font-semibold text-xs">{achievementIndex + 1}</span>
+                              </div>
+                              <div className="flex-1">
+                                <InputFactory
+                                  fieldName={`achievement-${achievementIndex}`}
+                                  config={{
+                                    type: 'String',
+                                    label: '',
+                                    placeholder: 'e.g., Improved system performance by 40%',
+                                    required: true
+                                  }}
+                                  value={achievement || ''}
+                                  onChange={(value) => {
+                                    const updatedExperience = [...formData.experience];
+                                    if (!updatedExperience[index].achievements) {
+                                      updatedExperience[index].achievements = [];
+                                    }
+                                    updatedExperience[index].achievements[achievementIndex] = value;
+                                    setFormData(prev => ({
+                                      ...prev,
+                                      experience: updatedExperience
+                                    }));
+                                    forceChangeDetection();
+                                  }}
+                                />
+                              </div>
+                              <div className="flex items-center justify-center h-10">
+                                <Button
+                                  variant="danger"
+                                  size="sm"
+                                  onClick={() => {
+                                    const updatedExperience = [...formData.experience];
+                                    if (updatedExperience[index].achievements) {
+                                      updatedExperience[index].achievements.splice(achievementIndex, 1);
+                                      setFormData(prev => ({
+                                        ...prev,
+                                        experience: updatedExperience
+                                      }));
+                                      forceChangeDetection();
+                                    }
+                                  }}
+                                  className="!w-auto flex-shrink-0 h-10"
+                                >
+                                  <TrashIcon className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-8">
+                        <div className="flex items-center justify-center mb-4">
+                          <PlusIcon className="h-8 w-8 text-primary-400" />
+                        </div>
+                        <p className="text-sm text-gray-600 mb-2">No achievements added yet</p>
+                        <p className="text-xs text-gray-500">Click "Add Achievement" to get started</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-8 text-center">
+              <Button
+                variant="secondary"
+                size="md"
+                onClick={() => handleAddItem('experience', {
+                  type: 'work',
+                  title: '',
+                  company: '',
+                  duration: '',
+                  location: '',
+                  description: '',
+                  achievements: []
+                })}
+              >
+                <PlusIcon className="h-5 w-5 mr-2" />
+                Add New Experience
+              </Button>
+            </div>
+          </div>
+        );
+
+      case 'skills':
+        return (
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-base font-semibold text-gray-900">Skills & Expertise</h3>
+            </div>
+            
+            {/* Skills Section Header */}
+            <div className="space-y-4">
+              <InputFactory
+                fieldName="skillsTitle"
+                config={{
+                  type: 'String',
+                  label: 'Skills Section Title',
+                  placeholder: 'e.g., Skills & Expertise',
+                  required: true
+                }}
+                value={formData.skills?.title || ''}
+                onChange={(value) => {
+                  const updatedData = {
+                    ...formData,
+                    skills: {
+                      ...formData.skills,
+                      title: value
+                    }
+                  };
+                  setFormData(updatedData);
+                  forceChangeDetection();
+                }}
+              />
+              <InputFactory
+                fieldName="skillsSubtitle"
+                config={{
+                  type: 'String',
+                  label: 'Skills Section Subtitle',
+                  placeholder: 'e.g., Technical skills and tools I work with',
+                  required: true
+                }}
+                value={formData.skills?.subtitle || ''}
+                onChange={(value) => {
+                  const updatedData = {
+                    ...formData,
+                    skills: {
+                      ...formData.skills,
+                      subtitle: value
+                    }
+                  };
+                  setFormData(updatedData);
+                  forceChangeDetection();
+                }}
+              />
+            </div>
+            
+            {/* Skills Categories */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h4 className="text-sm font-medium text-gray-700">Skill Categories</h4>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={() => {
+                    const updatedData = {
+                      ...formData,
+                      skills: {
+                        ...formData.skills,
+                        categories: [
+                          ...(formData.skills?.categories || []),
+                          {
+                            name: '',
+                            skills: []
+                          }
+                        ]
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
+                >
+                  <PlusIcon className="h-4 w-4 mr-2" />
+                  Add Category
+                </Button>
+              </div>
+              
+              {formData.skills?.categories?.map((category, categoryIndex) => (
+                <div key={categoryIndex} className="bg-gray-50 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-4">
+                    <h5 className="font-medium text-gray-900">Category {categoryIndex + 1}</h5>
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      onClick={() => {
+                        const updatedCategories = [...(formData.skills?.categories || [])];
+                        updatedCategories.splice(categoryIndex, 1);
+                        const updatedData = {
+                          ...formData,
+                          skills: {
+                            ...formData.skills,
+                            categories: updatedCategories
+                          }
+                        };
+                        setFormData(updatedData);
+                        forceChangeDetection();
+                      }}
+                    >
+                      <TrashIcon className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  
+                  {/* Category Name */}
+                  <div className="mb-4">
+                    <InputFactory
+                      fieldName={`category-${categoryIndex}-name`}
+                      config={{
+                        type: 'String',
+                        label: 'Category Name',
+                        placeholder: 'e.g., Frontend, Backend, Database',
+                        required: true
+                      }}
+                      value={category.name || ''}
+                      onChange={(value) => {
+                        const updatedCategories = [...(formData.skills?.categories || [])];
+                        updatedCategories[categoryIndex] = {
+                          ...updatedCategories[categoryIndex],
+                          name: value
+                        };
+                        const updatedData = {
+                          ...formData,
+                          skills: {
+                            ...formData.skills,
+                            categories: updatedCategories
+                          }
+                        };
+                        setFormData(updatedData);
+                        forceChangeDetection();
+                      }}
+                    />
+                  </div>
+                  
+                  {/* Skills in Category */}
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <h6 className="text-sm font-medium text-gray-600">Skills</h6>
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        onClick={() => {
+                          const updatedCategories = [...(formData.skills?.categories || [])];
+                          if (!updatedCategories[categoryIndex].skills) {
+                            updatedCategories[categoryIndex].skills = [];
+                          }
+                          updatedCategories[categoryIndex].skills.push('');
+                          const updatedData = {
+                            ...formData,
+                            skills: {
+                              ...formData.skills,
+                              categories: updatedCategories
+                            }
+                          };
+                          setFormData(updatedData);
+                          forceChangeDetection();
+                        }}
+                      >
+                        <PlusIcon className="h-4 w-4 mr-2" />
+                        Add Skill
+                      </Button>
+                    </div>
+                    
+                    {category.skills && category.skills.length > 0 ? (
+                      <div className="space-y-2">
+                        {category.skills.map((skill, skillIndex) => (
+                          <div key={skillIndex} className="flex items-center space-x-2">
+                            <div className="flex-1">
+                              <InputFactory
+                                fieldName={`skill-${categoryIndex}-${skillIndex}`}
+                                config={{
+                                  type: 'String',
+                                  label: '',
+                                  placeholder: 'e.g., React, JavaScript, Python',
+                                  required: true
+                                }}
+                                value={skill || ''}
+                                onChange={(value) => {
+                                  const updatedCategories = [...(formData.skills?.categories || [])];
+                                  if (!updatedCategories[categoryIndex].skills) {
+                                    updatedCategories[categoryIndex].skills = [];
+                                  }
+                                  updatedCategories[categoryIndex].skills[skillIndex] = value;
+                                  const updatedData = {
+                                    ...formData,
+                                    skills: {
+                                      ...formData.skills,
+                                      categories: updatedCategories
+                                    }
+                                  };
+                                  setFormData(updatedData);
+                                  forceChangeDetection();
+                                }}
+                              />
+                            </div>
+                            <Button
+                              variant="danger"
+                              size="sm"
+                              onClick={() => {
+                                const updatedCategories = [...(formData.skills?.categories || [])];
+                                if (updatedCategories[categoryIndex].skills) {
+                                  updatedCategories[categoryIndex].skills.splice(skillIndex, 1);
+                                  const updatedData = {
+                                    ...formData,
+                                    skills: {
+                                      ...formData.skills,
+                                      categories: updatedCategories
+                                    }
+                                  };
+                                  setFormData(updatedData);
+                                  forceChangeDetection();
+                                }
+                              }}
+                              className="!w-auto flex-shrink-0"
+                            >
+                              <TrashIcon className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-4 bg-gray-100 rounded-lg border-2 border-dashed border-gray-300">
+                        <p className="text-sm text-gray-600">No skills added yet</p>
+                        <p className="text-xs text-gray-500">Click "Add Skill" to get started</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+              
+              {(!formData.skills?.categories || formData.skills.categories.length === 0) && (
+                <div className="text-center py-8">
+                  <div className="flex items-center justify-center mb-4">
+                    <CodeBracketIcon className="h-8 w-8 text-primary-400" />
+                  </div>
+                  <p className="text-sm text-gray-600 mb-2">No skill categories added yet</p>
+                  <p className="text-xs text-gray-500">Click "Add Category" to get started</p>
+                </div>
+              )}
+            </div>
           </div>
         );
 
@@ -2104,14 +2565,17 @@ const ContentManagement = () => {
               }), 
               color: 'bg-primary-600' 
             }] : []),
-            ...(activeTab === 'products' ? [{ 
-              name: 'Add Product', 
+            ...(activeTab === 'projects' ? [{ 
+              name: 'Add Project', 
               icon: 'PlusIcon', 
-              action: () => handleAddItem('products', {
+              action: () => handleAddItem('projects', {
                 name: '',
-                price: { amount: '', currency: 'PHP' },
                 description: '',
-                image: ''
+                images: [],
+                details: [],
+                category: '',
+                technologies: '',
+                status: 'completed'
               }), 
               color: 'bg-primary-600' 
             }] : []),

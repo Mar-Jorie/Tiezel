@@ -1,48 +1,53 @@
-# Landing Page System Requirements
+# Personal Portfolio Funnel System Requirements
 
 ## 1. Title & Purpose
-**Landing Page System** - A comprehensive e-commerce landing page management system that allows administrators to edit and manage landing page content through a separate admin interface. The system provides a public-facing website for customers and a secure admin interface for content management, enabling real-time updates to company information, products, services, and marketing content.
+**Personal Portfolio Funnel System** - A comprehensive personal portfolio and resume funnel management system that allows individuals to showcase their work, skills, and experience through a professional landing page. The system provides a public-facing portfolio website and a secure admin interface for content management, enabling real-time updates to personal information, projects, experience, skills, and contact details.
 
 ## 2. Scope & Non-Goals
 
 ### In Scope
-- Public landing page with company information, products, and services
+- Public portfolio landing page with personal information, projects, and experience
 - Admin authentication and content management system
 - Real-time content editing and publishing
+- Personal photo upload and management
+- Project showcase with image galleries and detailed information
+- PDF resume generation from portfolio data
+- Contact form integration with email services or database collection
 - Settings management and audit trail
-- FAQ management and chatbot integration (planned)
 
 ### Non-Goals
 - E-commerce transaction processing
-- User registration for customers
+- User registration for visitors
 - Payment processing
-- Inventory management
-- Order fulfillment
+- Multi-user portfolio management
+- Client project management
 
 ## 3. Core Domain Concepts
 
 ### Primary Entities
-- **Landing Page**: Public-facing e-commerce website with company information, products, and services
+- **Portfolio Landing Page**: Public-facing personal portfolio website with professional information, projects, and experience
 - **Admin Dashboard**: Secure interface for content management and editing with metrics and navigation
-- **Content Management**: Comprehensive system for editing landing page sections, company info, products, services, testimonials, and order methods
+- **Content Management**: Comprehensive system for editing portfolio sections, personal info, projects, experience, skills, and contact details
+- **Project Management**: System for managing portfolio projects with image galleries, descriptions, and technologies
+- **PDF Resume Generator**: System for generating downloadable PDF resumes from portfolio data
 - **Settings Management**: System for managing admin settings, user preferences, and system configuration
 - **Audit Trail**: Complete logging system for tracking admin actions and content changes
-- **FAQ Management**: System for managing frequently asked questions and chatbot responses (planned)
-- **Chatbot Integration**: AI-powered chatbot with keyword-based FAQ responses (planned)
 - **Authentication**: Secure admin login system with session management
 
 ## 4. Data Concepts
 
 ### Core Data Entities
 
-**landing_page_content** (main content store)
+**portfolio_content** (main content store)
 - id: String
-- company_info: Object
+- personal_info: Object
 - hero_section: Object
-- services: Array
-- products: Array
+- about_section: Object
+- projects: Array
+- experience: Array
+- skills: Array
 - testimonials: Array
-- order_methods: Array
+- contact_info: Object
 - section_headers: Object
 - created: Date
 - updated: Date
@@ -252,37 +257,71 @@
 - Enhanced chatbot AI capabilities
 - Content versioning and rollback
 
-## 11. Landing Page Details
+## 11. Portfolio Landing Page Details
 
 ### Hero Section Content
-- **Main Headline**: "Welcome to HerbalMed - Premium Herbal Medicine" (editable)
-- **Subtitle**: "Discover the healing power of nature with our premium collection of herbal medicines and natural remedies" (editable)
-- **Primary CTA**: "Shop Now" button (editable)
-- **Secondary CTA**: "Learn More" button (editable)
-- **Visual Elements**: Brand name, subtitle, and icon display (editable)
-- **Hero Icon**: ShieldCheckIcon (selectable from 30+ available icons)
+- **Personal Introduction**: "Hi, I'm [Name] - [Professional Title]" (editable)
+- **Professional Headline**: "Passionate [profession] with [X] years of experience in [field]" (editable)
+- **Primary CTA**: "View My Work" or "Download Resume" button (editable)
+- **Secondary CTA**: "Get In Touch" button (editable)
+- **Personal Photo**: Professional headshot with upload capability
+- **Background**: Professional gradient or subtle pattern
 
-### Key Features to Highlight
-- **Premium Quality**: "100% natural, organic herbal medicines" (ShieldCheckIcon)
-- **Expert Consultation**: "Professional herbal medicine guidance" (PhoneIcon)
-- **Fast Delivery**: "Quick and secure shipping worldwide" (TruckIcon)
-- **Quality Content**: "Rigorous fact-checking and verification" (StarIcon)
+### Key Sections to Highlight
+- **About Section**: Professional summary, skills overview, and personal story
+- **Projects Section**: Featured work with detailed project showcases and image galleries
+- **Experience Section**: Work history, education, and career milestones
+- **Skills Section**: Technical skills, tools, certifications, and competencies
+- **Contact Section**: Multiple contact methods and professional information
 
 ### Navigation Elements
-- **Navigation Menu**: Features, Benefits, Testimonials links
-- **Authentication Buttons**: Sign In, Get Started buttons
+- **Navigation Menu**: About, Projects, Experience, Skills, Contact links
+- **Authentication Buttons**: Admin Login button (for portfolio owner)
 - **Mobile Menu**: Hamburger menu with responsive navigation
-- **Brand Logo**: HerbalMed branding with logo display
+- **Personal Branding**: Name and professional title display
 
 ### Content Sections
-- **Company Information**: Name, description, contact details, hours
-- **Services Section**: Featured services with icons and descriptions
-- **Products Section**: Featured products with images and benefits
-- **Testimonials Section**: Customer reviews and ratings
-- **Contact Section**: Contact form and information display
-- **Footer**: Company information and branding
+- **Personal Information**: Name, title, bio, contact details, social media links
+- **About Section**: Professional summary, skills overview, personal story
+- **Projects Section**: Portfolio projects with images, descriptions, and technologies
+- **Experience Section**: Work history, education, achievements, and milestones
+- **Skills Section**: Technical skills, tools, certifications, and competencies
+- **Testimonials Section**: Professional recommendations and client feedback
+- **Contact Section**: Contact form, email, phone, and social media links
+- **Footer**: Personal branding and contact information
 
-## 12. FAQ Management System
+## 12. Signup Page Details
+
+### Personal Information Fields
+- **First Name**: Required text field
+- **Last Name**: Required text field
+- **Email Address**: Required email field with validation
+- **Professional Title**: Required text field (e.g., "Software Developer", "Graphic Designer")
+- **Years of Experience**: Required number field
+- **Primary Skills**: Required multi-select field with common skills
+- **Location**: Required text field (city, country)
+- **Phone Number**: Optional text field
+- **LinkedIn Profile**: Optional URL field
+- **Portfolio Website**: Optional URL field
+- **Bio/Summary**: Required textarea field for professional summary
+
+### Role-Based Fields
+- **Developer**: Programming languages, frameworks, tools, GitHub profile
+- **Designer**: Design tools, specialties, Behance/Dribbble profile
+- **Marketing**: Marketing tools, specialties, campaign examples
+- **Writer**: Writing specialties, published works, writing samples
+- **Consultant**: Industry expertise, consulting areas, client testimonials
+- **Other**: Custom field for other professions
+
+### Account Setup
+- **Username**: Required unique identifier
+- **Password**: Required with strength validation
+- **Confirm Password**: Required matching validation
+- **Terms and Conditions**: Required checkbox acceptance
+- **Privacy Policy**: Required checkbox acceptance
+- **Email Notifications**: Optional checkbox for updates
+
+## 13. FAQ Management System
 
 ### FAQ Chatbot Interface
 - **FAQ List View**: Display all FAQ entries with question, answer, keywords, and status

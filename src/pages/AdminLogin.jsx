@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeftIcon, ArrowPathIcon, EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import Button from '../components/Button';
 import InputFactory from '../components/InputFactory';
+import ConfirmationModal from '../components/ConfirmationModal';
 import { useApp } from '../hooks/useApp';
 import auditService from '../services/auditService';
 import { toast } from 'react-hot-toast';
@@ -15,6 +16,9 @@ const AdminLogin = () => {
     password: ''
   });
   const [loading, setLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [forgotPasswordEmail, setForgotPasswordEmail] = useState('');
 
   const handleChange = (field, value) => {
     setFormData(prev => ({
@@ -32,11 +36,37 @@ const AdminLogin = () => {
       // Log successful login
       auditService.logLogin();
       toast.success('Login successful!');
+      
+      // Handle remember me functionality
+      if (rememberMe) {
+        localStorage.setItem('rememberedEmail', formData.email);
+        localStorage.setItem('rememberedUser', 'true');
+      } else {
+        localStorage.removeItem('rememberedEmail');
+        localStorage.removeItem('rememberedUser');
+      }
+      
       navigate('/admin/dashboard');
     } catch (error) {
       toast.error(error.message || 'Login failed. Please check your credentials.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    if (!forgotPasswordEmail) {
+      toast.error('Please enter your email address');
+      return;
+    }
+
+    try {
+      // Simulate password reset request
+      toast.success(`Password reset instructions sent to ${forgotPasswordEmail}`);
+      setShowForgotPassword(false);
+      setForgotPasswordEmail('');
+    } catch (error) {
+      toast.error('Failed to send password reset email. Please try again.');
     }
   };
 
@@ -103,15 +133,21 @@ const AdminLogin = () => {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
                   className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                 />
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
                   Remember me
                 </label>
               </div>
-              <a href="#" className="text-sm font-medium text-primary-600 hover:text-primary-500">
+              <button 
+                type="button"
+                onClick={() => setShowForgotPassword(true)}
+                className="text-sm font-medium text-primary-600 hover:text-primary-500"
+              >
                 Forgot password?
-              </a>
+              </button>
             </div>
 
             {/* Sign In Button */}
@@ -147,6 +183,39 @@ const AdminLogin = () => {
           </p>
         </div>
       </div>
+
+      {/* Forgot Password Modal */}
+      <ConfirmationModal
+        isOpen={showForgotPassword}
+        onClose={() => setShowForgotPassword(false)}
+        onConfirm={handleForgotPassword}
+        title="Reset Password"
+        message={
+          <div className="space-y-4">
+            <p className="text-sm text-gray-600">
+              Enter your email address and we'll send you instructions to reset your password.
+            </p>
+            <InputFactory
+              fieldName="forgotPasswordEmail"
+              config={{
+                type: 'String',
+                label: 'Email Address',
+                placeholder: 'Enter your email address',
+                required: true,
+                format: 'email'
+              }}
+              value={forgotPasswordEmail}
+              onChange={setForgotPasswordEmail}
+            />
+          </div>
+        }
+        confirmLabel="Send Reset Instructions"
+        cancelLabel="Cancel"
+        icon="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.502 0L4.318 18.5c-.77.833.192 2.5 1.732 2.5z"
+        iconColor="text-blue-600"
+        iconBgColor="bg-blue-100"
+        variant="info"
+      />
     </div>
   );
 };

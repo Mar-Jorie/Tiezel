@@ -61,30 +61,63 @@ async function testAdminAuthentication() {
     
     testResults.passed++;
     
+    // Navigate to fresh login page to avoid form clearing issues
+    await page.goto('http://localhost:3012/admin/login');
+    await page.waitForSelector('input[type="email"], input[name="email"]', { timeout: 5000 });
+    
     // Test 3: Valid Admin Login
     console.log('✅ Test 3: Valid Admin Login');
-    
-    // Clear form and fill with valid credentials
-    await page.evaluate(() => {
-      const emailField = document.querySelector('input[type="email"], input[name="email"]');
-      const passwordField = document.querySelector('input[type="password"], input[name="password"]');
-      if (emailField) emailField.value = '';
-      if (passwordField) passwordField.value = '';
-    });
     
     // Use demo credentials from the system
     await page.type('input[type="email"], input[name="email"]', 'admin@techstore.com');
     await page.type('input[type="password"], input[name="password"]', 'admin123');
     
+    // Verify the form is filled
+    const emailValue = await page.$eval('input[type="email"], input[name="email"]', el => el.value);
+    const passwordValue = await page.$eval('input[type="password"], input[name="password"]', el => el.value);
+    console.log(`Email field value: ${emailValue}`);
+    console.log(`Password field value: ${passwordValue}`);
+    
     // Submit form
     await page.click('button[type="submit"]');
     
-    // Wait for redirect to dashboard
-    await page.waitForFunction(() => {
-      return window.location.href.includes('/admin/dashboard');
-    }, { timeout: 10000 });
+    // Wait a moment for processing
+    await new Promise(resolve => setTimeout(resolve, 3000));
     
-    console.log('✅ Successfully logged in and redirected to dashboard');
+    // Check current URL
+    const currentUrl = page.url();
+    console.log(`Current URL after login: ${currentUrl}`);
+    
+    // Check for any error messages
+    const errorMessages = await page.$$('.error, .alert-danger, [role="alert"], .toast-error');
+    if (errorMessages.length > 0) {
+      for (let i = 0; i < errorMessages.length; i++) {
+        const errorText = await page.evaluate(el => el.textContent, errorMessages[i]);
+        console.log(`Error message found: ${errorText}`);
+      }
+    }
+    
+    // Check if form is still visible (login failed)
+    const formStillVisible = await page.$('form');
+    if (formStillVisible) {
+      console.log('❌ Form still visible - login may have failed');
+    }
+    
+    // Wait for redirect to dashboard
+    try {
+      await page.waitForFunction(() => {
+        return window.location.href.includes('/admin/dashboard');
+      }, { timeout: 10000 });
+      console.log('✅ Successfully logged in and redirected to dashboard');
+    } catch (error) {
+      console.log(`❌ Redirect failed. Current URL: ${page.url()}`);
+      // Check if we're still on login page
+      const isStillOnLogin = await page.$('input[type="email"]');
+      if (isStillOnLogin) {
+        console.log('❌ Still on login page - login may have failed');
+      }
+      throw error;
+    }
     
     testResults.passed++;
     
@@ -116,7 +149,7 @@ async function testAdminAuthentication() {
     }
     
     // Test save functionality
-    const saveButton = await page.$('button:has-text("Save"), button:has-text("Update"), button[type="submit"]');
+    const saveButton = await page.$('button[type="submit"]');
     if (saveButton) {
       await saveButton.click();
       await new Promise(resolve => setTimeout(resolve, 1000));
