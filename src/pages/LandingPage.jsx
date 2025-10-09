@@ -462,48 +462,18 @@ const LandingPage = () => {
                 <div className="bg-gradient-to-br from-primary-50 via-indigo-50 to-purple-50 rounded-3xl p-8 lg:p-12">
                   <div className="space-y-8">
                     <div className="text-center">
-                      <h3 className="text-2xl font-bold text-gray-900 mb-4">Design Philosophy</h3>
+                      <div className="w-16 h-16 bg-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <HeartIcon className="h-8 w-8 text-indigo-600" />
+                      </div>
+                      <h3 className="text-2xl font-bold text-gray-900 mb-4">Beyond Work</h3>
                       <p className="text-gray-600 leading-relaxed">
-                        "Good design is not just what it looks like and feels like. Good design is how it works."
-            </p>
-          </div>
-                    
-                    <div className="space-y-6">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-gray-700">User Research</span>
-                        <div className="w-32 bg-gray-200 rounded-full h-3">
-                          <div className="bg-gradient-to-r from-primary-500 to-indigo-500 h-3 rounded-full" style={{width: '95%'}}></div>
-                            </div>
-                              </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-gray-700">Visual Design</span>
-                        <div className="w-32 bg-gray-200 rounded-full h-3">
-                          <div className="bg-gradient-to-r from-indigo-500 to-purple-500 h-3 rounded-full" style={{width: '90%'}}></div>
-                            </div>
-                          </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-gray-700">Prototyping</span>
-                        <div className="w-32 bg-gray-200 rounded-full h-3">
-                          <div className="bg-gradient-to-r from-purple-500 to-pink-500 h-3 rounded-full" style={{width: '88%'}}></div>
+                        {landingPageContent?.about?.additionalInfo || 'When I\'m not designing, you can find me exploring new technologies, contributing to open-source projects, or sharing knowledge with the developer community.'}
+                      </p>
                     </div>
                   </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-gray-700">Development</span>
-                        <div className="w-32 bg-gray-200 rounded-full h-3">
-                          <div className="bg-gradient-to-r from-pink-500 to-red-500 h-3 rounded-full" style={{width: '85%'}}></div>
-                        </div>
-                      </div>
-                    </div>
-              </div>
-            </div>
+                </div>
 
                 {/* Floating Elements */}
-                <div className="absolute -top-6 -right-6 w-12 h-12 bg-white rounded-2xl shadow-lg flex items-center justify-center">
-                  <span className="text-2xl">🎨</span>
-                </div>
-                <div className="absolute -bottom-6 -left-6 w-12 h-12 bg-white rounded-2xl shadow-lg flex items-center justify-center">
-                  <span className="text-2xl">💡</span>
-                </div>
               </div>
             </div>
           </div>
