@@ -53,9 +53,9 @@ const ProjectModal = ({
         ></div>
         
         {/* Modal Content */}
-        <div className="relative z-50 w-full max-w-4xl bg-white rounded-xl shadow-xl overflow-hidden">
-          {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-gray-200">
+        <div className="relative z-50 w-full max-w-4xl bg-white rounded-xl shadow-xl overflow-hidden flex flex-col max-h-[90vh]">
+          {/* Fixed Header */}
+          <div className="flex items-center justify-between p-6 border-b border-gray-200 flex-shrink-0">
             <div>
               <h2 className="text-2xl font-bold text-gray-900">{project.title || project.name}</h2>
               {project.category && (
@@ -70,12 +70,12 @@ const ProjectModal = ({
             </button>
           </div>
 
-          {/* Content */}
-          <div className="max-h-[80vh] overflow-y-auto">
+          {/* Scrollable Content */}
+          <div className="flex-1 overflow-y-auto">
             {/* Project Images Carousel */}
             {(project.showcaseImages || project.images) && (project.showcaseImages || project.images).length > 0 && (
               <div className="relative bg-gray-100">
-                <div className="aspect-video relative overflow-hidden">
+                <div className="h-64 relative overflow-hidden">
                   {/* Main Image */}
                   <img
                     src={(project.showcaseImages || project.images)[currentImageIndex]}
@@ -249,8 +249,8 @@ const ProjectModal = ({
             </div>
           </div>
 
-          {/* Footer */}
-          <div className="flex items-center justify-end p-6 border-t border-gray-200 bg-gray-50">
+          {/* Fixed Footer */}
+          <div className="flex items-center justify-end p-6 border-t border-gray-200 bg-gray-50 flex-shrink-0">
             <Button
               onClick={onClose}
               variant="primaryOutline"
