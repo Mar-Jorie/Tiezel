@@ -193,9 +193,6 @@ const LandingPage = () => {
             
             {/* Desktop CTA Buttons - Hidden on Mobile */}
             <div className="hidden lg:flex items-center space-x-4">
-              <Link to="/admin/login">
-                <Button variant="ghost" size="md" className="!w-auto">Admin</Button>
-              </Link>
               <Button variant="primaryOutline" size="md" onClick={downloadResume}>
                 <ArrowDownTrayIcon className="h-4 w-4 mr-2" />
                 Resume
@@ -218,9 +215,6 @@ const LandingPage = () => {
                 
                 {/* Mobile CTA Buttons */}
                 <div className="flex flex-col space-y-3 pt-4 border-t border-gray-100">
-                  <Link to="/admin/login" onClick={() => setIsMobileMenuOpen(false)}>
-                    <Button variant="ghost" size="md" className="w-full">Admin</Button>
-                  </Link>
                   <Button variant="primaryOutline" size="md" className="w-full" onClick={downloadResume}>
                     <ArrowDownTrayIcon className="h-4 w-4 mr-2" />
                     Resume
@@ -577,122 +571,260 @@ const LandingPage = () => {
       </section>
 
       {/* Experience Section */}
-      <section id="experience" className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 bg-white">
-        <div className="w-full">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">
-              Professional Experience
+      <section id="experience" className="py-20 sm:py-24 md:py-32 lg:py-40 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-white via-gray-50 to-white relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0 bg-gradient-to-r from-primary-50/30 via-transparent to-indigo-50/30"></div>
+        <div className="absolute top-20 left-10 w-32 h-32 bg-primary-100/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-10 w-40 h-40 bg-indigo-100/20 rounded-full blur-3xl"></div>
+        
+        <div className="relative w-full max-w-6xl mx-auto">
+          <div className="text-center mb-16 sm:mb-20">
+            <div className="inline-flex items-center px-4 py-2 bg-primary-50 border border-primary-200 rounded-full text-sm font-medium text-primary-700 mb-6">
+              <BriefcaseIcon className="h-4 w-4 mr-2" />
+              Professional Journey
+            </div>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-6 tracking-tight">
+              Experience & Achievements
             </h2>
-            <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto font-medium">
-              My career journey and key achievements
+            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              A timeline of my professional growth, key roles, and significant contributions across different organizations.
             </p>
           </div>
           
-          <div className="max-w-4xl mx-auto">
-            <div className="space-y-8">
+          <div className="relative">
+            {/* Timeline Line */}
+            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary-200 via-primary-300 to-primary-200 hidden lg:block"></div>
+            
+            <div className="space-y-12">
               {(landingPageContent?.experience || [
                 {
                   title: 'Senior Software Developer',
                   company: 'Tech Solutions Inc.',
                   period: '2022 - Present',
+                  location: 'San Francisco, CA',
+                  type: 'work',
                   description: 'Leading development of scalable web applications and mentoring junior developers.',
-                  achievements: ['Improved application performance by 40%', 'Led team of 5 developers', 'Implemented CI/CD pipeline']
+                  achievements: ['Improved application performance by 40%', 'Led team of 5 developers', 'Implemented CI/CD pipeline'],
+                  technologies: ['React', 'Node.js', 'AWS', 'Docker']
                 },
                 {
                   title: 'Full Stack Developer',
                   company: 'Digital Innovations',
                   period: '2020 - 2022',
+                  location: 'New York, NY',
+                  type: 'work',
                   description: 'Developed full-stack applications using modern technologies and best practices.',
-                  achievements: ['Built 10+ web applications', 'Reduced development time by 30%', 'Implemented automated testing']
+                  achievements: ['Built 10+ web applications', 'Reduced development time by 30%', 'Implemented automated testing'],
+                  technologies: ['Vue.js', 'Python', 'PostgreSQL', 'Redis']
                 },
                 {
-                  title: 'Junior Developer',
-                  company: 'StartupXYZ',
-                  period: '2019 - 2020',
-                  description: 'Started my professional journey building web applications and learning new technologies.',
-                  achievements: ['Completed 5 major projects', 'Learned 3 new programming languages', 'Contributed to open source']
+                  title: 'Bachelor of Computer Science',
+                  company: 'University of Technology',
+                  period: '2016 - 2020',
+                  location: 'Boston, MA',
+                  type: 'education',
+                  description: 'Graduated with honors, focusing on software engineering and computer science fundamentals.',
+                  achievements: ['Magna Cum Laude', 'Dean\'s List 6 semesters', 'Senior Capstone Project Award'],
+                  technologies: ['Java', 'C++', 'Data Structures', 'Algorithms']
                 }
               ]).map((exp, index) => (
-                  <div key={index} className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <BriefcaseIcon className="h-6 w-6 text-primary-600" />
-                    </div>
-                    <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-900">{exp.title}</h3>
-                    <p className="text-primary-600 font-medium">{exp.company}</p>
-                    <p className="text-sm text-gray-500 mb-3">{exp.period}</p>
-                    <p className="text-gray-600 mb-3">{exp.description}</p>
-                    <ul className="space-y-1">
-                      {exp.achievements?.map((achievement, achIndex) => (
-                        <li key={achIndex} className="flex items-center space-x-2 text-sm text-gray-600">
-                          <CheckIcon className="h-4 w-4 text-green-600 flex-shrink-0" />
-                          <span>{achievement}</span>
-                        </li>
-                      ))}
-                    </ul>
+                <div key={index} className="relative flex items-start lg:items-center">
+                  {/* Timeline Dot */}
+                  <div className="absolute left-6 w-4 h-4 bg-white border-4 border-primary-500 rounded-full shadow-lg z-10 hidden lg:block"></div>
+                  
+                  {/* Content Card */}
+                  <div className="ml-0 lg:ml-16 w-full">
+                    <div className="bg-white rounded-2xl p-6 lg:p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 group">
+                      <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-4">
+                        <div className="flex-1">
+                          <div className="flex items-center space-x-3 mb-2">
+                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                              exp.type === 'education' ? 'bg-emerald-100' : 'bg-primary-100'
+                            }`}>
+                              {exp.type === 'education' ? (
+                                <AcademicCapIcon className="h-5 w-5 text-emerald-600" />
+                              ) : (
+                                <BriefcaseIcon className="h-5 w-5 text-primary-600" />
+                              )}
+                            </div>
+                            <div>
+                              <h3 className="text-lg lg:text-xl font-bold text-gray-900 group-hover:text-primary-600 transition-colors">
+                                {exp.title}
+                              </h3>
+                              <p className="text-primary-600 font-semibold">{exp.company}</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-sm font-medium text-gray-900">{exp.period}</p>
+                          {exp.location && (
+                            <p className="text-xs text-gray-500 flex items-center justify-end mt-1">
+                              <MapPinIcon className="h-3 w-3 mr-1" />
+                              {exp.location}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                      
+                      <p className="text-gray-600 mb-4 leading-relaxed">{exp.description}</p>
+                      
+                      {exp.achievements && exp.achievements.length > 0 && (
+                        <div className="mb-4">
+                          <h4 className="text-sm font-semibold text-gray-900 mb-2">Key Achievements:</h4>
+                          <ul className="space-y-2">
+                            {exp.achievements.map((achievement, achIndex) => (
+                              <li key={achIndex} className="flex items-start space-x-2 text-sm text-gray-600">
+                                <CheckIcon className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
+                                <span>{achievement}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      
+                      {exp.technologies && exp.technologies.length > 0 && (
+                        <div className="flex flex-wrap gap-2">
+                          {exp.technologies.map((tech, techIndex) => (
+                            <span key={techIndex} className="px-3 py-1 bg-gray-100 text-gray-700 text-xs font-medium rounded-full">
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           </div>
+        </div>
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 bg-gray-50">
-        <div className="w-full">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">
+      <section id="skills" className="py-20 sm:py-24 md:py-32 lg:py-40 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0 bg-gradient-to-r from-indigo-50/30 via-transparent to-primary-50/30"></div>
+        <div className="absolute top-10 right-20 w-40 h-40 bg-indigo-100/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 left-20 w-32 h-32 bg-primary-100/20 rounded-full blur-3xl"></div>
+        
+        <div className="relative w-full max-w-6xl mx-auto">
+          <div className="text-center mb-16 sm:mb-20">
+            <div className="inline-flex items-center px-4 py-2 bg-indigo-50 border border-indigo-200 rounded-full text-sm font-medium text-indigo-700 mb-6">
+              <CodeBracketIcon className="h-4 w-4 mr-2" />
+              Technical Expertise
+            </div>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-6 tracking-tight">
               {landingPageContent?.skills?.title || 'Skills & Expertise'}
             </h2>
-            <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto font-medium">
-              {landingPageContent?.skills?.subtitle || 'Technical skills and tools I work with'}
-                </p>
-              </div>
+            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              {landingPageContent?.skills?.subtitle || 'A comprehensive overview of my technical skills, tools, and technologies I work with to deliver exceptional digital experiences.'}
+            </p>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {landingPageContent?.skills?.categories && landingPageContent.skills.categories.length > 0 ? (
               landingPageContent.skills.categories.map((category, index) => (
-                <div key={index} className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                    <CodeBracketIcon className="h-5 w-5 mr-2 text-primary-600" />
-                    {category.name}
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {category.skills && category.skills.length > 0 ? (
-                      category.skills.map((skill, skillIndex) => (
-                        <span key={skillIndex} className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">
-                          {skill}
-                        </span>
-                      ))
-                    ) : (
-                      <span className="text-sm text-gray-500">No skills added yet</span>
-                    )}
+                <div key={index} className="group">
+                  <div className="bg-white rounded-2xl p-6 lg:p-8 shadow-lg border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 h-full">
+                    <div className="flex items-center mb-6">
+                      <div className="w-12 h-12 bg-gradient-to-br from-indigo-100 to-primary-100 rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
+                        <CodeBracketIcon className="h-6 w-6 text-indigo-600" />
+                      </div>
+                      <h3 className="text-lg lg:text-xl font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">
+                        {category.name}
+                      </h3>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      {category.skills && category.skills.length > 0 ? (
+                        category.skills.map((skill, skillIndex) => (
+                          <div key={skillIndex} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-xl hover:bg-indigo-50 transition-colors duration-200 group/skill">
+                            <div className="w-2 h-2 bg-indigo-400 rounded-full group-hover/skill:bg-indigo-600 transition-colors"></div>
+                            <span className="text-sm font-medium text-gray-700 group-hover/skill:text-indigo-700 transition-colors">
+                              {skill}
+                            </span>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="text-center py-8">
+                          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <CodeBracketIcon className="h-8 w-8 text-gray-400" />
+                          </div>
+                          <p className="text-sm text-gray-500">No skills added yet</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
               ))
             ) : (
               // Fallback to default skills if no data is available
               [
-                { category: 'Frontend', skills: ['React', 'Vue.js', 'JavaScript', 'TypeScript', 'HTML/CSS', 'Tailwind CSS'] },
-                { category: 'Backend', skills: ['Node.js', 'Python', 'Express.js', 'Django', 'REST APIs', 'GraphQL'] },
-                { category: 'Database', skills: ['MongoDB', 'PostgreSQL', 'MySQL', 'Redis', 'Firebase', 'Supabase'] },
-                { category: 'Tools', skills: ['Git', 'Docker', 'AWS', 'Figma', 'VS Code', 'Postman'] },
-                { category: 'Mobile', skills: ['React Native', 'Flutter', 'iOS Development', 'Android Development'] },
-                { category: 'Other', skills: ['Agile', 'Scrum', 'CI/CD', 'Testing', 'DevOps', 'Cloud Computing'] }
+                { 
+                  category: 'Frontend Development', 
+                  skills: ['React', 'Vue.js', 'JavaScript', 'TypeScript', 'HTML/CSS', 'Tailwind CSS', 'Next.js', 'Svelte'],
+                  icon: 'CodeBracketIcon',
+                  color: 'from-blue-100 to-indigo-100',
+                  textColor: 'text-blue-600'
+                },
+                { 
+                  category: 'Backend Development', 
+                  skills: ['Node.js', 'Python', 'Express.js', 'Django', 'REST APIs', 'GraphQL', 'FastAPI', 'NestJS'],
+                  icon: 'CodeBracketIcon',
+                  color: 'from-green-100 to-emerald-100',
+                  textColor: 'text-green-600'
+                },
+                { 
+                  category: 'Database & Storage', 
+                  skills: ['MongoDB', 'PostgreSQL', 'MySQL', 'Redis', 'Firebase', 'Supabase', 'Prisma', 'Drizzle'],
+                  icon: 'CodeBracketIcon',
+                  color: 'from-purple-100 to-violet-100',
+                  textColor: 'text-purple-600'
+                },
+                { 
+                  category: 'DevOps & Tools', 
+                  skills: ['Git', 'Docker', 'AWS', 'Vercel', 'GitHub Actions', 'CI/CD', 'Kubernetes', 'Terraform'],
+                  icon: 'CodeBracketIcon',
+                  color: 'from-orange-100 to-red-100',
+                  textColor: 'text-orange-600'
+                },
+                { 
+                  category: 'Design & UX', 
+                  skills: ['Figma', 'Adobe XD', 'Sketch', 'User Research', 'Prototyping', 'Design Systems', 'Framer', 'Principle'],
+                  icon: 'CodeBracketIcon',
+                  color: 'from-pink-100 to-rose-100',
+                  textColor: 'text-pink-600'
+                },
+                { 
+                  category: 'Mobile Development', 
+                  skills: ['React Native', 'Flutter', 'iOS Development', 'Android Development', 'Expo', 'Swift', 'Kotlin'],
+                  icon: 'CodeBracketIcon',
+                  color: 'from-cyan-100 to-teal-100',
+                  textColor: 'text-cyan-600'
+                }
               ].map((category, index) => (
-                <div key={index} className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                    <CodeBracketIcon className="h-5 w-5 mr-2 text-primary-600" />
-                    {category.category}
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {category.skills.map((skill, skillIndex) => (
-                      <span key={skillIndex} className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">
-                        {skill}
-                      </span>
-                    ))}
-            </div>
+                <div key={index} className="group">
+                  <div className="bg-white rounded-2xl p-6 lg:p-8 shadow-lg border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 h-full">
+                    <div className="flex items-center mb-6">
+                      <div className={`w-12 h-12 bg-gradient-to-br ${category.color} rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300`}>
+                        <CodeBracketIcon className={`h-6 w-6 ${category.textColor}`} />
+                      </div>
+                      <h3 className="text-lg lg:text-xl font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">
+                        {category.category}
+                      </h3>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      {category.skills.map((skill, skillIndex) => (
+                        <div key={skillIndex} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-xl hover:bg-indigo-50 transition-colors duration-200 group/skill">
+                          <div className="w-2 h-2 bg-indigo-400 rounded-full group-hover/skill:bg-indigo-600 transition-colors"></div>
+                          <span className="text-sm font-medium text-gray-700 group-hover/skill:text-indigo-700 transition-colors">
+                            {skill}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               ))
             )}
