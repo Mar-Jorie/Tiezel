@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { EyeIcon, EyeSlashIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import CurrencyInput from './CurrencyInput';
 import ImageUpload from './ImageUpload';
+import MultipleImageUpload from './MultipleImageUpload';
 import StarRating from './StarRating';
 import SelectInput from './SelectInput';
 
@@ -155,14 +156,27 @@ export default function InputFactory({ fieldName, config, value, onChange, class
     }
 
     if (type === 'FileUpload') {
-      return (
-        <ImageUpload
-          value={value || ''}
-          onChange={onChange}
-          label={label}
-          required={required}
-        />
-      );
+      // Check if multiple upload is enabled
+      if (config.multiple) {
+        return (
+          <MultipleImageUpload
+            value={value || []}
+            onChange={onChange}
+            label={label}
+            required={required}
+            maxImages={config.maxImages || 10}
+          />
+        );
+      } else {
+        return (
+          <ImageUpload
+            value={value || ''}
+            onChange={onChange}
+            label={label}
+            required={required}
+          />
+        );
+      }
     }
 
     if (type === 'StarRating') {
