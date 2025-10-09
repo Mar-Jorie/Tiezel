@@ -80,7 +80,7 @@ const ProjectModal = ({
                   <img
                     src={(project.showcaseImages || project.images)[currentImageIndex]}
                     alt={`${project.title || project.name} - Image ${currentImageIndex + 1}`}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                   />
                   
                   {/* Navigation Arrows */}
