@@ -701,15 +701,10 @@ const LandingPage = () => {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="py-20 sm:py-24 md:py-32 lg:py-40 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute inset-0 bg-gradient-to-r from-indigo-50/30 via-transparent to-primary-50/30"></div>
-        <div className="absolute top-10 right-20 w-40 h-40 bg-indigo-100/20 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-10 left-20 w-32 h-32 bg-primary-100/20 rounded-full blur-3xl"></div>
-        
-        <div className="relative w-full max-w-6xl mx-auto">
+      <section id="skills" className="py-20 sm:py-24 md:py-32 lg:py-40 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="w-full max-w-6xl mx-auto">
           <div className="text-center mb-16 sm:mb-20">
-            <div className="inline-flex items-center px-4 py-2 bg-indigo-50 border border-indigo-200 rounded-full text-sm font-medium text-indigo-700 mb-6">
+            <div className="inline-flex items-center px-4 py-2 bg-primary-50 border border-primary-200 rounded-full text-sm font-medium text-primary-700 mb-6">
               <CodeBracketIcon className="h-4 w-4 mr-2" />
               Technical Expertise
             </div>
@@ -717,117 +712,112 @@ const LandingPage = () => {
               {landingPageContent?.skills?.title || 'Skills & Expertise'}
             </h2>
             <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              {landingPageContent?.skills?.subtitle || 'A comprehensive overview of my technical skills, tools, and technologies I work with to deliver exceptional digital experiences.'}
+              {landingPageContent?.skills?.subtitle || 'A comprehensive toolkit of modern technologies and frameworks I use to build exceptional digital experiences.'}
             </p>
           </div>
 
+          {/* Clean Skills Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {landingPageContent?.skills?.categories && landingPageContent.skills.categories.length > 0 ? (
               landingPageContent.skills.categories.map((category, index) => (
-                <div key={index} className="group">
-                  <div className="bg-white rounded-2xl p-6 lg:p-8 shadow-lg border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 h-full">
-                    <div className="flex items-center mb-6">
-                      <div className="w-12 h-12 bg-gradient-to-br from-indigo-100 to-primary-100 rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
-                        <CodeBracketIcon className="h-6 w-6 text-indigo-600" />
-                      </div>
-                      <h3 className="text-lg lg:text-xl font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">
+                <div key={index} className="bg-white rounded-lg border border-gray-200 p-6 hover:border-primary-300 transition-colors duration-200">
+                  {/* Category Header */}
+                  <div className="flex items-center mb-6">
+                    <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mr-4">
+                      <CodeBracketIcon className="h-6 w-6 text-primary-600" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900">
                         {category.name}
                       </h3>
                     </div>
-                    
-                    <div className="space-y-3">
-                      {category.skills && category.skills.length > 0 ? (
-                        category.skills.map((skill, skillIndex) => (
-                          <div key={skillIndex} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-xl hover:bg-indigo-50 transition-colors duration-200 group/skill">
-                            <div className="w-2 h-2 bg-indigo-400 rounded-full group-hover/skill:bg-indigo-600 transition-colors"></div>
-                            <span className="text-sm font-medium text-gray-700 group-hover/skill:text-indigo-700 transition-colors">
-                              {skill}
-                            </span>
-                          </div>
-                        ))
-                      ) : (
-                        <div className="text-center py-8">
-                          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <CodeBracketIcon className="h-8 w-8 text-gray-400" />
-                          </div>
-                          <p className="text-sm text-gray-500">No skills added yet</p>
+                  </div>
+                  
+                  {/* Skills List */}
+                  <div className="space-y-2">
+                    {category.skills && category.skills.length > 0 ? (
+                      category.skills.map((skill, skillIndex) => (
+                        <div key={skillIndex} className="flex items-center space-x-3 py-2">
+                          <div className="w-1.5 h-1.5 bg-primary-400 rounded-full"></div>
+                          <span className="text-sm text-gray-700">
+                            {skill}
+                          </span>
                         </div>
-                      )}
-                    </div>
+                      ))
+                    ) : (
+                      <div className="text-center py-8">
+                        <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                          <CodeBracketIcon className="h-8 w-8 text-gray-400" />
+                        </div>
+                        <p className="text-sm text-gray-500">No skills added yet</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))
             ) : (
-              // Fallback to default skills if no data is available
+              // Clean fallback design
               [
                 { 
                   category: 'Frontend Development', 
-                  skills: ['React', 'Vue.js', 'JavaScript', 'TypeScript', 'HTML/CSS', 'Tailwind CSS', 'Next.js', 'Svelte'],
-                  icon: 'CodeBracketIcon',
-                  color: 'from-blue-100 to-indigo-100',
-                  textColor: 'text-blue-600'
+                  skills: ['React', 'Vue.js', 'TypeScript', 'Next.js', 'Tailwind CSS', 'Framer Motion']
                 },
                 { 
                   category: 'Backend Development', 
-                  skills: ['Node.js', 'Python', 'Express.js', 'Django', 'REST APIs', 'GraphQL', 'FastAPI', 'NestJS'],
-                  icon: 'CodeBracketIcon',
-                  color: 'from-green-100 to-emerald-100',
-                  textColor: 'text-green-600'
+                  skills: ['Node.js', 'Python', 'FastAPI', 'GraphQL', 'PostgreSQL', 'Redis']
                 },
                 { 
-                  category: 'Database & Storage', 
-                  skills: ['MongoDB', 'PostgreSQL', 'MySQL', 'Redis', 'Firebase', 'Supabase', 'Prisma', 'Drizzle'],
-                  icon: 'CodeBracketIcon',
-                  color: 'from-purple-100 to-violet-100',
-                  textColor: 'text-purple-600'
-                },
-                { 
-                  category: 'DevOps & Tools', 
-                  skills: ['Git', 'Docker', 'AWS', 'Vercel', 'GitHub Actions', 'CI/CD', 'Kubernetes', 'Terraform'],
-                  icon: 'CodeBracketIcon',
-                  color: 'from-orange-100 to-red-100',
-                  textColor: 'text-orange-600'
+                  category: 'Cloud & DevOps', 
+                  skills: ['AWS', 'Docker', 'Kubernetes', 'CI/CD', 'Terraform', 'Vercel']
                 },
                 { 
                   category: 'Design & UX', 
-                  skills: ['Figma', 'Adobe XD', 'Sketch', 'User Research', 'Prototyping', 'Design Systems', 'Framer', 'Principle'],
-                  icon: 'CodeBracketIcon',
-                  color: 'from-pink-100 to-rose-100',
-                  textColor: 'text-pink-600'
+                  skills: ['Figma', 'Adobe XD', 'User Research', 'Prototyping', 'Design Systems', 'Framer']
                 },
                 { 
                   category: 'Mobile Development', 
-                  skills: ['React Native', 'Flutter', 'iOS Development', 'Android Development', 'Expo', 'Swift', 'Kotlin'],
-                  icon: 'CodeBracketIcon',
-                  color: 'from-cyan-100 to-teal-100',
-                  textColor: 'text-cyan-600'
+                  skills: ['React Native', 'Flutter', 'iOS', 'Android', 'Expo', 'Swift']
+                },
+                { 
+                  category: 'AI & Data Science', 
+                  skills: ['Machine Learning', 'TensorFlow', 'Python', 'Data Analysis', 'OpenAI', 'LangChain']
                 }
               ].map((category, index) => (
-                <div key={index} className="group">
-                  <div className="bg-white rounded-2xl p-6 lg:p-8 shadow-lg border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 h-full">
-                    <div className="flex items-center mb-6">
-                      <div className={`w-12 h-12 bg-gradient-to-br ${category.color} rounded-xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300`}>
-                        <CodeBracketIcon className={`h-6 w-6 ${category.textColor}`} />
-                      </div>
-                      <h3 className="text-lg lg:text-xl font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">
+                <div key={index} className="bg-white rounded-lg border border-gray-200 p-6 hover:border-primary-300 transition-colors duration-200">
+                  {/* Category Header */}
+                  <div className="flex items-center mb-6">
+                    <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mr-4">
+                      <CodeBracketIcon className="h-6 w-6 text-primary-600" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900">
                         {category.category}
                       </h3>
                     </div>
-                    
-                    <div className="space-y-3">
-                      {category.skills.map((skill, skillIndex) => (
-                        <div key={skillIndex} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-xl hover:bg-indigo-50 transition-colors duration-200 group/skill">
-                          <div className="w-2 h-2 bg-indigo-400 rounded-full group-hover/skill:bg-indigo-600 transition-colors"></div>
-                          <span className="text-sm font-medium text-gray-700 group-hover/skill:text-indigo-700 transition-colors">
-                            {skill}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
+                  </div>
+                  
+                  {/* Skills List */}
+                  <div className="space-y-2">
+                    {category.skills.map((skill, skillIndex) => (
+                      <div key={skillIndex} className="flex items-center space-x-3 py-2">
+                        <div className="w-1.5 h-1.5 bg-primary-400 rounded-full"></div>
+                        <span className="text-sm text-gray-700">
+                          {skill}
+                        </span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               ))
             )}
+          </div>
+
+          {/* Bottom Note */}
+          <div className="text-center mt-16">
+            <div className="inline-flex items-center px-4 py-2 bg-gray-50 border border-gray-200 rounded-full text-sm text-gray-600">
+              <span className="w-2 h-2 bg-primary-500 rounded-full mr-2"></span>
+              Continuously expanding my technical toolkit
+            </div>
           </div>
         </div>
       </section>
