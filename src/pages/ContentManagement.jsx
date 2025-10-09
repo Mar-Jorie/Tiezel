@@ -1837,60 +1837,6 @@ const ContentManagement = () => {
           <div className="space-y-6">
             <h3 className="text-base font-semibold text-gray-900">Section Headers & Content</h3>
             
-            {/* Features Section */}
-            <div className="space-y-4">
-              <h4 className="text-sm font-medium text-gray-700">Features Section</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <InputFactory
-                  fieldName="featuresTitle"
-                  config={{
-                    type: 'String',
-                    label: 'Features Section Title',
-                    placeholder: 'e.g., Everything You Need to Succeed',
-                    required: true
-                  }}
-                  value={formData.sections?.features?.title || ''}
-                  onChange={(value) => {
-                    const updatedData = {
-                      ...formData,
-                      sections: {
-                        ...formData.sections,
-                        features: {
-                          ...formData.sections?.features,
-                          title: value
-                        }
-                      }
-                    };
-                    setFormData(updatedData);
-                    forceChangeDetection();
-                  }}
-                />
-                <InputFactory
-                  fieldName="featuresSubtitle"
-                  config={{
-                    type: 'String',
-                    label: 'Features Section Subtitle',
-                    placeholder: 'e.g., Comprehensive services designed to meet your needs',
-                    required: true
-                  }}
-                  value={formData.sections?.features?.subtitle || ''}
-                  onChange={(value) => {
-                    const updatedData = {
-                      ...formData,
-                      sections: {
-                        ...formData.sections,
-                        features: {
-                          ...formData.sections?.features,
-                          subtitle: value
-                        }
-                      }
-                    };
-                    setFormData(updatedData);
-                    forceChangeDetection();
-                  }}
-                />
-              </div>
-            </div>
 
             {/* Projects Section */}
             <div className="space-y-4">
