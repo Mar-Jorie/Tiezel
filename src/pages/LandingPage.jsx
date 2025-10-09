@@ -42,6 +42,7 @@ const LandingPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showProjectModal, setShowProjectModal] = useState(false);
+  const [currentSkillSlide, setCurrentSkillSlide] = useState(0);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -55,6 +56,30 @@ const LandingPage = () => {
   const closeProjectModal = () => {
     setSelectedProject(null);
     setIsProjectModalOpen(false);
+  };
+
+  const nextSkillSlide = () => {
+    const skillsData = landingPageContent?.skills?.categories || [
+      { category: 'Frontend Development', skills: ['React', 'Vue.js', 'TypeScript', 'Next.js', 'Tailwind CSS', 'Framer Motion'] },
+      { category: 'Backend Development', skills: ['Node.js', 'Python', 'FastAPI', 'GraphQL', 'PostgreSQL', 'Redis'] },
+      { category: 'Cloud & DevOps', skills: ['AWS', 'Docker', 'Kubernetes', 'CI/CD', 'Terraform', 'Vercel'] },
+      { category: 'Design & UX', skills: ['Figma', 'Adobe XD', 'User Research', 'Prototyping', 'Design Systems', 'Framer'] },
+      { category: 'Mobile Development', skills: ['React Native', 'Flutter', 'iOS', 'Android', 'Expo', 'Swift'] },
+      { category: 'AI & Data Science', skills: ['Machine Learning', 'TensorFlow', 'Python', 'Data Analysis', 'OpenAI', 'LangChain'] }
+    ];
+    setCurrentSkillSlide((prev) => (prev + 1) % skillsData.length);
+  };
+
+  const prevSkillSlide = () => {
+    const skillsData = landingPageContent?.skills?.categories || [
+      { category: 'Frontend Development', skills: ['React', 'Vue.js', 'TypeScript', 'Next.js', 'Tailwind CSS', 'Framer Motion'] },
+      { category: 'Backend Development', skills: ['Node.js', 'Python', 'FastAPI', 'GraphQL', 'PostgreSQL', 'Redis'] },
+      { category: 'Cloud & DevOps', skills: ['AWS', 'Docker', 'Kubernetes', 'CI/CD', 'Terraform', 'Vercel'] },
+      { category: 'Design & UX', skills: ['Figma', 'Adobe XD', 'User Research', 'Prototyping', 'Design Systems', 'Framer'] },
+      { category: 'Mobile Development', skills: ['React Native', 'Flutter', 'iOS', 'Android', 'Expo', 'Swift'] },
+      { category: 'AI & Data Science', skills: ['Machine Learning', 'TensorFlow', 'Python', 'Data Analysis', 'OpenAI', 'LangChain'] }
+    ];
+    setCurrentSkillSlide((prev) => (prev - 1 + skillsData.length) % skillsData.length);
   };
 
   const handleProjectClick = (project) => {
@@ -716,100 +741,128 @@ const LandingPage = () => {
             </p>
           </div>
 
-          {/* Clean Skills Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {landingPageContent?.skills?.categories && landingPageContent.skills.categories.length > 0 ? (
-              landingPageContent.skills.categories.map((category, index) => (
-                <div key={index} className="bg-white rounded-lg border border-gray-200 p-6 hover:border-primary-300 transition-colors duration-200">
-                  {/* Category Header */}
-                  <div className="flex items-center mb-6">
-                    <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mr-4">
-                      <CodeBracketIcon className="h-6 w-6 text-primary-600" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-900">
-                        {category.name}
-                      </h3>
-                    </div>
-                  </div>
-                  
-                  {/* Skills List */}
-                  <div className="space-y-2">
-                    {category.skills && category.skills.length > 0 ? (
-                      category.skills.map((skill, skillIndex) => (
-                        <div key={skillIndex} className="flex items-center space-x-3 py-2">
-                          <div className="w-1.5 h-1.5 bg-primary-400 rounded-full"></div>
-                          <span className="text-sm text-gray-700">
-                            {skill}
-                          </span>
+          {/* Skills Slide Container */}
+          <div className="relative">
+            {/* Navigation Arrows */}
+            <button
+              onClick={prevSkillSlide}
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-12 h-12 bg-white border border-gray-200 rounded-full shadow-lg flex items-center justify-center hover:border-primary-300 hover:shadow-xl transition-all duration-200"
+              aria-label="Previous skill category"
+            >
+              <ChevronLeftIcon className="h-6 w-6 text-gray-600" />
+            </button>
+            
+            <button
+              onClick={nextSkillSlide}
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-12 h-12 bg-white border border-gray-200 rounded-full shadow-lg flex items-center justify-center hover:border-primary-300 hover:shadow-xl transition-all duration-200"
+              aria-label="Next skill category"
+            >
+              <ChevronRightIcon className="h-6 w-6 text-gray-600" />
+            </button>
+
+            {/* Slide Content */}
+            <div className="overflow-hidden">
+              <div 
+                className="flex transition-transform duration-500 ease-in-out"
+                style={{ transform: `translateX(-${currentSkillSlide * 100}%)` }}
+              >
+                {(() => {
+                  const skillsData = landingPageContent?.skills?.categories || [
+                    { 
+                      name: 'Frontend Development', 
+                      skills: ['React', 'Vue.js', 'TypeScript', 'Next.js', 'Tailwind CSS', 'Framer Motion']
+                    },
+                    { 
+                      name: 'Backend Development', 
+                      skills: ['Node.js', 'Python', 'FastAPI', 'GraphQL', 'PostgreSQL', 'Redis']
+                    },
+                    { 
+                      name: 'Cloud & DevOps', 
+                      skills: ['AWS', 'Docker', 'Kubernetes', 'CI/CD', 'Terraform', 'Vercel']
+                    },
+                    { 
+                      name: 'Design & UX', 
+                      skills: ['Figma', 'Adobe XD', 'User Research', 'Prototyping', 'Design Systems', 'Framer']
+                    },
+                    { 
+                      name: 'Mobile Development', 
+                      skills: ['React Native', 'Flutter', 'iOS', 'Android', 'Expo', 'Swift']
+                    },
+                    { 
+                      name: 'AI & Data Science', 
+                      skills: ['Machine Learning', 'TensorFlow', 'Python', 'Data Analysis', 'OpenAI', 'LangChain']
+                    }
+                  ];
+
+                  return skillsData.map((category, index) => (
+                    <div key={index} className="w-full flex-shrink-0 px-4">
+                      <div className="bg-white rounded-2xl border border-gray-200 p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                        {/* Category Header */}
+                        <div className="flex items-center mb-8">
+                          <div className="w-16 h-16 bg-primary-100 rounded-xl flex items-center justify-center mr-6">
+                            <CodeBracketIcon className="h-8 w-8 text-primary-600" />
+                          </div>
+                          <div>
+                            <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                              {category.name}
+                            </h3>
+                            <div className="w-16 h-1 bg-primary-500 rounded-full"></div>
+                          </div>
                         </div>
-                      ))
-                    ) : (
-                      <div className="text-center py-8">
-                        <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                          <CodeBracketIcon className="h-8 w-8 text-gray-400" />
+                        
+                        {/* Skills Grid */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {category.skills && category.skills.length > 0 ? (
+                            category.skills.map((skill, skillIndex) => (
+                              <div key={skillIndex} className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg hover:bg-primary-50 transition-colors duration-200">
+                                <div className="w-2 h-2 bg-primary-400 rounded-full"></div>
+                                <span className="text-base font-medium text-gray-700">
+                                  {skill}
+                                </span>
+                              </div>
+                            ))
+                          ) : (
+                            <div className="col-span-2 text-center py-12">
+                              <div className="w-20 h-20 bg-gray-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                                <CodeBracketIcon className="h-10 w-10 text-gray-400" />
+                              </div>
+                              <p className="text-base text-gray-500">No skills added yet</p>
+                            </div>
+                          )}
                         </div>
-                        <p className="text-sm text-gray-500">No skills added yet</p>
                       </div>
-                    )}
-                  </div>
-                </div>
-              ))
-            ) : (
-              // Clean fallback design
-              [
-                { 
-                  category: 'Frontend Development', 
-                  skills: ['React', 'Vue.js', 'TypeScript', 'Next.js', 'Tailwind CSS', 'Framer Motion']
-                },
-                { 
-                  category: 'Backend Development', 
-                  skills: ['Node.js', 'Python', 'FastAPI', 'GraphQL', 'PostgreSQL', 'Redis']
-                },
-                { 
-                  category: 'Cloud & DevOps', 
-                  skills: ['AWS', 'Docker', 'Kubernetes', 'CI/CD', 'Terraform', 'Vercel']
-                },
-                { 
-                  category: 'Design & UX', 
-                  skills: ['Figma', 'Adobe XD', 'User Research', 'Prototyping', 'Design Systems', 'Framer']
-                },
-                { 
-                  category: 'Mobile Development', 
-                  skills: ['React Native', 'Flutter', 'iOS', 'Android', 'Expo', 'Swift']
-                },
-                { 
-                  category: 'AI & Data Science', 
-                  skills: ['Machine Learning', 'TensorFlow', 'Python', 'Data Analysis', 'OpenAI', 'LangChain']
-                }
-              ].map((category, index) => (
-                <div key={index} className="bg-white rounded-lg border border-gray-200 p-6 hover:border-primary-300 transition-colors duration-200">
-                  {/* Category Header */}
-                  <div className="flex items-center mb-6">
-                    <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mr-4">
-                      <CodeBracketIcon className="h-6 w-6 text-primary-600" />
                     </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-900">
-                        {category.category}
-                      </h3>
-                    </div>
-                  </div>
-                  
-                  {/* Skills List */}
-                  <div className="space-y-2">
-                    {category.skills.map((skill, skillIndex) => (
-                      <div key={skillIndex} className="flex items-center space-x-3 py-2">
-                        <div className="w-1.5 h-1.5 bg-primary-400 rounded-full"></div>
-                        <span className="text-sm text-gray-700">
-                          {skill}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))
-            )}
+                  ));
+                })()}
+              </div>
+            </div>
+
+            {/* Slide Indicators */}
+            <div className="flex justify-center mt-8 space-x-2">
+              {(() => {
+                const skillsData = landingPageContent?.skills?.categories || [
+                  { name: 'Frontend Development', skills: ['React', 'Vue.js', 'TypeScript', 'Next.js', 'Tailwind CSS', 'Framer Motion'] },
+                  { name: 'Backend Development', skills: ['Node.js', 'Python', 'FastAPI', 'GraphQL', 'PostgreSQL', 'Redis'] },
+                  { name: 'Cloud & DevOps', skills: ['AWS', 'Docker', 'Kubernetes', 'CI/CD', 'Terraform', 'Vercel'] },
+                  { name: 'Design & UX', skills: ['Figma', 'Adobe XD', 'User Research', 'Prototyping', 'Design Systems', 'Framer'] },
+                  { name: 'Mobile Development', skills: ['React Native', 'Flutter', 'iOS', 'Android', 'Expo', 'Swift'] },
+                  { name: 'AI & Data Science', skills: ['Machine Learning', 'TensorFlow', 'Python', 'Data Analysis', 'OpenAI', 'LangChain'] }
+                ];
+
+                return skillsData.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentSkillSlide(index)}
+                    className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                      index === currentSkillSlide 
+                        ? 'bg-primary-500 scale-125' 
+                        : 'bg-gray-300 hover:bg-gray-400'
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ));
+              })()}
+            </div>
           </div>
 
           {/* Bottom Note */}
