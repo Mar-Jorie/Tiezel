@@ -313,8 +313,41 @@ export const AppProvider = ({ children }) => {
     };
     setLandingPageContent(newContentObj);
     
-    // Save to localStorage for persistence
-    localStorage.setItem('landingPageContent', JSON.stringify(newContentObj));
+    // Save to localStorage for persistence (without images to avoid quota issues)
+    try {
+      // Create a copy without blob URLs to reduce size
+      const contentForStorage = JSON.parse(JSON.stringify(newContentObj));
+      
+      // Remove blob URLs from images to reduce localStorage size
+      if (contentForStorage.personal_info?.photo && contentForStorage.personal_info.photo.startsWith('blob:')) {
+        delete contentForStorage.personal_info.photo;
+      }
+      
+      if (contentForStorage.projects) {
+        contentForStorage.projects.forEach(project => {
+          if (project.coverImage && project.coverImage.startsWith('blob:')) {
+            delete project.coverImage;
+          }
+          if (project.showcaseImages) {
+            project.showcaseImages = project.showcaseImages.filter(img => !img.startsWith('blob:'));
+          }
+        });
+      }
+      
+      // Try to save to localStorage with error handling
+      const dataToStore = JSON.stringify(contentForStorage);
+      
+      // Check if data is too large (localStorage limit is usually 5-10MB)
+      if (dataToStore.length > 4 * 1024 * 1024) { // 4MB limit
+        console.warn('Data too large for localStorage, skipping persistence');
+        return;
+      }
+      
+      localStorage.setItem('landingPageContent', dataToStore);
+    } catch (error) {
+      console.warn('Failed to save to localStorage:', error);
+      // Continue without localStorage persistence
+    }
     
     // Dispatch custom event for real-time updates
     window.dispatchEvent(new CustomEvent('landingPageContentUpdated', {
