@@ -51,7 +51,7 @@ const ImageUpload = ({
   };
 
   return (
-    <div className={`space-y-2 ${className}`}>
+    <div className={`space-y-2 relative z-10 ${className}`}>
       <label className="block text-sm font-medium text-gray-700">
         {label}
         {required && <span className="text-red-500 ml-1">*</span>}
@@ -82,6 +82,7 @@ const ImageUpload = ({
           onDrop={handleDrop}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
+          onClick={(e) => e.stopPropagation()}
         >
           <PhotoIcon className="mx-auto h-12 w-12 text-gray-400" />
           <div className="mt-2">

@@ -374,8 +374,8 @@ const LandingPage = () => {
           ></div>
         </div>
         
-        <div className="relative w-full max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-12 gap-12 items-center">
+        <div className="relative w-full px-4 mx-auto">
+          <div className="grid lg:grid-cols-12 2xl:grid-cols-12 gap-12 2xl:gap-16 items-center">
             {/* Content */}
             <div className="lg:col-span-7 text-center lg:text-left">
               <div className="space-y-8">
@@ -490,7 +490,7 @@ const LandingPage = () => {
           }}></div>
         </div>
         
-        <div className="relative w-full max-w-7xl mx-auto">
+        <div className="relative w-full px-4  mx-auto">
           <div className="text-center mb-16 sm:mb-20">
             <div className="inline-flex items-center px-4 py-2 bg-primary-50 border border-primary-200 rounded-full text-sm font-medium text-primary-700 mb-6">
               <UserIcon className="h-4 w-4 mr-2" />
@@ -504,7 +504,7 @@ const LandingPage = () => {
             </p>
           </div>
           
-          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          <div className="grid lg:grid-cols-12 2xl:grid-cols-12 gap-12 lg:gap-16 2xl:gap-20 items-center">
             {/* Content */}
             <div className="lg:col-span-7">
               <div className="space-y-8">
@@ -589,7 +589,7 @@ const LandingPage = () => {
           <div className="absolute bottom-1/4 -left-32 w-64 h-64 bg-indigo-100 rounded-full mix-blend-multiply filter blur-xl opacity-60"></div>
         </div>
         
-        <div className="relative w-full max-w-7xl mx-auto">
+        <div className="relative w-full px-4 mx-auto">
           <div className="text-center mb-16 sm:mb-20">
             <div className="inline-flex items-center px-4 py-2 bg-primary-50 border border-primary-200 rounded-full text-sm font-medium text-primary-700 mb-6">
               <BriefcaseIcon className="h-4 w-4 mr-2" />
@@ -603,7 +603,7 @@ const LandingPage = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-8 lg:gap-12 2xl:gap-16">
             {(landingPageContent?.projects || [
               {
                 name: 'E-Commerce Platform',
@@ -685,7 +685,7 @@ const LandingPage = () => {
       </section>
 
       {/* Experience Section */}
-      <section id="experience" className="py-20 sm:py-24 md:py-32 lg:py-40 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-white via-gray-50 to-white relative overflow-hidden">
+      <section id="experience" className="max-w-auto py-20 sm:py-24 md:py-32 lg:py-40 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-white via-gray-50 to-white relative overflow-hidden">
         {/* Background Elements */}
         <div 
           className="absolute inset-0"
@@ -911,7 +911,7 @@ const LandingPage = () => {
                         </div>
                         
                         {/* Skills Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4 2xl:gap-6">
                           {category.skills && category.skills.length > 0 ? (
                             category.skills.map((skill, skillIndex) => (
                               <div key={skillIndex} className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg hover:bg-primary-50 transition-colors duration-200">
@@ -989,7 +989,7 @@ const LandingPage = () => {
                 </div>
                 
           <div className="max-w-4xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-2 gap-8 2xl:gap-12">
               {/* Contact Information */}
               <div className="space-y-6">
                 <h3 className="text-xl font-semibold text-gray-900">Contact Information</h3>
@@ -1089,7 +1089,7 @@ const LandingPage = () => {
                   {landingPageContent?.contact?.form_title || 'Send a Message'}
                 </h3>
                 <form className="space-y-4" onSubmit={handleContactSubmit}>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-2 gap-4 2xl:gap-6">
                     <input
                       type="text"
                       name="name"
@@ -1193,7 +1193,7 @@ const LandingPage = () => {
               
               {/* Modal Content */}
               <div className="p-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-2 gap-6 2xl:gap-8">
                   {/* Image Gallery */}
                   <div className="relative">
                     {selectedProject.images && selectedProject.images.length > 0 ? (
