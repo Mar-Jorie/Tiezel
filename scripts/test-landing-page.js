@@ -24,7 +24,7 @@ async function testLandingPage() {
   try {
     // Test 1: Landing Page Loads Correctly
     console.log('📄 Test 1: Landing Page Loads Correctly');
-    await page.goto('http://localhost:3000/', { waitUntil: 'domcontentloaded' });
+    await page.goto('http://localhost:3001/', { waitUntil: 'domcontentloaded' });
     
     // Wait for main content to load
     await page.waitForSelector('h1', { timeout: 10000 });

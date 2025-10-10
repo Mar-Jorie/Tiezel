@@ -26,11 +26,11 @@ async function testNavigation() {
     console.log('🏠 Test 1: Landing Page to Admin Login Navigation');
     
     // Start at landing page
-    await page.goto('http://localhost:3000/', { waitUntil: 'domcontentloaded' });
+    await page.goto('http://localhost:3001/', { waitUntil: 'domcontentloaded' });
     await page.waitForSelector('h1', { timeout: 10000 });
     
     // Navigate to admin login (should be accessible from landing page)
-    await page.goto('http://localhost:3000/admin/login');
+    await page.goto('http://localhost:3001/admin/login');
     await page.waitForSelector('form', { timeout: 10000 });
     
     console.log('✅ Successfully navigated from landing page to admin login');

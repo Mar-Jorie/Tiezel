@@ -15,7 +15,7 @@ async function testAllButtons() {
   try {
     // Test 1: Landing Page Buttons
     console.log('🏠 Test 1: Landing Page Button Functionality');
-    await page.goto('http://localhost:3012/');
+    await page.goto('http://localhost:3001/');
     await page.waitForSelector('button, [role="button"]', { timeout: 5000 });
     
     // Test navigation buttons
@@ -46,7 +46,7 @@ async function testAllButtons() {
     
     // Test 2: Authentication Page Buttons
     console.log('\n🔐 Test 2: Authentication Page Buttons');
-    await page.goto('http://localhost:3012/admin/login');
+    await page.goto('http://localhost:3001/admin/login');
     await page.waitForSelector('button[type="submit"]', { timeout: 5000 });
     
     // Test login form submit button

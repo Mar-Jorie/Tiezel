@@ -24,7 +24,7 @@ async function testAdminAuthentication() {
   try {
     // Test 1: Admin Login Page Loads
     console.log('🔑 Test 1: Admin Login Page Loads');
-    await page.goto('http://localhost:3000/admin/login', { waitUntil: 'domcontentloaded' });
+    await page.goto('http://localhost:3001/admin/login', { waitUntil: 'domcontentloaded' });
     
     // Wait for login form to load
     await page.waitForSelector('form', { timeout: 10000 });
@@ -62,7 +62,7 @@ async function testAdminAuthentication() {
     testResults.passed++;
     
     // Navigate to fresh login page to avoid form clearing issues
-    await page.goto('http://localhost:3012/admin/login');
+    await page.goto('http://localhost:3001/admin/login');
     await page.waitForSelector('input[type="email"], input[name="email"]', { timeout: 5000 });
     
     // Test 3: Valid Admin Login
