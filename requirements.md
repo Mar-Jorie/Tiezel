@@ -1,7 +1,7 @@
-# Personal Portfolio Funnel System Requirements
+# Tiezel System Requirements
 
 ## 1. Title & Purpose
-**Personal Portfolio Funnel System** - A comprehensive personal portfolio and resume funnel management system that allows individuals to showcase their work, skills, and experience through a professional landing page. The system provides a public-facing portfolio website and a secure admin interface for content management, enabling real-time updates to personal information, projects, experience, skills, and contact details.
+**Tiezel** - A comprehensive personal portfolio and resume funnel management system that allows individuals to showcase their work, skills, and experience through a professional landing page. The system provides a public-facing portfolio website and a secure admin interface for content management, enabling real-time updates to personal information, projects, experience, skills, and contact details.
 
 ## 2. Scope & Non-Goals
 
@@ -25,10 +25,10 @@
 ## 3. Core Domain Concepts
 
 ### Primary Entities
-- **Portfolio Landing Page**: Public-facing personal portfolio website with professional information, projects, and experience
+- **Tiezel Landing Page**: Public-facing personal portfolio website with professional information, projects, and experience
 - **Admin Dashboard**: Secure interface for content management and editing with metrics and navigation
 - **Content Management**: Comprehensive system for editing portfolio sections, personal info, projects, experience, skills, and contact details
-- **Project Management**: System for managing portfolio projects with image galleries, descriptions, and technologies
+- **Project Management**: System for managing Tiezel projects with image galleries, descriptions, and technologies
 - **PDF Resume Generator**: System for generating downloadable PDF resumes from portfolio data
 - **Settings Management**: System for managing admin settings, user preferences, and system configuration
 - **Audit Trail**: Complete logging system for tracking admin actions and content changes
@@ -257,7 +257,7 @@
 - Enhanced chatbot AI capabilities
 - Content versioning and rollback
 
-## 11. Portfolio Landing Page Details
+## 11. Tiezel Landing Page Details
 
 ### Hero Section Content
 - **Personal Introduction**: "Hi, I'm [Name] - [Professional Title]" (editable)
@@ -283,7 +283,7 @@
 ### Content Sections
 - **Personal Information**: Name, title, bio, contact details, social media links
 - **About Section**: Professional summary, skills overview, personal story
-- **Projects Section**: Portfolio projects with images, descriptions, and technologies
+- **Projects Section**: Tiezel projects with images, descriptions, and technologies
 - **Experience Section**: Work history, education, achievements, and milestones
 - **Skills Section**: Technical skills, tools, certifications, and competencies
 - **Testimonials Section**: Professional recommendations and client feedback
@@ -302,7 +302,7 @@
 - **Location**: Required text field (city, country)
 - **Phone Number**: Optional text field
 - **LinkedIn Profile**: Optional URL field
-- **Portfolio Website**: Optional URL field
+- **Tiezel Website**: Optional URL field
 - **Bio/Summary**: Required textarea field for professional summary
 
 ### Role-Based Fields

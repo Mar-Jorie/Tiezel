@@ -4,10 +4,10 @@ class SettingsService {
     // Default settings
     this.defaultSettings = {
       general: {
-        siteName: 'TechStore',
-        siteDescription: 'Your Trusted E-commerce Partner',
-        siteUrl: 'https://techstore.com',
-        adminEmail: 'admin@techstore.com',
+        siteName: 'Tiezel',
+        siteDescription: 'Personal Portfolio Management System',
+        siteUrl: 'https://tiezel.com',
+        adminEmail: 'admin@tiezel.com',
         timezone: 'UTC',
         language: 'en',
         contactPhone: '+1 (555) 123-4567',
@@ -106,12 +106,12 @@ class SettingsService {
 
   // Get site name for display
   getSiteName() {
-    return this.getSetting('general.siteName') || 'TechStore';
+    return this.getSetting('general.siteName') || 'Tiezel';
   }
 
   // Get site description
   getSiteDescription() {
-    return this.getSetting('general.siteDescription') || 'Your Trusted E-commerce Partner';
+    return this.getSetting('general.siteDescription') || 'Personal Portfolio Management System';
   }
 
   // Get primary color for theming

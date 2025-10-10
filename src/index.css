@@ -145,3 +145,13 @@ table input[type="checkbox"].custom-checkbox:checked:focus {
 .form-input.error {
   @apply border-red-300 focus:ring-red-500;
 }
+
+/* Gradient Text Utility */
+.gradient-text {
+  background: linear-gradient(to right, var(--gradient-from, #3B82F6), var(--gradient-to, #8B5CF6));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}

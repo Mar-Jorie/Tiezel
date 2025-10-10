@@ -6,8 +6,13 @@ import Button from './Button';
 
 const PDFResumeGenerator = ({ portfolioData }) => {
   const [isGenerating, setIsGenerating] = useState(false);
+  
+  // Get the primary color from branding, fallback to default
+  const primaryColor = portfolioData?.branding?.primaryColor || '#6589a4';
 
   const generatePDF = async () => {
+    console.log('PDF Generation started...');
+    console.log('Tiezel Data:', portfolioData);
     setIsGenerating(true);
     
     try {
@@ -25,7 +30,7 @@ const PDFResumeGenerator = ({ portfolioData }) => {
       resumeDiv.style.color = '#333';
       
       // Generate HTML content for the resume
-      resumeDiv.innerHTML = generateResumeHTML(portfolioData);
+      resumeDiv.innerHTML = generateResumeHTML(portfolioData, primaryColor);
       
       // Add to document
       document.body.appendChild(resumeDiv);
@@ -64,7 +69,24 @@ const PDFResumeGenerator = ({ portfolioData }) => {
       
       // Save the PDF
       const fileName = `${portfolioData.personal_info?.name?.replace(/\s+/g, '_') || 'Resume'}_Resume.pdf`;
-      pdf.save(fileName);
+      console.log('Saving PDF with filename:', fileName);
+      
+      // Try to save the PDF
+      try {
+        pdf.save(fileName);
+        console.log('PDF saved successfully!');
+      } catch (saveError) {
+        console.error('Error saving PDF:', saveError);
+        // Fallback: try to open in new window
+        const pdfBlob = pdf.output('blob');
+        const url = URL.createObjectURL(pdfBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+        link.click();
+        URL.revokeObjectURL(url);
+        console.log('PDF saved via fallback method!');
+      }
       
     } catch (error) {
       console.error('Error generating PDF:', error);
@@ -74,7 +96,19 @@ const PDFResumeGenerator = ({ portfolioData }) => {
     }
   };
 
-  const generateResumeHTML = (data) => {
+  const generateResumeHTML = (data, primaryColor) => {
+    // Ensure we have data to work with
+    if (!data) {
+      console.warn('No portfolio data provided, using default data');
+      data = {
+        personal_info: { name: 'Your Name', title: 'Professional Title' },
+        projects: [],
+        experience: [],
+        skills: [],
+        testimonials: []
+      };
+    }
+    
     const personalInfo = data.personal_info || {};
     const projects = data.projects || [];
     const experience = data.experience || [];
@@ -84,8 +118,8 @@ const PDFResumeGenerator = ({ portfolioData }) => {
     return `
       <div style="max-width: 100%; margin: 0 auto;">
         <!-- Header -->
-        <div style="text-align: center; margin-bottom: 30px; border-bottom: 2px solid #6589a4; padding-bottom: 20px;">
-          <h1 style="font-size: 28px; font-weight: bold; color: #6589a4; margin: 0 0 10px 0;">${personalInfo.name || 'Your Name'}</h1>
+        <div style="text-align: center; margin-bottom: 30px; border-bottom: 2px solid ${primaryColor}; padding-bottom: 20px;">
+          <h1 style="font-size: 28px; font-weight: bold; color: ${primaryColor}; margin: 0 0 10px 0;">${personalInfo.name || 'Your Name'}</h1>
           <h2 style="font-size: 18px; color: #666; margin: 0 0 15px 0;">${personalInfo.title || 'Professional Title'}</h2>
           <div style="display: flex; justify-content: center; gap: 20px; font-size: 12px; color: #666;">
             ${personalInfo.email ? `<span>📧 ${personalInfo.email}</span>` : ''}
@@ -102,7 +136,7 @@ const PDFResumeGenerator = ({ portfolioData }) => {
         <!-- Professional Summary -->
         ${personalInfo.bio ? `
           <div style="margin-bottom: 25px;">
-            <h3 style="font-size: 16px; font-weight: bold; color: #6589a4; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">PROFESSIONAL SUMMARY</h3>
+            <h3 style="font-size: 16px; font-weight: bold; color: ${primaryColor}; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">PROFESSIONAL SUMMARY</h3>
             <p style="margin: 0; line-height: 1.5;">${personalInfo.bio}</p>
           </div>
         ` : ''}
@@ -110,7 +144,7 @@ const PDFResumeGenerator = ({ portfolioData }) => {
         <!-- Education -->
         ${personalInfo.education ? `
           <div style="margin-bottom: 25px;">
-            <h3 style="font-size: 16px; font-weight: bold; color: #6589a4; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">EDUCATION</h3>
+            <h3 style="font-size: 16px; font-weight: bold; color: ${primaryColor}; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">EDUCATION</h3>
             <p style="margin: 0; font-weight: bold;">${personalInfo.education}</p>
             ${personalInfo.experience ? `<p style="margin: 5px 0 0 0; color: #666;">${personalInfo.experience} of experience</p>` : ''}
           </div>
@@ -119,11 +153,21 @@ const PDFResumeGenerator = ({ portfolioData }) => {
         <!-- Skills -->
         ${skills.length > 0 ? `
           <div style="margin-bottom: 25px;">
-            <h3 style="font-size: 16px; font-weight: bold; color: #6589a4; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">SKILLS</h3>
+            <h3 style="font-size: 16px; font-weight: bold; color: ${primaryColor}; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">SKILLS</h3>
             <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-              ${skills.map(skill => `
-                <span style="background-color: #f0f0f0; padding: 4px 8px; border-radius: 4px; font-size: 11px;">${skill.name || skill}</span>
-              `).join('')}
+              ${skills.map(skill => {
+                // Handle different skill data structures
+                if (typeof skill === 'string') {
+                  return `<span style="background-color: #f0f0f0; padding: 4px 8px; border-radius: 4px; font-size: 11px;">${skill}</span>`;
+                } else if (skill.skills && Array.isArray(skill.skills)) {
+                  // Handle skills grouped by category
+                  return skill.skills.map(s => 
+                    `<span style="background-color: #f0f0f0; padding: 4px 8px; border-radius: 4px; font-size: 11px;">${s}</span>`
+                  ).join('');
+                } else {
+                  return `<span style="background-color: #f0f0f0; padding: 4px 8px; border-radius: 4px; font-size: 11px;">${skill.name || skill.title || skill}</span>`;
+                }
+              }).join('')}
             </div>
           </div>
         ` : ''}
@@ -131,14 +175,14 @@ const PDFResumeGenerator = ({ portfolioData }) => {
         <!-- Experience -->
         ${experience.length > 0 ? `
           <div style="margin-bottom: 25px;">
-            <h3 style="font-size: 16px; font-weight: bold; color: #6589a4; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">EXPERIENCE</h3>
+            <h3 style="font-size: 16px; font-weight: bold; color: ${primaryColor}; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">EXPERIENCE</h3>
             ${experience.map(exp => `
               <div style="margin-bottom: 15px;">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 5px;">
                   <h4 style="font-size: 14px; font-weight: bold; margin: 0;">${exp.title || exp.position || 'Position'}</h4>
                   <span style="font-size: 12px; color: #666;">${exp.duration || exp.date || ''}</span>
                 </div>
-                <p style="font-size: 13px; font-weight: bold; color: #6589a4; margin: 0 0 5px 0;">${exp.company || exp.organization || 'Company'}</p>
+                <p style="font-size: 13px; font-weight: bold; color: ${primaryColor}; margin: 0 0 5px 0;">${exp.company || exp.organization || 'Company'}</p>
                 ${exp.description ? `<p style="margin: 0; font-size: 12px; line-height: 1.4;">${exp.description}</p>` : ''}
                 ${exp.responsibilities && exp.responsibilities.length > 0 ? `
                   <ul style="margin: 5px 0 0 0; padding-left: 15px;">
@@ -153,7 +197,7 @@ const PDFResumeGenerator = ({ portfolioData }) => {
         <!-- Projects -->
         ${projects.length > 0 ? `
           <div style="margin-bottom: 25px;">
-            <h3 style="font-size: 16px; font-weight: bold; color: #6589a4; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">PROJECTS</h3>
+            <h3 style="font-size: 16px; font-weight: bold; color: ${primaryColor}; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">PROJECTS</h3>
             ${projects.map(project => `
               <div style="margin-bottom: 15px;">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 5px;">
@@ -176,9 +220,9 @@ const PDFResumeGenerator = ({ portfolioData }) => {
         <!-- Testimonials -->
         ${testimonials.length > 0 ? `
           <div style="margin-bottom: 25px;">
-            <h3 style="font-size: 16px; font-weight: bold; color: #6589a4; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">TESTIMONIALS</h3>
+            <h3 style="font-size: 16px; font-weight: bold; color: ${primaryColor}; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">TESTIMONIALS</h3>
             ${testimonials.slice(0, 2).map(testimonial => `
-              <div style="margin-bottom: 10px; padding: 10px; background-color: #f9f9f9; border-left: 3px solid #6589a4;">
+              <div style="margin-bottom: 10px; padding: 10px; background-color: #f9f9f9; border-left: 3px solid ${primaryColor};">
                 <p style="margin: 0 0 5px 0; font-size: 12px; font-style: italic;">"${testimonial.content || testimonial.testimonial || ''}"</p>
                 <p style="margin: 0; font-size: 11px; font-weight: bold;">- ${testimonial.name || 'Client'}</p>
                 ${testimonial.role ? `<p style="margin: 0; font-size: 10px; color: #666;">${testimonial.role}</p>` : ''}
@@ -189,7 +233,7 @@ const PDFResumeGenerator = ({ portfolioData }) => {
 
         <!-- Footer -->
         <div style="text-align: center; margin-top: 30px; padding-top: 15px; border-top: 1px solid #ddd; font-size: 10px; color: #666;">
-          <p style="margin: 0;">Generated from Portfolio - ${new Date().toLocaleDateString()}</p>
+          <p style="margin: 0;">Generated from Tiezel - ${new Date().toLocaleDateString()}</p>
         </div>
       </div>
     `;
@@ -197,7 +241,15 @@ const PDFResumeGenerator = ({ portfolioData }) => {
 
   return (
     <Button
-      onClick={generatePDF}
+      onClick={() => {
+        console.log('Button clicked!');
+        console.log('Tiezel data available:', !!portfolioData);
+        if (!portfolioData) {
+          alert('No portfolio data available. Please check your content management settings.');
+          return;
+        }
+        generatePDF();
+      }}
       variant="primary"
       size="lg"
       disabled={isGenerating}
@@ -211,7 +263,7 @@ const PDFResumeGenerator = ({ portfolioData }) => {
       ) : (
         <>
           <ArrowDownTrayIcon className="h-4 w-4 mr-2" />
-          Download Resume PDF
+          Download Resume
         </>
       )}
     </Button>

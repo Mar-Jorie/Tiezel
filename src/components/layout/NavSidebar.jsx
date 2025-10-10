@@ -20,7 +20,7 @@ const NavSidebar = ({ isMobile, setShow }) => {
   const location = useLocation();
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [siteSettings, setSiteSettings] = useState({
-    siteName: 'TechStore',
+    siteName: 'Tiezel',
     logoUrl: '/vite.svg'
   });
 

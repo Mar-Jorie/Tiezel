@@ -561,8 +561,7 @@ const ContentManagement = () => {
     { id: 'projects', name: 'Projects', icon: BriefcaseIcon },
     { id: 'experience', name: 'Experience', icon: AcademicCapIcon },
     { id: 'skills', name: 'Skills', icon: CodeBracketIcon },
-    { id: 'sections', name: 'Section Headers', icon: DocumentTextIcon },
-    { id: 'branding', name: 'Branding & Color', icon: BuildingOfficeIcon }
+    { id: 'sections', name: 'Section Headers', icon: DocumentTextIcon }
   ];
 
   const renderTabContent = () => {
@@ -946,6 +945,74 @@ const ContentManagement = () => {
                       personal_info: {
                         ...formData.personal_info,
                         twitter: value
+                      }
+                    };
+                    setFormData(updatedData);
+                    forceChangeDetection();
+                  }}
+                />
+              </div>
+            </div>
+            
+            {/* Branding Section */}
+            <div className="mt-8 pt-6 border-t border-gray-200">
+              <h4 className="text-sm font-medium text-gray-700 mb-4">Branding & Logo</h4>
+              
+              {/* Primary Color */}
+              <div className="space-y-4 mb-6">
+                <h5 className="text-sm font-medium text-gray-700">Primary Brand Color</h5>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Primary Color
+                    </label>
+                    <ColorPicker
+                      value={formData.branding?.primaryColor || '#6589a4'}
+                      onChange={(color) => {
+                        const updatedData = {
+                          ...formData,
+                          branding: {
+                            ...formData.branding,
+                            primaryColor: color
+                          }
+                        };
+                        setFormData(updatedData);
+                        forceChangeDetection();
+                      }}
+                    />
+                  </div>
+                  <div className="flex items-center space-x-4">
+                    <div 
+                      className="w-16 h-16 rounded-lg border border-gray-200 shadow-sm"
+                      style={{ backgroundColor: formData.branding?.primaryColor || '#6589a4' }}
+                    ></div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-900">Current Color</p>
+                      <p className="text-xs text-gray-500 font-mono">
+                        {formData.branding?.primaryColor || '#6589a4'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Logo */}
+              <div className="space-y-4">
+                <h5 className="text-sm font-medium text-gray-700">Logo</h5>
+                <InputFactory
+                  fieldName="logo"
+                  config={{
+                    type: 'FileUpload',
+                    label: 'Brand Logo',
+                    required: false
+                  }}
+                  value={formData.branding?.logo || ''}
+                  onChange={(value) => {
+                    const updatedData = {
+                      ...formData,
+                      branding: {
+                        ...formData.branding,
+                        logo: value
                       }
                     };
                     setFormData(updatedData);
@@ -2328,145 +2395,6 @@ const ContentManagement = () => {
           </div>
         );
 
-      case 'branding':
-        return (
-          <div className="space-y-6">
-            <h3 className="text-base font-semibold text-gray-900">Branding & Color Palette</h3>
-            
-            {/* Primary Color */}
-            <div className="space-y-4">
-              <h4 className="text-sm font-medium text-gray-700">Primary Brand Color</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Primary Color
-                  </label>
-                  <ColorPicker
-                    value={formData.branding?.primaryColor || '#6589a4'}
-                    onChange={(color) => {
-                      const updatedData = {
-                        ...formData,
-                        branding: {
-                          ...formData.branding,
-                          primaryColor: color
-                        }
-                      };
-                      setFormData(updatedData);
-                      forceChangeDetection();
-                    }}
-                  />
-                </div>
-                <div className="flex items-center space-x-4">
-                  <div 
-                    className="w-16 h-16 rounded-lg border border-gray-200 shadow-sm"
-                    style={{ backgroundColor: formData.branding?.primaryColor || '#6589a4' }}
-                  ></div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">Current Color</p>
-                    <p className="text-xs text-gray-500 font-mono">
-                      {formData.branding?.primaryColor || '#6589a4'}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Brand Name */}
-            <div className="space-y-4">
-              <h4 className="text-sm font-medium text-gray-700">Brand Information</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <InputFactory
-                  fieldName="brandName"
-                  config={{
-                    type: 'String',
-                    label: 'Brand Name',
-                    placeholder: 'Enter brand name',
-                    required: true
-                  }}
-                  value={formData.branding?.brandName || ''}
-                  onChange={(value) => {
-                    const updatedData = {
-                      ...formData,
-                      branding: {
-                        ...formData.branding,
-                        brandName: value
-                      }
-                    };
-                    setFormData(updatedData);
-                    forceChangeDetection();
-                  }}
-                />
-                <InputFactory
-                  fieldName="tagline"
-                  config={{
-                    type: 'String',
-                    label: 'Tagline',
-                    placeholder: 'Enter tagline'
-                  }}
-                  value={formData.branding?.tagline || ''}
-                  onChange={(value) => {
-                    const updatedData = {
-                      ...formData,
-                      branding: {
-                        ...formData.branding,
-                        tagline: value
-                      }
-                    };
-                    setFormData(updatedData);
-                    forceChangeDetection();
-                  }}
-                />
-              </div>
-            </div>
-
-            {/* Logo */}
-            <div className="space-y-4">
-              <h4 className="text-sm font-medium text-gray-700">Logo</h4>
-              <InputFactory
-                fieldName="logo"
-                config={{
-                  type: 'FileUpload',
-                  label: 'Brand Logo',
-                  required: false
-                }}
-                value={formData.branding?.logo || ''}
-                onChange={(value) => {
-                  const updatedData = {
-                    ...formData,
-                    branding: {
-                      ...formData.branding,
-                      logo: value
-                    }
-                  };
-                  setFormData(updatedData);
-                  forceChangeDetection();
-                }}
-              />
-            </div>
-
-            {/* Color Preview */}
-            <div className="space-y-4">
-              <h4 className="text-sm font-medium text-gray-700">Color Palette Preview</h4>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {[
-                  { name: 'Primary', value: formData.branding?.primaryColor || '#6589a4' },
-                  { name: 'Primary Light', value: '#91abbe' },
-                  { name: 'Primary Dark', value: '#4f7897' },
-                  { name: 'Accent', value: '#7b9ab1' }
-                ].map((color, index) => (
-                  <div key={index} className="text-center">
-                    <div 
-                      className="w-16 h-16 rounded-lg border border-gray-200 shadow-sm mx-auto mb-2"
-                      style={{ backgroundColor: color.value }}
-                    ></div>
-                    <p className="text-xs font-medium text-gray-900">{color.name}</p>
-                    <p className="text-xs text-gray-500 font-mono">{color.value}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        );
 
       default:
         return null;

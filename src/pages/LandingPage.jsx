@@ -45,13 +45,91 @@ const LandingPage = () => {
   const [showProjectModal, setShowProjectModal] = useState(false);
   const [currentSkillSlide, setCurrentSkillSlide] = useState(0);
 
+  // Function to generate dynamic gradient colors based on primary color
+  const generateGradientColors = (primaryColor) => {
+    if (!primaryColor) return { from: '#3B82F6', to: '#8B5CF6' };
+    
+    // Convert hex to HSL for better color manipulation
+    const hexToHsl = (hex) => {
+      const r = parseInt(hex.slice(1, 3), 16) / 255;
+      const g = parseInt(hex.slice(3, 5), 16) / 255;
+      const b = parseInt(hex.slice(5, 7), 16) / 255;
+      
+      const max = Math.max(r, g, b);
+      const min = Math.min(r, g, b);
+      let h, s, l = (max + min) / 2;
+      
+      if (max === min) {
+        h = s = 0;
+      } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+      }
+      
+      return [h * 360, s * 100, l * 100];
+    };
+    
+    const hslToHex = (h, s, l) => {
+      l /= 100;
+      const a = s * Math.min(l, 1 - l) / 100;
+      const f = n => {
+        const k = (n + h / 30) % 12;
+        const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+        return Math.round(255 * color).toString(16).padStart(2, '0');
+      };
+      return `#${f(0)}${f(8)}${f(4)}`;
+    };
+    
+    const [h, s, l] = hexToHsl(primaryColor);
+    
+    // Generate contrasting colors for better gradient effect
+    // Create a complementary color (180 degrees apart) and a triadic color (120 degrees apart)
+    const complementaryH = (h + 180) % 360;
+    const triadicH = (h + 120) % 360;
+    
+    // Choose the most contrasting color
+    const contrastH = Math.abs(h - complementaryH) > Math.abs(h - triadicH) ? complementaryH : triadicH;
+    
+    return {
+      from: hslToHex(h, Math.min(s + 20, 100), Math.min(l + 10, 90)), // Original color, enhanced
+      to: hslToHex(contrastH, Math.min(s + 30, 100), Math.max(l - 20, 30)) // Contrasting color
+    };
+  };
+
+  // Get dynamic gradient colors
+  const gradientColors = generateGradientColors(landingPageContent?.branding?.primaryColor);
+  
+  // Debug: Log the gradient colors
+  console.log('Primary Color:', landingPageContent?.branding?.primaryColor);
+  console.log('Gradient Colors:', gradientColors);
+
   // Update CSS variables when branding data changes
   useEffect(() => {
     if (landingPageContent?.branding?.primaryColor) {
       document.documentElement.style.setProperty('--dynamic-primary-color', landingPageContent.branding.primaryColor);
+      document.documentElement.style.setProperty('--gradient-from', gradientColors.from);
+      document.documentElement.style.setProperty('--gradient-to', gradientColors.to);
       document.documentElement.classList.add('dynamic-primary');
     }
-  }, [landingPageContent?.branding?.primaryColor]);
+  }, [landingPageContent?.branding?.primaryColor, gradientColors]);
+
+  // Update favicon when logo changes
+  useEffect(() => {
+    if (landingPageContent?.branding?.logo) {
+      // Create a new link element for the favicon
+      const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+      link.type = 'image/x-icon';
+      link.rel = 'shortcut icon';
+      link.href = landingPageContent.branding.logo;
+      document.getElementsByTagName('head')[0].appendChild(link);
+    }
+  }, [landingPageContent?.branding?.logo]);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -184,10 +262,6 @@ const LandingPage = () => {
   };
 
 
-  const downloadResume = () => {
-    // This will be implemented with PDF generation
-    console.log('Download resume functionality will be implemented');
-  };
 
   return (
     <div className="min-h-screen bg-white overflow-y-auto">
@@ -198,10 +272,18 @@ const LandingPage = () => {
             {/* Logo */}
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center">
-                <img src="/vite.svg" alt="Logo" className="w-6 h-6 sm:w-8 sm:h-8 object-contain" />
+                {landingPageContent?.branding?.logo ? (
+                  <img 
+                    src={landingPageContent.branding.logo} 
+                    alt="Logo" 
+                    className="w-6 h-6 sm:w-8 sm:h-8 object-contain" 
+                  />
+                ) : (
+                  <img src="/vite.svg" alt="Logo" className="w-6 h-6 sm:w-8 sm:h-8 object-contain" />
+                )}
               </div>
               <span className="text-lg sm:text-xl font-bold text-gray-900 tracking-tight">
-                {landingPageContent?.personal_info?.name || 'Portfolio'}
+                {landingPageContent?.personal_info?.name || 'Tiezel'}
               </span>
             </div>
             
@@ -227,9 +309,9 @@ const LandingPage = () => {
             
             {/* Desktop CTA Buttons - Hidden on Mobile */}
             <div className="hidden lg:flex items-center space-x-4">
-              <Button variant="primaryOutline" size="md" onClick={downloadResume}>
-                <ArrowDownTrayIcon className="h-4 w-4 mr-2" />
-                Resume
+              <Button variant="primaryOutline" size="md" onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}>
+                <PhoneIcon className="h-4 w-4 mr-2" />
+                Get in Touch
               </Button>
             </div>
           </div>
@@ -249,9 +331,9 @@ const LandingPage = () => {
                 
                 {/* Mobile CTA Buttons */}
                 <div className="flex flex-col space-y-3 pt-4 border-t border-gray-100">
-                  <Button variant="primaryOutline" size="md" className="w-full" onClick={downloadResume}>
-                    <ArrowDownTrayIcon className="h-4 w-4 mr-2" />
-                    Resume
+                  <Button variant="primaryOutline" size="md" className="w-full" onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}>
+                    <PhoneIcon className="h-4 w-4 mr-2" />
+                    Get in Touch
                   </Button>
                 </div>
               </div>
@@ -261,11 +343,25 @@ const LandingPage = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-50 via-white to-gray-50 overflow-hidden">
+      <section 
+        className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden"
+        style={{
+          background: `linear-gradient(to bottom right, ${gradientColors.from}10, white, ${gradientColors.to}10)`
+        }}
+      >
         {/* Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-indigo-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse" style={{animationDelay: '2s'}}></div>
+          <div 
+            className="absolute -top-40 -right-40 w-80 h-80 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"
+            style={{ backgroundColor: `${gradientColors.from}20` }}
+          ></div>
+          <div 
+            className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse" 
+            style={{ 
+              backgroundColor: `${gradientColors.to}20`,
+              animationDelay: '2s'
+            }}
+          ></div>
         </div>
         
         <div className="relative w-full max-w-7xl mx-auto">
@@ -282,7 +378,7 @@ const LandingPage = () => {
                   
                   <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight tracking-tight">
                     Hi, I'm{' '}
-                    <span className="bg-gradient-to-r from-primary-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                    <span className="gradient-text font-bold">
                       {landingPageContent?.personal_info?.name || 'Your Name'}
                     </span>
               </h1>
@@ -300,7 +396,7 @@ const LandingPage = () => {
                 {/* CTA Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                   <Button
-                    variant="primary"
+                    variant="primaryOutline"
                     size="lg" 
                     className="!w-auto min-w-[200px] h-12 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300" 
                     onClick={() => document.getElementById('projects').scrollIntoView({ behavior: 'smooth' })}
@@ -337,25 +433,38 @@ const LandingPage = () => {
 
             {/* Visual */}
             <div className="lg:col-span-5 relative">
+              {/* Large decorative box - always present */}
               <div className="relative">
-                {landingPageContent?.personal_info?.photo ? (
+                <div 
+                  className="absolute inset-0 rounded-3xl transform rotate-6 scale-105 opacity-20"
+                  style={{ 
+                    background: `linear-gradient(to right, ${gradientColors.from}, ${gradientColors.to})`
+                  }}
+                ></div>
+                <div 
+                  className="relative w-full max-w-lg mx-auto h-96 rounded-3xl shadow-2xl flex items-center justify-center"
+                  style={{ 
+                    background: `linear-gradient(to bottom right, ${gradientColors.from}20, ${gradientColors.from}40, ${gradientColors.to}40)`
+                  }}
+                >
+                  {/* Profile image wrapper - centered in the box */}
                   <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-r from-primary-400 to-indigo-400 rounded-3xl transform rotate-6 scale-105 opacity-20"></div>
-                    <img 
-                      src={landingPageContent.personal_info.photo} 
-                      alt={landingPageContent?.personal_info?.name || 'Profile'} 
-                      className="relative w-full max-w-lg mx-auto rounded-3xl shadow-2xl"
-                    />
-                  </div>
-                ) : (
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-r from-primary-400 to-indigo-400 rounded-3xl transform rotate-6 scale-105 opacity-20"></div>
-                    <div className="relative w-full max-w-lg mx-auto h-96 bg-gradient-to-br from-primary-100 via-indigo-100 to-purple-100 rounded-3xl shadow-2xl flex items-center justify-center">
-                      <UserIcon className="h-32 w-32 text-primary-400" />
-                    </div>
-                  </div>
-                )}
+                    {landingPageContent?.personal_info?.photo ? (
+                      <img 
+                        src={landingPageContent.personal_info.photo} 
+                        alt={landingPageContent?.personal_info?.name || 'Profile'} 
+                        className="w-50 h-50 shadow-2xl object-cover"
+                        style={{ 
+                          clipPath: 'polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%)',
+                          borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%',
                 
+                        }}
+                      />
+                    ) : (
+                      <UserIcon className="h-32 w-32 text-primary-400" />
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -436,11 +545,16 @@ const LandingPage = () => {
             {/* Visual */}
             <div className="lg:col-span-5">
               <div className="relative">
-                <div className="bg-gradient-to-br from-primary-50 via-indigo-50 to-purple-50 rounded-3xl p-8 lg:p-12 mt-12 lg:mt-30">
+                <div 
+                  className="rounded-3xl p-8 lg:p-12 mt-12 lg:mt-30"
+                  style={{ 
+                    background: `linear-gradient(to bottom right, ${gradientColors.from}10, ${gradientColors.from}20, ${gradientColors.to}20)`
+                  }}
+                >
                   <div className="space-y-8">
                     <div className="text-center">
-                      <div className="w-16 h-16 bg-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <HeartIcon className="h-8 w-8 text-indigo-600" />
+                      <div className="w-16 h-16 bg-primary-200 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <HeartIcon className="h-8 w-8 text-primary-800" />
                       </div>
                       <h3 className="text-2xl font-bold text-gray-900 mb-4">Beyond Work</h3>
                       <p className="text-gray-600 leading-relaxed">
@@ -469,7 +583,7 @@ const LandingPage = () => {
           <div className="text-center mb-16 sm:mb-20">
             <div className="inline-flex items-center px-4 py-2 bg-primary-50 border border-primary-200 rounded-full text-sm font-medium text-primary-700 mb-6">
               <BriefcaseIcon className="h-4 w-4 mr-2" />
-              Portfolio
+              Tiezel
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-6 tracking-tight">
               {landingPageContent?.sections?.projects?.title || 'Featured Projects'}
@@ -563,9 +677,20 @@ const LandingPage = () => {
       {/* Experience Section */}
       <section id="experience" className="py-20 sm:py-24 md:py-32 lg:py-40 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-white via-gray-50 to-white relative overflow-hidden">
         {/* Background Elements */}
-        <div className="absolute inset-0 bg-gradient-to-r from-primary-50/30 via-transparent to-indigo-50/30"></div>
-        <div className="absolute top-20 left-10 w-32 h-32 bg-primary-100/20 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-40 h-40 bg-indigo-100/20 rounded-full blur-3xl"></div>
+        <div 
+          className="absolute inset-0"
+          style={{ 
+            background: `linear-gradient(to right, ${gradientColors.from}30, transparent, ${gradientColors.to}30)`
+          }}
+        ></div>
+        <div 
+          className="absolute top-20 left-10 w-32 h-32 rounded-full blur-3xl"
+          style={{ backgroundColor: `${gradientColors.from}20` }}
+        ></div>
+        <div 
+          className="absolute bottom-20 right-10 w-40 h-40 rounded-full blur-3xl"
+          style={{ backgroundColor: `${gradientColors.to}20` }}
+        ></div>
         
         <div className="relative w-full max-w-6xl mx-auto">
           <div className="text-center mb-16 sm:mb-20">
@@ -1005,23 +1130,27 @@ const LandingPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-8 sm:py-10 px-4 sm:px-6 bg-gradient-to-r from-primary-400 to-indigo-600 opacity-90">
+      <section 
+        className="py-8 sm:py-10 px-4 sm:px-6 opacity-90"
+        style={{ 
+          background: `linear-gradient(to right, ${gradientColors.from}80, ${gradientColors.to}30)`
+        }}
+      >
         <div className="w-full">
           <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6 sm:mb-8 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-bold text-primary-900 mb-4 sm:mb-4 tracking-tight">
               Ready to Work Together?
           </h2>
-          <p className="text-base sm:text-lg text-primary-100 mb-8 sm:mb-10 font-medium">
+          <p className="text-base sm:text-lg text-gray-500 mb-8 sm:mb-10">
               Let's discuss your project and bring your ideas to life.
           </p>
           <div className="flex flex-row sm:flex-row items-center justify-center space-x-4 sm:space-x-6">
               <Button variant="light" size="lg" className="!w-auto min-w-[160px]" onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}>
                 Get In Touch
             </Button>
-              <Button variant="secondaryOutline" size="lg" className="!w-auto min-w-[160px] !border-white !text-white hover:!bg-white hover:!text-primary-600" onClick={downloadResume}>
-                <ArrowDownTrayIcon className="h-4 w-4 mr-2" />
-                Download Resume
-            </Button>
+              <div className="!w-auto min-w-[160px]">
+                <PDFResumeGenerator portfolioData={landingPageContent} />
+              </div>
             </div>
           </div>
         </div>
@@ -1029,7 +1158,7 @@ const LandingPage = () => {
 
       {/* Footer */}
       <footer className="bg-gray-900 text-center text-gray-400 py-6 px-4 sm:px-6">
-        <p className="text-xs sm:text-sm">&copy; 2024 {landingPageContent?.personal_info?.name || 'Portfolio'}. All rights reserved.</p>
+        <p className="text-xs sm:text-sm">&copy; 2024 {landingPageContent?.personal_info?.name || 'Tiezel'}. All rights reserved.</p>
       </footer>
 
       {/* Project Modal */}
