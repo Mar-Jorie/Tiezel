@@ -16,10 +16,10 @@ const FloatingChatbot = () => {
   const [messages, setMessages] = useState([
     {
       id: 1,
-      text: 'Hello! I\'m your TechStore assistant. I have full knowledge about our products and services. How can I help you today?',
+      text: 'Hello! I\'m here to help answer questions about my services and portfolio. I can tell you about my development expertise, project approach, and how we can work together. How can I help you today?',
       isBot: true,
       timestamp: new Date(),
-      sender: 'TechStore assistant'
+      sender: 'Portfolio Assistant'
     }
   ]);
 
@@ -89,7 +89,7 @@ const FloatingChatbot = () => {
               <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
                 <ChatBubbleLeftRightIcon className="h-4 w-4 text-white" />
               </div>
-              <h3 className="font-semibold text-sm">Chat Support</h3>
+              <h3 className="font-semibold text-sm">Ask Me Anything</h3>
             </div>
           </div>
 
@@ -123,7 +123,7 @@ const FloatingChatbot = () => {
               <div className="mt-4 space-y-3">
                 <div className="flex items-center space-x-2">
                   <LightBulbIcon className="h-4 w-4 text-yellow-500" />
-                  <span className="text-sm font-medium text-gray-700">Quick questions you can ask:</span>
+                  <span className="text-sm font-medium text-gray-700">Common questions about my services:</span>
                 </div>
                 <div className="space-y-2">
                   {quickQuestions.map((question, index) => (
