@@ -216,7 +216,10 @@ const ContentManagement = () => {
         }
       });
       
+      // ContentManagement calling updateLandingPageContent
+      console.log('ContentManagement calling updateLandingPageContent with:', formData);
       await updateLandingPageContent(formData);
+      setHasChanges(false);
       
       // Log the content update
       auditService.logContentUpdate(
@@ -227,9 +230,9 @@ const ContentManagement = () => {
       );
       
       toast.success('Content updated successfully!');
-      setHasChanges(false); // Reset changes after successful save
-    } catch {
+    } catch (error) {
       toast.error('Failed to update content. Please try again.');
+      console.error('Save error:', error);
     } finally {
       setLoading(false);
     }

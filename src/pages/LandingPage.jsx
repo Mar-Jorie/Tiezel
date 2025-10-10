@@ -685,7 +685,7 @@ const LandingPage = () => {
       </section>
 
       {/* Experience Section */}
-      <section id="experience" className="max-w-auto py-20 sm:py-24 md:py-32 lg:py-40 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-white via-gray-50 to-white relative overflow-hidden">
+      <section id="experience" className="py-20 sm:py-24 md:py-32 lg:py-40 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-white via-gray-50 to-white relative overflow-hidden">
         {/* Background Elements */}
         <div 
           className="absolute inset-0"
@@ -702,7 +702,7 @@ const LandingPage = () => {
           style={{ backgroundColor: `${gradientColors.to}20` }}
         ></div>
         
-        <div className="relative w-full max-w-6xl mx-auto">
+        <div className="relative w-full px-4 mx-auto">
           <div className="text-center mb-16 sm:mb-20">
             <div className="inline-flex items-center px-4 py-2 bg-primary-50 border border-primary-200 rounded-full text-sm font-medium text-primary-700 mb-6">
               <BriefcaseIcon className="h-4 w-4 mr-2" />
@@ -827,7 +827,7 @@ const LandingPage = () => {
 
       {/* Skills Section */}
       <section id="skills" className="py-20 sm:py-24 md:py-32 lg:py-40 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="w-full max-w-6xl mx-auto">
+        <div className="w-full px-4 mx-auto">
           <div className="text-center mb-16 sm:mb-20">
             <div className="inline-flex items-center px-4 py-2 bg-primary-50 border border-primary-200 rounded-full text-sm font-medium text-primary-700 mb-6">
               <CodeBracketIcon className="h-4 w-4 mr-2" />
@@ -979,17 +979,17 @@ const LandingPage = () => {
       {/* Contact Section */}
       <section id="contact" className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 bg-gray-50">
         <div className="w-full">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">
+          <div className="text-center mb-6 sm:mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 sm:mb-3 tracking-tight">
               {landingPageContent?.sections?.contact?.title || 'Get In Touch'}
             </h2>
-            <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto font-medium">
+            <p className="text-sm sm:text-base text-gray-600 px-4 mx-auto font-medium">
               {landingPageContent?.sections?.contact?.subtitle || 'Ready to work together? Let\'s discuss your project.'}
                   </p>
                 </div>
                 
-          <div className="max-w-4xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-2 gap-8 2xl:gap-12">
+          <div className="px-8 mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-2 gap-3 2xl:gap-3">
               {/* Contact Information */}
               <div className="space-y-6">
                 <h3 className="text-xl font-semibold text-gray-900">Contact Information</h3>
@@ -1084,7 +1084,7 @@ const LandingPage = () => {
                   </div>
 
               {/* Contact Form */}
-              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
+              <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 w-full!">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">
                   {landingPageContent?.contact?.form_title || 'Send a Message'}
                 </h3>
