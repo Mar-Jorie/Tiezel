@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AppProvider } from './AppContext';
 import MainLayout from './components/layout/MainLayout';
+import DynamicTitle from './components/DynamicTitle';
 import LandingPage from './pages/LandingPage';
 import AdminAccess from './pages/AdminAccess';
 import AdminLogin from './pages/AdminLogin';
@@ -16,6 +17,7 @@ function App() {
   return (
     <AppProvider>
       <Router>
+        <DynamicTitle />
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<LandingPage />} />

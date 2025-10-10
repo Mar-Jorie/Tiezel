@@ -45,6 +45,16 @@ const LandingPage = () => {
   const [showProjectModal, setShowProjectModal] = useState(false);
   const [currentSkillSlide, setCurrentSkillSlide] = useState(0);
 
+  // Set dynamic browser tab title based on user's name
+  useEffect(() => {
+    const userName = landingPageContent?.personal_info?.name;
+    if (userName) {
+      document.title = `By ${userName}`;
+    } else {
+      document.title = 'Tiezel';
+    }
+  }, [landingPageContent?.personal_info?.name]);
+
   // Function to generate dynamic gradient colors based on primary color
   const generateGradientColors = (primaryColor) => {
     if (!primaryColor) return { from: '#3B82F6', to: '#8B5CF6' };
