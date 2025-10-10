@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PhotoIcon, XMarkIcon, PlusIcon } from '@heroicons/react/24/outline';
 
 const MultipleImageUpload = ({ 
@@ -31,17 +31,15 @@ const MultipleImageUpload = ({
     let processedCount = 0;
 
     filesToProcess.forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        newImages.push(e.target.result);
-        processedCount++;
-        
-        if (processedCount === filesToProcess.length) {
-          const updatedImages = [...(Array.isArray(value) ? value : []), ...newImages];
-          onChange(updatedImages);
-        }
-      };
-      reader.readAsDataURL(file);
+      // Create a URL for the file instead of base64 to avoid localStorage quota issues
+      const imageUrl = URL.createObjectURL(file);
+      newImages.push(imageUrl);
+      processedCount++;
+      
+      if (processedCount === filesToProcess.length) {
+        const updatedImages = [...(Array.isArray(value) ? value : []), ...newImages];
+        onChange(updatedImages);
+      }
     });
   };
 
@@ -74,9 +72,27 @@ const MultipleImageUpload = ({
   };
 
   const removeImage = (indexToRemove) => {
+    // Clean up object URL to prevent memory leaks
+    const imageToRemove = value[indexToRemove];
+    if (imageToRemove && imageToRemove.startsWith('blob:')) {
+      URL.revokeObjectURL(imageToRemove);
+    }
     const updatedImages = value.filter((_, index) => index !== indexToRemove);
     onChange(updatedImages);
   };
+
+  // Cleanup object URLs on component unmount
+  useEffect(() => {
+    return () => {
+      if (Array.isArray(value)) {
+        value.forEach(imageUrl => {
+          if (imageUrl && imageUrl.startsWith('blob:')) {
+            URL.revokeObjectURL(imageUrl);
+          }
+        });
+      }
+    };
+  }, [value]);
 
   const images = Array.isArray(value) ? value : [];
   const canAddMore = images.length < maxImages;

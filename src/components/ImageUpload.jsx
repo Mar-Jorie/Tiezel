@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PhotoIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
 const ImageUpload = ({ 
@@ -12,11 +12,9 @@ const ImageUpload = ({
 
   const handleFileSelect = (file) => {
     if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        onChange(e.target.result);
-      };
-      reader.readAsDataURL(file);
+      // Create a URL for the file instead of base64 to avoid localStorage quota issues
+      const imageUrl = URL.createObjectURL(file);
+      onChange(imageUrl);
     }
   };
 
@@ -47,8 +45,21 @@ const ImageUpload = ({
   };
 
   const removeImage = () => {
+    // Clean up object URL to prevent memory leaks
+    if (value && value.startsWith('blob:')) {
+      URL.revokeObjectURL(value);
+    }
     onChange('');
   };
+
+  // Cleanup object URL on component unmount
+  useEffect(() => {
+    return () => {
+      if (value && value.startsWith('blob:')) {
+        URL.revokeObjectURL(value);
+      }
+    };
+  }, [value]);
 
   return (
     <div className={`space-y-2 relative z-10 ${className}`}>

@@ -989,7 +989,7 @@ const LandingPage = () => {
                 </div>
                 
           <div className="px-8 mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-2 gap-3 2xl:gap-3">
+            <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-2 gap-1 2xl:gap-1">
               {/* Contact Information */}
               <div className="space-y-6">
                 <h3 className="text-xl font-semibold text-gray-900">Contact Information</h3>
